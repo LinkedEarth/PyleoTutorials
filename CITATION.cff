@@ -1,4 +1,4 @@
-cff-version: 0.0.1
+cff-version: 0.0.1.1
 message: "If you use this software, please cite it as below."
 authors:
   - family-names: "Khider"
@@ -15,6 +15,6 @@ authors:
     orcid: "https://orcid.org/0000-0001-9772-7617"
 title: "PyleoTutorials: A gentle introduction to the Pyleoclim package."
 version: v0.0.1
-doi: 10.5281/zenodo.1205661
+doi: 10.5281/zenodo.6999577
 date-released: 2022-08-16
 url: "https://github.com/LinkedEarth/PyleoTutorials"
