@@ -1,6 +1,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/HEAD)
 [![PyPI version](https://badge.fury.io/py/pyleoclim.svg)](https://badge.fury.io/py/pyleoclim)
 [![license](https://img.shields.io/github/license/linkedearth/PyleoTutorials.svg)]()
+[![DOI](https://zenodo.org/badge/509538632.svg)](https://zenodo.org/badge/latestdoi/509538632)
 
 # PyleoTutorials: A Gentle Introduction to the Pyleoclim Package. 
 
