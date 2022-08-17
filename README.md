@@ -48,4 +48,7 @@ To learn more about cloning/forking, see [this post](https://www.theserverside.c
 Once the notebooks are on your local machine, you can upload them to your private instance on the hub using [this tutorial](https://foundations.projectpythia.org/foundations/jupyterlab.html).
 
 
-Whichever path you choose, happy Pyleocliming, and please consider joining our user community on [Discourse](https://discourse.linked.earth).
+Whichever path you choose, happy Pyleocliming, and please consider joining our user community on [Discourse](https://discourse.linked.earth). It is the best place to provide feedback on any of this, and make requests for new tutorials. 
+
+## Acknowledgements
+This work was supported by NSF Grant [ICER 2126510](https://nsf.gov/awardsearch/showAward?AWD_ID=2126510&HistoricalAwards=false).
