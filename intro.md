@@ -11,7 +11,7 @@ A collection of science-driven tutorials for using the [Pyleoclim](https://githu
 
 The notebooks are organized in three levels:
 - **Getting Started**: basic tutorials to understand the main classes and their uses, requiring minimal knowledge of Python
-- **The Fun Begins**: more advanced tutorials involving customization and more knowledge of Python
+- **Manipulating Data and Graphics**: more advanced tutorials involving customization and more knowledge of Python
 - **Data Analysis with Pyleoclim**: tutorials involving more advanced data analysis techniques, requiring some domain knowledge to apply and interpret properly.  
 
 ```{tableofcontents}
