@@ -6,19 +6,19 @@ root: README.md
 parts:
   - caption: Getting Started
     chapters:
-    - file: ./notebooks/L0_a_quickstart.ipynb
-    - file: ./notebooks/L0_loading_to_series.ipynb
-    - file: ./notebooks/L0_basic_ts_manipulation.ipynb
-    - file: ./notebooks/L0_basic_MSES_manipulation.ipynb
+    - file: notebooks/L0_a_quickstart.ipynb
+    - file: notebooks/L0_loading_to_series.ipynb
+    - file: notebooks/L0_basic_ts_manipulation.ipynb
+    - file: notebooks/L0_basic_MSES_manipulation.ipynb
   - caption: The Fun Begins
     chapters:
-    - file: ./notebooks/L1_working_with_LiPD.ipynb
-    - file: ./notebooks/L1_uniform_time_sampling.ipynb
-    - file: ./notebooks/L1_filtering_and_detrending.ipynb
-    - file: ./notebooks/L1_figures_with_multiple_panels.ipynb
+    - file: notebooks/L1_working_with_LiPD.ipynb
+    - file: notebooks/L1_uniform_time_sampling.ipynb
+    - file: notebooks/L1_filtering_and_detrending.ipynb
+    - file: notebooks/L1_figures_with_multiple_panels.ipynb
   - caption: Data Analysis with Pyleoclim
     chapters:
-  #  - file: ./notebooks/L2_correlations.ipynb
-    - file: ./notebooks/L2_spectral_analysis.ipynb
-    - file: ./notebooks/L2_wavelet_analysis.ipynb
-    - file: ./notebooks/L2_singular_spectrum_analysis.ipynb
+  #  - file: notebooks/L2_correlations.ipynb
+    - file: notebooks/L2_spectral_analysis.ipynb
+    - file: notebooks/L2_wavelet_analysis.ipynb
+    - file: notebooks/L2_singular_spectrum_analysis.ipynb

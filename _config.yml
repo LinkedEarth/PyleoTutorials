@@ -7,12 +7,12 @@ logo: pyleoclim_insigna_full_white.png
 # Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
 exclude_patterns            : [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
 # Auto-exclude files not in the toc
-only_build_toc_files        : false
+only_build_toc_files        : true
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks         : auto
+  execute_notebooks         : false  # Whether to execute notebooks at build time. Must be one of ("auto", "force", "cache", "off")
   timeout                   : -1     # remove restrictions on time usage
   allow_errors              : false # If `False`, when a code cell raises an error the execution is stopped, otherwise all cells are always run.
   stderr_output             : show  # One of 'show', 'remove', 'remove-warn', 'warn', 'error', 'severe'
