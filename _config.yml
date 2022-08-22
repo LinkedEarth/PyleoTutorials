@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Pyleoclim Tutorials
-author: Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James
+author: Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
 logo: pyleoclim_insigna_full_white.png
 # Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
 exclude_patterns            : [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
@@ -13,7 +13,7 @@ only_build_toc_files        : true
 # See https://jupyterbook.org/content/execute.html
 execute:
   execute_notebooks         : false  # Whether to execute notebooks at build time. Must be one of ("auto", "force", "cache", "off")
-  timeout                   : -1     # remove restrictions on time usage
+  timeout                   : 3600     # remove restrictions on time usage
   allow_errors              : false # If `False`, when a code cell raises an error the execution is stopped, otherwise all cells are always run.
   stderr_output             : show  # One of 'show', 'remove', 'remove-warn', 'warn', 'error', 'severe'
 
@@ -54,7 +54,7 @@ repository:
 
 # Launch button settings
 launch_buttons:
-  notebook_interface        : jupyterlab  # The interface interactive links will activate ["classic", "jupyterlab"]
+  notebook_interface        : classic  # The interface interactive links will activate ["classic", "jupyterlab"]
   binderhub_url             : https://mybinder.org  # The URL of the BinderHub (e.g., https://mybinder.org)
   jupyterhub_url            : ""  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
   thebe                     : false  # Add a thebe button to pages (requires the repository to run on Binder)
