@@ -10,7 +10,7 @@ parts:
     - file: notebooks/L0_loading_to_series.ipynb
     - file: notebooks/L0_basic_ts_manipulation.ipynb
     - file: notebooks/L0_basic_MSES_manipulation.ipynb
-  - caption: The Fun Begins
+  - caption: Manipulating Data and Graphics
     chapters:
     - file: notebooks/L1_working_with_LiPD.ipynb
     - file: notebooks/L1_uniform_time_sampling.ipynb
