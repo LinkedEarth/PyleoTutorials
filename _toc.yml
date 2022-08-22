@@ -18,7 +18,7 @@ parts:
     - file: notebooks/L1_figures_with_multiple_panels.ipynb
   - caption: Data Analysis with Pyleoclim
     chapters:
-  #  - file: notebooks/L2_correlations.ipynb
+    - file: notebooks/L2_correlations.ipynb
     - file: notebooks/L2_spectral_analysis.ipynb
     - file: notebooks/L2_wavelet_analysis.ipynb
     - file: notebooks/L2_singular_spectrum_analysis.ipynb
