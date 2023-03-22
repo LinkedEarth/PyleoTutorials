@@ -22,3 +22,4 @@ parts:
     - file: notebooks/L2_spectral_analysis.ipynb
     - file: notebooks/L2_wavelet_analysis.ipynb
     - file: notebooks/L2_singular_spectrum_analysis.ipynb
+    - file: notebooks/L2_tracing_transformations.ipynb
