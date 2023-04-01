@@ -131,3 +131,4 @@ dmypy.json
 # Large data file types
 *.nc
 .DS_Store
+*.jupyterlab-workspace
