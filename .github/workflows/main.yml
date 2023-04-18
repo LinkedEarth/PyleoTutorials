@@ -1,0 +1,39 @@
+name: Run nbmake for the main Branch
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+
+    - name: Checkout files in repo
+      uses: actions/checkout@v3
+
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: pyleo
+        environment-file: environment.yml
+        python-version: "3.10"
+        auto-activate-base: false
+
+    - name: Conda list
+      run: |
+        conda activate pyleo
+        pip install pytest nbmake
+        pip install pandas --upgrade
+        conda list
+    - name: Test with pytest
+      run: |
+        conda activate pyleo
+        pytest --nbmake notebooks/*ipynb
