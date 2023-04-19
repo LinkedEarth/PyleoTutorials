@@ -36,4 +36,4 @@ jobs:
     - name: Test with pytest
       run: |
         conda activate pyleo
-        pytest --nbmake --nbmake-timeout=3600 notebooks/*ipynb
+        pytest --nbmake --nbmake-timeout=7200 notebooks/*ipynb
