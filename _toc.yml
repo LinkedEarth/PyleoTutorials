@@ -7,6 +7,7 @@ parts:
   - caption: Getting Started
     chapters:
     - file: notebooks/L0_a_quickstart.ipynb
+    - file: notebooks/L0_paleopandas.ipynb
     - file: notebooks/L0_loading_to_series.ipynb
     - file: notebooks/L0_basic_ts_manipulation.ipynb
     - file: notebooks/L0_basic_MSES_manipulation.ipynb
@@ -22,4 +23,5 @@ parts:
     - file: notebooks/L2_spectral_analysis.ipynb
     - file: notebooks/L2_wavelet_analysis.ipynb
     - file: notebooks/L2_singular_spectrum_analysis.ipynb
+    - file: notebooks/L2_outlier_detection.ipynb
     - file: notebooks/L2_tracing_transformations.ipynb
