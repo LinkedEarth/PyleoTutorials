@@ -14,5 +14,5 @@ dependencies:
   - jupyterlab=3.5.2
   - pip:
     - pangaeapy
-    - pyleoclim==0.11.0
+    - git+https://github.com/LinkedEarth/Pyleoclim_util.git@master
     - watermark
