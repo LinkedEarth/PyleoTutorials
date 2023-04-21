@@ -132,3 +132,5 @@ dmypy.json
 *.nc
 .DS_Store
 notebooks/.jupyter/desktop-workspaces/default-37a8.jupyterlab-workspace
+notebooks/.jupyter/desktop-workspaces/auto-3-a57e.jupyterlab-workspace
+notebooks/.jupyter/desktop-workspaces/default-37a8.jupyterlab-workspace
