@@ -30,10 +30,10 @@ jobs:
     - name: Conda list
       run: |
         conda activate pyleo
-        pip install pytest nbmake
+        pip install pytest-xdist nbmake
         pip install pandas --upgrade
         conda list
     - name: Test with pytest
       run: |
         conda activate pyleo
-        pytest --nbmake --nbmake-timeout=10800 notebooks/*ipynb
+        pytest --nbmake -n=auto --nbmake-timeout=1000 notebooks/*ipynb
