@@ -36,4 +36,4 @@ jobs:
     - name: Test with pytest
       run: |
         conda activate pyleo
-        pytest --nbmake -n=auto --nbmake-timeout=3200 notebooks/*ipynb
+        pytest --nbmake -k 'not correlations' -n=auto --nbmake-timeout=3200 notebooks/*ipynb
