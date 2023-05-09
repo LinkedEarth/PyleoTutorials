@@ -15,4 +15,5 @@ dependencies:
   - pip:
     - pangaeapy
     - git+https://github.com/LinkedEarth/Pyleoclim_util.git@master
+    - git+https://github.com/LinkedEarth/pylipd.git@main
     - watermark
