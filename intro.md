@@ -7,6 +7,12 @@
 
 A collection of science-driven tutorials for using the [Pyleoclim](https://github.com/LinkedEarth/Pyleoclim_util) Python package.
 
+## Contributors
+<a href="https://github.com/LinkedEarth/PyleoTutorials/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=LinkedEarth/PyleoTutorials" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
 ## Contents
 
 The notebooks are organized in three levels:
