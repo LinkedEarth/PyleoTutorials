@@ -6,7 +6,9 @@
 
 # PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
 
-A collection of science-driven tutorials for using the [Pyleoclim](https://github.com/LinkedEarth/Pyleoclim_util) Python package.
+A collection of science-driven tutorials for using the [Pyleoclim](https://github.com/LinkedEarth/Pyleoclim_util) Python package. Contributed by:
+[Deborah Khider](https://orcid.org/0000-0001-7501-8430), [Julien Emile-Geay](https://orcid.org/0000-0001-5920-4751), [Alexander James](https://orcid.org/0000-0001-8561-3188), [Feng Zhu](https://orcid.org/0000-0002-9969-2953), [Jordan Landers](0000-0001-9772-7617)
+
 
 ## Contents
 The _notebooks_ folder contains [Jupyter Notebooks](https://jupyter.org) that illustrate the main classes of the [Pyleoclim user interface](https://pyleoclim-util.readthedocs.io/en/master/core/api.html), using data hosted either in the Cloud or in the _data_ directory.
@@ -52,9 +54,9 @@ To learn more about cloning/forking, see [this post](https://www.theserverside.c
 
 Once the notebooks and data are on your local machine, you can upload them to your private instance on the hub using [this tutorial](https://foundations.projectpythia.org/foundations/jupyterlab.html).
 
-Please note that the notebooks use specific paths that you will either need to correct in the cells or reproduce on the hub (i.e., the notebooks and data folders). 
+Please note that the notebooks use specific paths that you will either need to correct in the cells or reproduce on the hub (i.e., the notebooks and data folders).
 
-Whichever path you choose, happy Pyleocliming, and please consider joining our user community on [Discourse](https://discourse.linked.earth). It is the best place to provide feedback on any of this, and make requests for new tutorials. 
+Whichever path you choose, happy Pyleocliming, and please consider joining our user community on [Discourse](https://discourse.linked.earth). It is the best place to provide feedback on any of this, and make requests for new tutorials.
 
 ## Acknowledgements
 This work was supported by NSF Grant [ICER 2126510](https://nsf.gov/awardsearch/showAward?AWD_ID=2126510&HistoricalAwards=false).
