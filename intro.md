@@ -27,16 +27,17 @@ The notebooks are organized in three levels:
 
 ### Using myBinder
 
-[myBinder](https://mybinder.org) allows you to run the notebooks in a no-install cloud container. This is the best solution if you just want to get you feet wet with the code. The top right corner of each tutorial has a spaceship icon that will launch a [myBinder](https://mybinder.org) instance of each notebook. Beware: it takes a few minutes for the BinderHub to be spun up the first time around. After repeated uses (not just by you) it becomes much faster, but the first time you launch might need to coincide with a coffee break, a run around the nearest park, or catching up on the literature.
+[myBinder](https://mybinder.org) allows you to run the notebooks in a no-install cloud container.
+The top right corner of each tutorial has a spaceship icon that will launch a [myBinder](https://mybinder.org) instance of each notebook.  Until recently, myBinder was supported by the Google Open Source Program Office, [which is now being abandoned](https://blog.jupyter.org/mybinder-org-reducing-capacity-c93ccfc6413f). This means that starting up a myBinder instance to run one of our notebooks swill be even slower than before (as in: possibly waiting forever). Until that is resolved, myBinder may not be a practical solution.  
 
 ### Local installation
-You may also download each notebook and run them with a local install. To do so, the best is to use the `environment.yml` file with `conda` to install the required packages within an [anaconda](https://anaconda.org) or [miniconda](https://docs.conda.io/en/latest/miniconda.html) installation. That is, open a terminal, navigate to a folder containing `environment.yml` , then run the command :
+You may also download each notebook and run them with a local install of the conda environment. To do so, the best is to use the `environment.yml` file with `conda` to install the required packages within an [anaconda](https://anaconda.org) or [miniconda](https://docs.conda.io/en/latest/miniconda.html) installation. Once you've [cloned](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop#) [our repository](https://github.com/LinkedEarth/PyleoTutorials.git), open a terminal, navigate to a folder containing `environment.yml` , then run the command :
 
 `conda env create -f environment.yml`
 
-This will install all the required packages and their dependencies. It may take a few minutes the first time, but after that you will have the power of Pyleoclim at your local disposal.
+This will install all the required packages and their dependencies. It may take a few minutes the first time, but after that you will have the power of Pyleoclim and allied packages at your local disposal.
 
-If you are new to conda, just know that it is an environment manager for Python. What is an environment, you may ask? Think of it as a piece on your computer where all the Python libraries that you need for a specific application live in perfect harmony. To access this paradise, you need to activate the environment. If you used the `environment.yml` file:
+If you are new to conda, just know that it is an environment manager for Python. What is an environment, you may ask? Think of it as a piece of your computer where all the Python libraries that you need for a specific application live in perfect harmony. To access this paradise, you need to activate the environment. If you used the `environment.yml` file:
 
 `conda activate pyleo`
 
