@@ -1,0 +1,1100 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Spectral Analysis with Pyleoclim &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L2_spectral_analysis';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Wavelet Analysis with Pyleoclim" href="L2_wavelet_analysis.html" />
+    <link rel="prev" title="Correlations and their significance with Pyleoclim" href="L2_correlations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_LiPD.html">Working with LiPD files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlations and their significance with <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L2_spectral_analysis.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L2_spectral_analysis.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L2_spectral_analysis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Spectral Analysis with Pyleoclim</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-methods">Spectral methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#periodogram">Periodogram</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#welch">Welch</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mtm">MTM</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#lomb-scargle">Lomb-Scargle</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#freq-frequency-vector"><code class="docutils literal notranslate"><span class="pre">freq</span></code> (Frequency vector)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#n50"><code class="docutils literal notranslate"><span class="pre">n50</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#window"><code class="docutils literal notranslate"><span class="pre">window</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wwz">WWZ</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-compute-psd-through-a-scalogram">Method 1: Compute PSD through a scalogram</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-use-the-series-spectral-method">Method 2: Use the <code class="docutils literal notranslate"><span class="pre">Series.spectral</span></code> method</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#determining-significance">Determining significance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-pre-processing-on-spectral-analysis">Effect of pre-processing on spectral analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-detrending">Effect of detrending</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-regrdding">Effect of regrdding</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/raw/master/PYLEOCLIM_logo_HORZ-01.png' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="spectral-analysis-with-pyleoclim">
+<h1>Spectral Analysis with Pyleoclim<a class="headerlink" href="#spectral-analysis-with-pyleoclim" title="Permalink to this heading">#</a></h1>
+<section id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this heading">#</a></h2>
+<p>Deborah Khider</p>
+<p>Author1 = {“name”: “Deborah Khider”, “affiliation”: “Information Sciences Institute, University of Southern California”, “email”: “<a class="reference external" href="mailto:khider&#37;&#52;&#48;usc&#46;edu">khider<span>&#64;</span>usc<span>&#46;</span>edu</a>”, “orcid”: “0000-0001-7501-8430”}</p>
+</section>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Permalink to this heading">#</a></h2>
+<section id="goals">
+<h3>Goals<a class="headerlink" href="#goals" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Understand the various methods for spectral analysis accessible through Pyleoclim</p></li>
+<li><p>Understand the effect of pre-processing on spectral analysis</p></li>
+<li><p>Determine significance of spectral power</p></li>
+</ul>
+<p><strong>Reading time:</strong></p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Permalink to this heading">#</a></h3>
+<p>Spectral Analysis</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading">#</a></h3>
+<p>Pre-processing method available through Pyleoclim. An understanding of spectral analysis is a must.</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Permalink to this heading">#</a></h3>
+<p>scikit-learn</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Permalink to this heading">#</a></h2>
+<p>This tutorial makes use of the following dataset, stored in CSV format:</p>
+<ul class="simple">
+<li><p>Lisiecki, L. E., and Raymo, M. E. (2005), A Pliocene-Pleistocene stack of 57 globally distributed benthic δ18O records, Paleoceanography, 20, PA1003, <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2004PA001071">doi:10.1029/2004PA001071</a>.</p></li>
+</ul>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Permalink to this heading">#</a></h2>
+<p>Let’s import the necessary packages:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyleoclim</span> <span class="k">as</span> <span class="nn">pyleo</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s first import data and plot it so that up means “warm”:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lr04</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;LR04&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">lr04</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1d3b1dd0e7ce1e0d1a55d5f0adf712c1265fcf8e05379a4b3775d24d39e6e352.png" src="../_images/1d3b1dd0e7ce1e0d1a55d5f0adf712c1265fcf8e05379a4b3775d24d39e6e352.png" />
+</div>
+</div>
+<p>Let’s work with the first 3 million years (3000 kyr) of the record for illustrative purposes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lr04_s</span> <span class="o">=</span> <span class="n">lr04</span><span class="o">.</span><span class="n">slice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">3000</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/44f3bce4dbec05e04c0b8bdc0f96295cfa315bdb6a49b3d753473cb91d8850be.png" src="../_images/44f3bce4dbec05e04c0b8bdc0f96295cfa315bdb6a49b3d753473cb91d8850be.png" />
+</div>
+</div>
+<section id="spectral-methods">
+<h3>Spectral methods<a class="headerlink" href="#spectral-methods" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> enables five spectral analysis methods:</p>
+<ul class="simple">
+<li><p><strong>Basic Periodogram</strong>, which uses a Fourier transform. The method has various windowing available to reduce variance.</p></li>
+<li><p><strong>Welch’s periodogram</strong>, a variant of the basic periodogram, which uses Welch’s method of overlapping segments. The periodogram of the full timeseries is the average of the segment periodograms.</p></li>
+<li><p><strong>Multi-taper method (MTM)</strong>, which attempts to reduce the variance of spectral estimates by using a small set of tapers rather than the unique data taper or spectral window</p></li>
+<li><p><strong>Lomb-Scargle periodogram</strong>, an inverse approach designed for unevenly-spaced datasets. Several windows are available and Welch’s segmentation can also be used with this method.</p></li>
+<li><p><strong>Weighted wavelet Z-transform</strong>, a wavelet-based method also made for unevenly-spaced datasets.</p></li>
+</ul>
+<p>All of these methods are available through <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.series.Series.spectral"><code class="docutils literal notranslate"><span class="pre">Series.spectral</span></code></a> by changing the method argument. Let’s have a look at the various methods. Since the first three methods require evenly-spaced data, we will be using a simple linear interpolation. The effect of pre-processing on the periodogram is discussed further in this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PSD_p</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;periodogram&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">PSD_p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Periodogram&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Welch&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;MTM&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lomb_scargle&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lomb Scargle&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;wwz&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;WWZ&#39;</span><span class="p">,</span><span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/c72caa1f4350e6ed93cd11630046d7c6cf951879ebbd5ec1f7ddd1eb5c0963f8.png" src="../_images/c72caa1f4350e6ed93cd11630046d7c6cf951879ebbd5ec1f7ddd1eb5c0963f8.png" />
+</div>
+</div>
+<p>These methods return similar answers, with peaks in the orbital bands at around ~23kyr, 40kyr, and (except for the Periodogram and Welch methods) 100kyr. This is not surprising given that the benthic stack is orbitally tuned. We would expect these periodicities to show up. The fact that the Periodogram and Welch methods miss the 100-kyr cycle is interesting.</p>
+<p>But let’s have a look at the various arguments for the functions and let’s run down some of the important ones. In Pyleoclim, each of the method parameters should be passed through the argument <code class="docutils literal notranslate"><span class="pre">settings</span></code>, which takes a dictionary of possible key/value that corresponds to the argument of the underlying function. Look at the <code class="docutils literal notranslate"><span class="pre">See</span> <span class="pre">also</span></code> section in the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.series.Series.spectral">documentation</a>. From there, you can have a look at the parameters for the specific methods.</p>
+<div class="alert alert-warning">
+Pyleoclim gives you great power when it comes to data analysis but it is your responsibility to understand how to appropriately set the parameters and choose the method that is most appropriate for your study.
+</div>
+<section id="periodogram">
+<h4>Periodogram<a class="headerlink" href="#periodogram" title="Permalink to this heading">#</a></h4>
+<p>The most important parameter here is <code class="docutils literal notranslate"><span class="pre">window</span></code> which corresponds to the type of window to be used to reduce the variance. If you are interested in seeing the impact of these windows on a spectrum, look at this <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window">documentation</a>. The <code class="docutils literal notranslate"><span class="pre">detrend</span></code>, <code class="docutils literal notranslate"><span class="pre">gaussianize</span></code>, and <code class="docutils literal notranslate"><span class="pre">standardize</span></code> parameters correspond to pre-processing steps that can either be passed directly to the function or with method cascading. I prefer using the dedicated functions rather than the parameters as it makes it easier to follow the order in which these operations occurred.</p>
+<p>For the purpose of this tutorial, let’s consider the following windows: <code class="docutils literal notranslate"><span class="pre">boxcar</span></code>, <code class="docutils literal notranslate"><span class="pre">bartlett</span></code>, and <code class="docutils literal notranslate"><span class="pre">blackmanharris</span></code> (note that the default window is <code class="docutils literal notranslate"><span class="pre">hann</span></code>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PSD_boxcar</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;periodogram&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span><span class="s1">&#39;boxcar&#39;</span><span class="p">})</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">PSD_boxcar</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;boxcar&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;periodogram&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span><span class="s1">&#39;bartlett&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;bartlett&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;periodogram&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span><span class="s1">&#39;blackmanharris&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;blackmanharris&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/8e052a46e7079583624fe4c2078e2267fd03af7e0ce070ee6dc4be743193ed42.png" src="../_images/8e052a46e7079583624fe4c2078e2267fd03af7e0ce070ee6dc4be743193ed42.png" />
+</div>
+</div>
+<p>The periodograms look very similar, except for the 100-kyr band, which could be interpreted as present (albeit maybe not significant) when using a boxcar window. This example highlights the danger of over-interpreting peaks in spectral analysis.</p>
+</section>
+<section id="welch">
+<h4>Welch<a class="headerlink" href="#welch" title="Permalink to this heading">#</a></h4>
+<p>Welch’s method divides the series into segments to obtain a more stable estimate of the periodogram. Besides <code class="docutils literal notranslate"><span class="pre">window</span></code>, the two relevant parameters are <code class="docutils literal notranslate"><span class="pre">nperseg</span></code> and <code class="docutils literal notranslate"><span class="pre">noverlap</span></code>, which correspond to the number of points and fraction of overlap (in %), respectively. The default will give you three segments with 50% overlap. Let’s look at 4,5,6 segments with 50% overlap:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PSD_welch</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">PSD_welch</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;3 segments, 50</span><span class="si">% o</span><span class="s1">verlap&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nperseg&#39;</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">lr04_s</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">})</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;4 segments, 50</span><span class="si">% o</span><span class="s1">verlap&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nperseg&#39;</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">lr04_s</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">})</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;5 segments, 50</span><span class="si">% o</span><span class="s1">verlap&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/a60b813eded1d2753d93c184cc28d7b4ab44d1f9059eefcff9ba07e2ce2e2db4.png" src="../_images/a60b813eded1d2753d93c184cc28d7b4ab44d1f9059eefcff9ba07e2ce2e2db4.png" />
+</div>
+</div>
+<p>This, again, cautions against over interpreting the 100-kyr peak in the data.</p>
+</section>
+<section id="mtm">
+<h4>MTM<a class="headerlink" href="#mtm" title="Permalink to this heading">#</a></h4>
+<p>The most important parameter for MTM is the time-bandwidth product <code class="docutils literal notranslate"><span class="pre">NW</span></code>, which controls the amount of leakage out of a given spectral line (<a class="reference external" href="https://doi.org/10.1029/2000RG000092">see. Ghil et al, 2002</a>). This parameter is usually set between 2 and 4 (which is the default for Pyleoclim) in increments of 1/2. 4 is the most conservative choice advocated by MTM’s originator (D. Thomson), though the code allows you to go higher (and therefore, smoother) if you think that is warranted:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PSD_nw4</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">PSD_nw4</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span> <span class="s1">&#39;NW:4.0&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)):</span>
+    <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NW&#39;</span><span class="p">:</span><span class="n">item</span><span class="p">})</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;NW:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b3da21b89b3453a0af2c776e2ea754f154f3e4e931a3c4323fd5917066ba9d93.png" src="../_images/b3da21b89b3453a0af2c776e2ea754f154f3e4e931a3c4323fd5917066ba9d93.png" />
+</div>
+</div>
+<p>Let’s have a look at the effect of NW on the spectrum. As NW decreases, the peaks become sharper. This is particularly apparent in the 2000 kyr band (which corresponds to the trend in data; as we will see shortly), whereas the peak corresponding to <span class="math notranslate nohighlight">\(NW=4\)</span> is much broader. The trade-off (there always is one in spectral analysis) is that the variance is higher for smaller values of NW (it cannot be seen on this plot, but it means that there is more uncertainty as to the height of a narrow peak than a diffuse one).</p>
+</section>
+<section id="lomb-scargle">
+<h4>Lomb-Scargle<a class="headerlink" href="#lomb-scargle" title="Permalink to this heading">#</a></h4>
+<p>The <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/utils/introduction.html#pyleoclim.utils.spectral.lomb_scargle">Lomb-Scargle periodogram</a> is meant to work with unevenly-spaced timeseries. The parameters of importance here are:</p>
+<ul class="simple">
+<li><p>The frequency vector, which can either be user-specified or calculated using different methods (<code class="docutils literal notranslate"><span class="pre">'log','lomb_scargle','welch',</span> <span class="pre">'scale',</span> <span class="pre">'nfft'</span></code>), which determines at which points in the frequency domain the periodogram should be computed. This a trade-off: if using too many points, some peaks might be spurious. Not enough, and you can miss some significant periodicities. There is also a computational trade-off here: the more points, the longer it takes for the code to run.</p></li>
+<li><p>n50: which determines the number of overlapping segments with 50% overlap using the Welch method</p></li>
+<li><p>window, as we have seen for the periodogram.</p></li>
+</ul>
+<p><strong>Note:</strong> The <code class="docutils literal notranslate"><span class="pre">Series.spectral</span></code> method overwrites the default ‘lomb-scargle’ method for this function and uses ‘log’ as its frequency method.</p>
+<p>Let’s take a look at the effect of these parameters one by one. Also notice that the data need no interpolation with this method.</p>
+<section id="freq-frequency-vector">
+<h5><code class="docutils literal notranslate"><span class="pre">freq</span></code> (Frequency vector)<a class="headerlink" href="#freq-frequency-vector" title="Permalink to this heading">#</a></h5>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2000</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># a user defined one to get started. This one should be passed through settings</span>
+
+<span class="n">PSD_ls</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lomb_scargle&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;freq&#39;</span><span class="p">:</span><span class="n">freq</span><span class="p">})</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">PSD_ls</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;User-defined frequency&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">freq_methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nfft&#39;</span><span class="p">,</span><span class="s1">&#39;log&#39;</span><span class="p">,</span><span class="s1">&#39;lomb_scargle&#39;</span><span class="p">,</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">freq_method</span> <span class="ow">in</span> <span class="n">freq_methods</span><span class="p">:</span>
+    <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lomb_scargle&#39;</span><span class="p">,</span> 
+                                  <span class="n">freq_method</span><span class="o">=</span><span class="n">freq_method</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">freq_method</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f17a1281e9d5fd3ac5c96203a379830e5bee1cb7a7fa46853e064770288ef7a5.png" src="../_images/f17a1281e9d5fd3ac5c96203a379830e5bee1cb7a7fa46853e064770288ef7a5.png" />
+</div>
+</div>
+<p>Note how the 40-kyr peak is poorly defined using the frequency vector from the <code class="docutils literal notranslate"><span class="pre">scale</span></code> method.</p>
+</section>
+<section id="n50">
+<h5><code class="docutils literal notranslate"><span class="pre">n50</span></code><a class="headerlink" href="#n50" title="Permalink to this heading">#</a></h5>
+<p>Let’s look at the effect of segmentation. The default is to use 3 segments with 50% overlap.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PSD_ls</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lomb_scargle&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;n50&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">PSD_ls</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;n50=1&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">n50s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">n50s</span><span class="p">:</span>
+    <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lomb_scargle&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;n50&#39;</span><span class="p">:</span><span class="n">item</span><span class="p">})</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;n50=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/188e854539fb4037ba759c49069e02e77fb4d9fdf40b94090ce4acd181667903.png" src="../_images/188e854539fb4037ba759c49069e02e77fb4d9fdf40b94090ce4acd181667903.png" />
+</div>
+</div>
+<p>By design, Welch’s method shows less variance (smoother spectra) with a greater number of segments. The trade-off here is since the spectrum is estimated on a smaller portion of the timeseries, low-frequency cycles (if any) can be lost in the segments. In order to look at low-frequency cyclicities that may only repeat 3-4 times, set n50 as low as possible.</p>
+</section>
+<section id="window">
+<h5><code class="docutils literal notranslate"><span class="pre">window</span></code><a class="headerlink" href="#window" title="Permalink to this heading">#</a></h5>
+<p>Let’s examine the behavior with the windows we selected above: <code class="docutils literal notranslate"><span class="pre">boxcar</span></code>, <code class="docutils literal notranslate"><span class="pre">bartlett</span></code>, and <code class="docutils literal notranslate"><span class="pre">blackmanharris</span></code>. Note that Lomb-Scargle is the default method in Pyleoclim, so we will not set that argument in the example.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">window</span> <span class="o">=</span>  <span class="p">[</span><span class="s1">&#39;boxcar&#39;</span><span class="p">,</span> <span class="s1">&#39;bartlett&#39;</span><span class="p">,</span> <span class="s1">&#39;blackmanharris&#39;</span><span class="p">]</span>
+
+<span class="n">PSD_ls</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">PSD_ls</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;hann&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">window</span><span class="p">:</span>
+    <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span><span class="n">item</span><span class="p">})</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="n">item</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2d012effe51f97dcc8b58fedc1f2dfe71c4eba5055b336ffa86abd8a3fecc407.png" src="../_images/2d012effe51f97dcc8b58fedc1f2dfe71c4eba5055b336ffa86abd8a3fecc407.png" />
+</div>
+</div>
+<p>The choice of window is not as critical as with the basic Fourier periodogram.</p>
+<div class="alert alert-warning">
+The Lomb-Scargle periodogram is a good choice for many applications: (1) it seems to give consistent results over parameter ranges, (2) doesn't require interpolation, limiting timeseries manipulation, and (3) it is fairly fast to compute. This is the reason why it is the default method in Pyleoclim. <bf>However,</bf> the serious drawback of the Lomb-Scargle periodogram is that the power is biased towards high frequencies, making spectral slope calculations inaccurate. If you're interested in computing spectral slopes (see <a href="https://github.com/LinkedEarth/PyleoclimPaper/blob/main/MD%20Confrontation/Model-data%20confrontation.ipynb"> this notebook for a study </a>), this is  <bf>NOT</bf> the method to use. 
+</div>
+</section>
+</section>
+<section id="wwz">
+<h4>WWZ<a class="headerlink" href="#wwz" title="Permalink to this heading">#</a></h4>
+<p>Spectral density can be computed from the weighted wavelet Z transform wavelet method in one of two ways:</p>
+<ol class="arabic simple">
+<li><p>calculate the scalogram separately and then compute the periodogram via time integration</p></li>
+<li><p>use the method through the <code class="docutils literal notranslate"><span class="pre">spectral()</span></code> method of the <code class="docutils literal notranslate"><span class="pre">Series</span></code> class.</p></li>
+</ol>
+<p>Let’s try both and compare:</p>
+<section id="method-1-compute-psd-through-a-scalogram">
+<h5>Method 1: Compute PSD through a scalogram<a class="headerlink" href="#method-1-compute-psd-through-a-scalogram" title="Permalink to this heading">#</a></h5>
+<p>Step 1: use the wavelet function to calculate the scalogram. Step 2: pass the computed scalogram to the <code class="docutils literal notranslate"><span class="pre">scalogram</span></code> parameter in the spectral function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scal</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">wavelet</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;wwz&#39;</span><span class="p">)</span>
+<span class="n">psd_wwz</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;wwz&#39;</span><span class="p">,</span><span class="n">scalogram</span><span class="o">=</span><span class="n">scal</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="method-2-use-the-series-spectral-method">
+<h5>Method 2: Use the <code class="docutils literal notranslate"><span class="pre">Series.spectral</span></code> method<a class="headerlink" href="#method-2-use-the-series-spectral-method" title="Permalink to this heading">#</a></h5>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">psd_wwz_d</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;wwz&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s plot them and compare:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">psd_wwz</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Computed through wavelet function&#39;</span><span class="p">)</span>
+<span class="n">psd_wwz_d</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Computed through spectral function&#39;</span><span class="p">,</span> 
+               <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/e79286cd80fd3e02452c5e2ec67536a67909fbaae97c6f3f5a3bfea8fafbfb9d.png" src="../_images/e79286cd80fd3e02452c5e2ec67536a67909fbaae97c6f3f5a3bfea8fafbfb9d.png" />
+</div>
+</div>
+<p>Big difference!!! So what’s happening here? Let’s have a look at the various implementations:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/utils/introduction.html#pyleoclim.utils.spectral.wwz_psd">Spectral wwz</a></p></li>
+<li><p><a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/utils/introduction.html#module-pyleoclim.utils.wavelet.wwz">Wavelet wwz</a></p></li>
+</ul>
+<p>Both of them take a parameter called <code class="docutils literal notranslate"><span class="pre">c</span></code>, which corresponds to the wavelet’s decay constant. This constant balances the time resolution and frequency resolution of the wavelet analysis. The smaller this constant is, the sharper the peaks. For spectral analysis, where the purpose is to find peaks, a smaller value for <code class="docutils literal notranslate"><span class="pre">c</span></code> is needed compared to wavelet analysis, where time-frequency localization is of the essence. If you look at the defaults for these two functions, <code class="docutils literal notranslate"><span class="pre">c</span></code> takes on different values for each of the cases.</p>
+<p>So why did we enable the passing of scalograms if they’re not appropriate to use? The short answer is time. It may not have felt this way here, but the WWZ algorithm is considerably slower than the other spectral methods. When computing one periodogram, this is not an issue. However, for significance testing, this can be rather time consuming. Therefore, passing the scalograms can be sufficient for preliminary data exploration.</p>
+</section>
+</section>
+</section>
+<section id="determining-significance">
+<h3>Determining significance<a class="headerlink" href="#determining-significance" title="Permalink to this heading">#</a></h3>
+<p>Great, we’ve found peaks. Now it’s time to determine whether said peaks are significant. That is: do they stand out compared to what one might expect to see in a random timeseries? Pyleoclim tests against an AR(1) benchmark, simulating surrogates of the time series. Let’s use this on the Lomb-Scargle method and test against 90%, 95%, and 99% significance level through the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.psds.PSD.signif_test"><code class="docutils literal notranslate"><span class="pre">PSD.signif_test</span></code></a>. The <code class="docutils literal notranslate"><span class="pre">qs</span></code> parameter is adjusted for the desired significance levels.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">()</span><span class="o">.</span><span class="n">signif_test</span><span class="p">(</span><span class="n">qs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.90</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.99</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 200/200 [00:01&lt;00:00, 111.30it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/f9b447a51c74900b6a63edadd666590ad2b81c7744fee2467022a8fe4080a48c.png" src="../_images/f9b447a51c74900b6a63edadd666590ad2b81c7744fee2467022a8fe4080a48c.png" />
+</div>
+</div>
+<p>According to the significance testing, the peaks corresponding to orbital cylicities are significant in the data. I would still interpret the 100-kyr peak with caution given other methods cannot identify it.</p>
+<p>What other parameters are available? One is <code class="docutils literal notranslate"><span class="pre">number</span></code> which sets the number of surrogates to generate. Notice how the 99% threshold is not smooth. This is due to the fact that we are looking for the 99% quantile in only 200 surrogates (<span class="math notranslate nohighlight">\(n=2\)</span>). Let’s increase that number to 1000:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">()</span><span class="o">.</span><span class="n">signif_test</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> 
+                                            <span class="n">qs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.90</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.99</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 1000/1000 [00:08&lt;00:00, 118.62it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/2de7bc5e2dbd023114a0037f28a6f790fd530341ac38a9a954532d898c06b95a.png" src="../_images/2de7bc5e2dbd023114a0037f28a6f790fd530341ac38a9a954532d898c06b95a.png" />
+</div>
+</div>
+<p>This took about 5 times longer (yes, the problem scales linearly). But a 20s wait is not bad considering how much smoother the threshold look. And what is 20s compared to months of a paper lingering in peer-review limbo?</p>
+<p>You might ask, if it’s only 20s, why is the default 200? Because the WWZ method takes significantly more time. Let’s try it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;wwz&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">signif_test</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+                                                        <span class="n">qs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.90</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.99</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 10/10 [01:14&lt;00:00,  7.46s/it]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/ebf2b173268ce6996872f2752b17f2f4050c1c7426522440db9d951972830b32.png" src="../_images/ebf2b173268ce6996872f2752b17f2f4050c1c7426522440db9d951972830b32.png" />
+</div>
+</div>
+<p>Running the analysis over 10 surrogates took about 1 minute. Therefore, 200 would take about 20 minutes and 1000 would take 1hr 40min to run. 10 surrogates is not enough to make a determination about significance (so don’t take this figure too seriously), but 20 min is a good compromise between computation time and science interpretation.</p>
+</section>
+<section id="effect-of-pre-processing-on-spectral-analysis">
+<h3>Effect of pre-processing on spectral analysis<a class="headerlink" href="#effect-of-pre-processing-on-spectral-analysis" title="Permalink to this heading">#</a></h3>
+<p>Often times, the time series needs the following pre-processing steps:</p>
+<ul class="simple">
+<li><p><strong>standardization</strong>: this is a must for most of our techniques</p></li>
+<li><p><strong>even sampling</strong>: needed for methods that do not take unevenly-spaced data natively (MTM, Periodogram, and Welch). Pyleoclim offers several regridding options, whose impacts on spectral analysis are explored <a class="reference external" href="https://github.com/khider/OrbitalCycles/blob/main/Chasing%20Orbital%20Cyclicities.ipynb">here</a></p></li>
+<li><p><strong>detrending</strong></p></li>
+</ul>
+<section id="effect-of-detrending">
+<h4>Effect of detrending<a class="headerlink" href="#effect-of-detrending" title="Permalink to this heading">#</a></h4>
+<p>The LR04 curve has a trend over the past 3 million years, which corresponds to increased ice volume from long-term cooling of the Earth and growth of polar ice caps, which enrich the oceans in the heavy oxygen isotope. Let’s remove the trend:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8dd539d53b2a90f2c961196a80881444ce9c8135b9ee512c34bf819caf32496c.png" src="../_images/8dd539d53b2a90f2c961196a80881444ce9c8135b9ee512c34bf819caf32496c.png" />
+</div>
+</div>
+<p>Let’s compare the two periodograms using the Lomb-Scargle method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;No trend removal&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;detrended&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/1f77acb82cdfaf199a7deb97df87d57daee2e116b0af42b04f505298ae172b3b.png" src="../_images/1f77acb82cdfaf199a7deb97df87d57daee2e116b0af42b04f505298ae172b3b.png" />
+</div>
+</div>
+<p>In this case, the detrending doens’t seem to matter much in the interpretation of our results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;periodogram&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;No trend removal&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;periodogram&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;detrended&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/302aded2b2c7ebb9d3e1149346516b0760c5f22d0cdf05e7ea05dec7dd932c62.png" src="../_images/302aded2b2c7ebb9d3e1149346516b0760c5f22d0cdf05e7ea05dec7dd932c62.png" />
+</div>
+</div>
+<p>For more details on detrending, see the <a class="reference internal" href="L1_filtering_and_detrending.html"><span class="doc std std-doc">tutorial on filtering and detrending</span></a>.</p>
+</section>
+<section id="effect-of-regrdding">
+<h4>Effect of regrdding<a class="headerlink" href="#effect-of-regrdding" title="Permalink to this heading">#</a></h4>
+<p>For the spectral methods requiring evenly-spaced data (such as MTM), imputation is needed. Let’s run through various methods:</p>
+<ul class="simple">
+<li><p>linear interpolation</p></li>
+<li><p>spline interpolation</p></li>
+<li><p>binning</p></li>
+<li><p>Gaussian kernel</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">method</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;linear interpolation&#39;</span><span class="p">,</span> <span class="s1">&#39;spline interpolation&#39;</span><span class="p">,</span> <span class="s1">&#39;binning&#39;</span><span class="p">,</span> <span class="s1">&#39;Gaussian kernel&#39;</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">method</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;linear interpolation&#39;</span><span class="p">:</span>
+        <span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;spline interpolation&#39;</span><span class="p">:</span>
+        <span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;cubic&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;binning&#39;</span><span class="p">:</span>
+        <span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">bin</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;Gaussian kernel&#39;</span><span class="p">:</span>
+        <span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">gkernel</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+        
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c6c61860677d2feb6ba0b4b168afc1b7150466bf2f9ec893fb0dc4ff1fc5f045.png" src="../_images/c6c61860677d2feb6ba0b4b168afc1b7150466bf2f9ec893fb0dc4ff1fc5f045.png" />
+</div>
+</div>
+<p>The type of imputation doesn’t matter for this application. However, we have used the default parameters for each of these techniques for the <code class="docutils literal notranslate"><span class="pre">step</span></code> size, which refers to the interpolation step. The default is the mean time increment, but it can be adjusted to taste:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">lr04_s</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span> <span class="c1"># maximum spacing between two time points</span>
+<span class="n">min_step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">lr04_s</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span> <span class="c1"># minimum spacing between two time points</span>
+
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;mean time difference&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="n">min_step</span><span class="p">)</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;min time difference&#39;</span><span class="p">)</span>
+<span class="n">lr04_s</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="n">max_step</span><span class="p">)</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;max time difference&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Period [kyrs]&#39;, ylabel=&#39;PSD&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/28ab12c876af18628bc4995d42923e39e9edd876c3c9bd83d8c5e07c4ecedce1.png" src="../_images/28ab12c876af18628bc4995d42923e39e9edd876c3c9bd83d8c5e07c4ecedce1.png" />
+</div>
+</div>
+<p>For this series, the pre-processing doesn’t induce changes in the periodograms (this is excellent news: the results are robust). Based on the work so far, the 23-kry and 40-kyr periodicities are robust features of the timeseries. The picture is less clear for the 100ky cycle, which appears clearly with some methods/parameter choices but not others. Our job is not to adjudicate this question, however…</p>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L2_correlations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Correlations and their significance with <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L2_wavelet_analysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Wavelet Analysis with Pyleoclim</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-methods">Spectral methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#periodogram">Periodogram</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#welch">Welch</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mtm">MTM</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#lomb-scargle">Lomb-Scargle</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#freq-frequency-vector"><code class="docutils literal notranslate"><span class="pre">freq</span></code> (Frequency vector)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#n50"><code class="docutils literal notranslate"><span class="pre">n50</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#window"><code class="docutils literal notranslate"><span class="pre">window</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wwz">WWZ</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-compute-psd-through-a-scalogram">Method 1: Compute PSD through a scalogram</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-use-the-series-spectral-method">Method 2: Use the <code class="docutils literal notranslate"><span class="pre">Series.spectral</span></code> method</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#determining-significance">Determining significance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-pre-processing-on-spectral-analysis">Effect of pre-processing on spectral analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-detrending">Effect of detrending</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-regrdding">Effect of regrdding</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
