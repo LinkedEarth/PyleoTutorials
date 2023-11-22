@@ -7,7 +7,7 @@
 # PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
 
 A collection of science-driven tutorials for using the [Pyleoclim](https://github.com/LinkedEarth/Pyleoclim_util) Python package. Contributed by:
-[Deborah Khider](https://orcid.org/0000-0001-7501-8430), [Julien Emile-Geay](https://orcid.org/0000-0001-5920-4751), [Alexander James](https://orcid.org/0000-0001-8561-3188), [Feng Zhu](https://orcid.org/0000-0002-9969-2953), [Jordan Landers](0000-0001-9772-7617)
+[Deborah Khider](https://orcid.org/0000-0001-7501-8430), [Julien Emile-Geay](https://orcid.org/0000-0001-5920-4751), [Alexander James](https://orcid.org/0000-0001-8561-3188), [Feng Zhu](https://orcid.org/0000-0002-9969-2953), [Jordan Landers](0000-0001-9772-7617), [Pin-Tzu Lee](https://orcid.org/0009-0001-7891-1715)
 
 
 ## Contents
