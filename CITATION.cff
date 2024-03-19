@@ -1,4 +1,4 @@
-cff-version: 0.0.2.0
+cff-version: 0.0.2.1
 message: "If you use this software, please cite it as below."
 authors:
   - family-names: "Khider"
@@ -16,6 +16,9 @@ authors:
   - family-names: "Zhu"
     given-names: "Feng"
     orcid: "https://orcid.org/0000-0002-9969-2953"  
+  - family-names: "Lee"
+    given-names: "Pin-Tzu"
+    orchid: "https://orcid.org/0009-0001-7891-1715"
 title: "PyleoTutorials: A gentle introduction to the Pyleoclim package."
 version: v0.0.2
 doi: 10.5281/zenodo.8291177

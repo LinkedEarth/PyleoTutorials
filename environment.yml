@@ -10,6 +10,7 @@ dependencies:
   - dask=2023.4.0
   - climlab
   - pip
+  - pandas=2.1.4
   - jupyter=1.0.0
   - jupyterlab=3.5.2
   - pip:
