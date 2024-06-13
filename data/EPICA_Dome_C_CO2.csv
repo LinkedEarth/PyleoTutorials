@@ -1,11 +1,11 @@
 ###,Series metadata
-written by,Pyleoclim 0.12.1b0
+written by,Pyleoclim 1.0.0
 time_unit,ky BP
 time_name,Age
 value_unit,ppm
 value_name,$CO_2$
 label,EPICA Dome C CO2
-archiveType,Glacier Ice
+archiveType,GlacierIce
 importedFrom,https://www.ncei.noaa.gov/pub/data/paleo/icecore/antarctica/antarctica2015co2composite.txt
 log,
 ###,end metadata
