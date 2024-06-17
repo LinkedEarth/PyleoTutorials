@@ -3,16 +3,15 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.10
-  - cartopy>=0.22.0
-  - xarray=2023.4.1
-  - Bottleneck=1.3.4
+  - python=3.11
+  - cartopy
+  - xarray=2023.6
+  - Bottleneck
   - dask=2023.4.0
   - climlab
   - pip
-  - pandas=2.1.4
-  - jupyter=1.0.0
-  - jupyterlab=3.5.2
+  - jupyter
+  - jupyterlab
   - pip:
     - pangaeapy
     - git+https://github.com/LinkedEarth/Pyleoclim_util.git@master
