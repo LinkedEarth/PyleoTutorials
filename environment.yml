@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.11
+  - python==3.11.9
   - cartopy
   - xarray=2023.6
   - Bottleneck
