@@ -24,16 +24,14 @@ jobs:
       with:
         activate-environment: pyleo
         environment-file: environment.yml
-        python-version: "3.11.9"
         auto-activate-base: false
 
     - name: Conda list
       run: |
         conda activate pyleo
         pip install pytest-xdist nbmake
-        pip install pandas --upgrade
         conda list
     - name: Test with pytest
       run: |
         conda activate pyleo
-        pytest --nbmake -k 'not correlations' -n=auto --nbmake-timeout=3200 notebooks/*ipynb
+        pytest --nbmake -n=auto --nbmake-timeout=3600 notebooks/*ipynb
