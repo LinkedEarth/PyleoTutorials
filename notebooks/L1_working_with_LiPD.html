@@ -1,0 +1,1414 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Working with LiPD files &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L1_working_with_LiPD';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Uniform time sampling with Pyleoclim" href="L1_uniform_time_sampling.html" />
+    <link rel="prev" title="Working with GeoSeries" href="L0_working_with_geoseries.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark pst-js-only" alt="Pyleoclim Tutorials - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with LiPD files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L1_working_with_LiPD.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L1_working_with_LiPD.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L1_working_with_LiPD.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Working with LiPD files</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Working with LiPD files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-a-lipdseries">Extracting a LipdSeries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-lipd-to-tso">Using Lipd.to_tso</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-lipd-to-lipdseries">Using <code class="docutils literal notranslate"><span class="pre">Lipd.to_LipdSeries</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-lipd-to-lipdserieslist">Using <code class="docutils literal notranslate"><span class="pre">Lipd.to_LipdSeriesList</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#when-should-i-use-the-various-methods">When should I use the various methods?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-extracting-all-the-coral-d18o-record-from-the-database">Example: Extracting all the coral d18O record from the database</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#programmatically">Programmatically</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#using-prompts">Using prompts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-lipdseries">Working with LipdSeries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping">Mapping</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#map-records-closest-to-the-one-of-interest">Map records closest to the one of interest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dashboard">Dashboard</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-lipd-records-that-contain-age-ensemble-information">Working with LiPD records that contain age ensemble information</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/raw/master/PYLEOCLIM_logo_HORZ-01.png' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="working-with-lipd-files">
+<h1>Working with LiPD files<a class="headerlink" href="#working-with-lipd-files" title="Link to this heading">#</a></h1>
+<div class="alert alert-block alert-warning">
+<b>Warning:</b> This notebook is here for backward compatibility, as the LiPD and LiPDSeries classes
+are marked for deprecation. Please use the GeoSeries class instead of LiPDSeries, and use the pyLipd package to interact with LiPD files. As of Pyleoclim 1.0, this tutorial will be removed.
+</div> 
+<ul class="simple">
+<li><p><a class="reference external" href="https://pylipd.readthedocs.io/en/latest/">pyLipd documentation</a></p></li>
+<li><p><a class="reference external" href="http://linked.earth/pylipdTutorials/intro.html">pyLipd tutorials</a></p></li>
+</ul>
+<section id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://orcid.org/0000-0001-7501-8430">Deborah Khider</a></p>
+</section>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<section id="goals">
+<h3>Goals<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Plot the location of multiple datasets</p></li>
+<li><p>Plot the location of the nearest datasets to a record of interest</p></li>
+<li><p>Create a LiPDSeries object from LiPD files</p></li>
+<li><p>Create Dashboards</p></li>
+</ul>
+<p><strong>Reading time:</strong></p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>LiPD; Visualization</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>None. This tutorial assumes basic knowledge of Python. If you are not familiar with this coding language, check out this <a class="reference external" href="http://linked.earth/ec_workshops_py/">tutorial</a>.</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>Matplotlib; Cartopy</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<p>This tutorial makes use of the following datasets, stored in the <a class="reference external" href="https://lipd.net">LiPD</a> format:</p>
+<ul class="simple">
+<li><p>Euro2k database: PAGES2k Consortium., Emile-Geay, J., McKay, N. et al. A global multiproxy database for temperature reconstructions of the Common Era. Sci Data 4, 170088 (2017). <a class="reference external" href="https://doi.org/10.1038/sdata.2017.88">https://doi.org/10.1038/sdata.2017.88</a></p></li>
+<li><p>Crystal cave record: McCabe-Glynn, S., Johnson, K., Strong, C. et al. Variable North Pacific influence on drought in southwestern North America since AD 854. Nature Geosci 6, 617–621 (2013). <a class="reference external" href="https://doi.org/10.1038/ngeo1862">https://doi.org/10.1038/ngeo1862</a></p></li>
+</ul>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<p>Let’s import the necessary packages:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyleoclim</span> <span class="k">as</span> <span class="nn">pyleo</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h3>Working with LiPD files<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>The <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#lipd-pyleoclim-lipd"><code class="docutils literal notranslate"><span class="pre">LiPD</span></code></a> object can be used to load datasets stored in the LiPD format. In this first case study, we will load an entire library of LiPD files:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_euro</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Lipd</span><span class="p">(</span><span class="s1">&#39;../data/Euro2k&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Disclaimer: LiPD files may be updated and modified to adhere to standards
+
+Found: 31 LiPD file(s)
+reading: Ocn-RedSea.Felis.2000.lpd
+reading: Arc-Forfjorddalen.McCarroll.2013.lpd
+reading: Eur-Tallinn.Tarand.2001.lpd
+reading: Eur-CentralEurope.Dobrovoln.2009.lpd
+reading: Eur-EuropeanAlps.Bntgen.2011.lpd
+reading: Eur-CentralandEasternPyrenees.Pla.2004.lpd
+reading: Arc-Tjeggelvas.Bjorklund.2012.lpd
+reading: Arc-Indigirka.Hughes.1999.lpd
+reading: Eur-SpannagelCave.Mangini.2005.lpd
+reading: Ocn-AqabaJordanAQ19.Heiss.1999.lpd
+reading: Arc-Jamtland.Wilson.2016.lpd
+reading: Eur-RAPiD-17-5P.Moffa-Sanchez.2014.lpd
+reading: Eur-LakeSilvaplana.Trachsel.2010.lpd
+reading: Eur-NorthernSpain.Martn-Chivelet.2011.lpd
+reading: Eur-MaritimeFrenchAlps.Bntgen.2012.lpd
+reading: Ocn-AqabaJordanAQ18.Heiss.1999.lpd
+reading: Arc-Tornetrask.Melvin.2012.lpd
+reading: Eur-EasternCarpathianMountains.Popa.2008.lpd
+reading: Arc-PolarUrals.Wilson.2015.lpd
+reading: Eur-LakeSilvaplana.Larocque-Tobler.2010.lpd
+reading: Eur-CoastofPortugal.Abrantes.2011.lpd
+reading: Eur-TatraMountains.Bntgen.2013.lpd
+reading: Eur-SpanishPyrenees.Dorado-Linan.2012.lpd
+reading: Eur-FinnishLakelands.Helama.2014.lpd
+reading: Eur-Seebergsee.Larocque-Tobler.2012.lpd
+reading: Eur-NorthernScandinavia.Esper.2012.lpd
+reading: Arc-GulfofAlaska.Wilson.2014.lpd
+reading: Arc-Kittelfjall.Bjorklund.2012.lpd
+reading: Eur-Ltschental.Bntgen.2006.lpd
+reading: Eur-Stockholm.Leijonhufvud.2009.lpd
+reading: Arc-AkademiiNaukIceCap.Opel.2013.lpd
+Finished read: 31 records
+</pre></div>
+</div>
+</div>
+</div>
+<p>To obtain a map of all the dataset locations, arranged by the type of archive, you can use the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.lipd.Lipd.mapAllArchive"><code class="docutils literal notranslate"><span class="pre">mapAllArchive</span></code></a> function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_euro</span><span class="o">.</span><span class="n">mapAllArchive</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 640x480 with 1 Axes&gt;, &lt;GeoAxes: &gt;)
+</pre></div>
+</div>
+<img alt="../_images/9a574d4193b5994921d2ff560f22a331a98f07bfb839376c62c8da7d8b9a78ad.png" src="../_images/9a574d4193b5994921d2ff560f22a331a98f07bfb839376c62c8da7d8b9a78ad.png" />
+</div>
+</div>
+<p>To change the projection to center around Europe and place the legend on the right side, one can write the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_euro</span><span class="o">.</span><span class="n">mapAllArchive</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;Orthographic&#39;</span><span class="p">,</span> 
+                     <span class="n">proj_default</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;central_longitude&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;central_latitude&#39;</span><span class="p">:</span><span class="mi">30</span><span class="p">},</span>
+                     <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">)});</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/33722340d15243a0c93f32ae53b1392964130bed135ea79e5204010052a69a67.png" src="../_images/33722340d15243a0c93f32ae53b1392964130bed135ea79e5204010052a69a67.png" />
+</div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">bbox_to_anchor</span></code> property is from <a class="reference external" href="https://matplotlib.org/stable/tutorials/intermediate/legend_guide.html">Matplotlib</a> but can be passed to <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> to change the behavior of the legend.</p>
+<p>You can also save the figure as such:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_euro</span><span class="o">.</span><span class="n">mapAllArchive</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;Orthographic&#39;</span><span class="p">,</span> 
+                     <span class="n">proj_default</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;central_longitude&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;central_latitude&#39;</span><span class="p">:</span><span class="mi">30</span><span class="p">},</span>
+                     <span class="n">savefig_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span><span class="s1">&#39;map.png&#39;</span><span class="p">,</span><span class="s1">&#39;format&#39;</span><span class="p">:</span><span class="s1">&#39;png&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Figure saved at: &quot;map.png&quot;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 640x480 with 1 Axes&gt;, &lt;GeoAxes: &gt;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="extracting-a-lipdseries">
+<h3>Extracting a LipdSeries<a class="headerlink" href="#extracting-a-lipdseries" title="Link to this heading">#</a></h3>
+<p>Although working with LiPD objects can be useful for mapping, most of the granularity in routine paleoceanographic studies happens at the individual timeseries level. Next, we will discuss how to obtain a <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> from a <code class="docutils literal notranslate"><span class="pre">Lipd</span></code> object in Pyleoclim.</p>
+<p>There are several ways to obtain a <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#lipdseries-pyleoclim-lipdseries"><code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code></a> from a Lipd object. Each method has its advantages and disadvantages. Let’s have a look at all of them.</p>
+<section id="using-lipd-to-tso">
+<h4>Using Lipd.to_tso<a class="headerlink" href="#using-lipd-to-tso" title="Link to this heading">#</a></h4>
+<p>If nothing is known about the content of the file, it may be useful to use the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.lipd.Lipd.to_tso"><code class="docutils literal notranslate"><span class="pre">Lipd.to_tso</span></code></a> method to obtain a list of dictionary that can be iterated upon. Dictionaries are native to Python and can be easily explored as shown below. The first line of the code creates the list of dictionaries, and the for loop goes through the list, extracting relevant information from each dictionary that would allow us to identify the relevant dictionary for our work, and print it out per index:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_list</span> <span class="o">=</span> <span class="n">d_euro</span><span class="o">.</span><span class="n">to_tso</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ts_list</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;: &#39;</span><span class="o">+</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;dataSetName&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;: &#39;</span><span class="o">+</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>extracting paleoData...
+extracting: Ocn-RedSea.Felis.2000
+extracting: Arc-Forfjorddalen.McCarroll.2013
+extracting: Eur-Tallinn.Tarand.2001
+extracting: Eur-CentralEurope.Dobrovolný.2009
+extracting: Eur-EuropeanAlps.Büntgen.2011
+extracting: Eur-CentralandEasternPyrenees.Pla.2004
+extracting: Arc-Tjeggelvas.Bjorklund.2012
+extracting: Arc-Indigirka.Hughes.1999
+extracting: Eur-SpannagelCave.Mangini.2005
+extracting: Ocn-AqabaJordanAQ19.Heiss.1999
+extracting: Arc-Jamtland.Wilson.2016
+extracting: Eur-RAPiD-17-5P.Moffa-Sanchez.2014
+extracting: Eur-LakeSilvaplana.Trachsel.2010
+extracting: Eur-NorthernSpain.Martín-Chivelet.2011
+extracting: Eur-MaritimeFrenchAlps.Büntgen.2012
+extracting: Ocn-AqabaJordanAQ18.Heiss.1999
+extracting: Arc-Tornetrask.Melvin.2012
+extracting: Eur-EasternCarpathianMountains.Popa.2008
+extracting: Arc-PolarUrals.Wilson.2015
+extracting: Eur-LakeSilvaplana.Larocque-Tobler.2010
+extracting: Eur-CoastofPortugal.Abrantes.2011
+extracting: Eur-TatraMountains.Büntgen.2013
+extracting: Eur-SpanishPyrenees.Dorado-Linan.2012
+extracting: Eur-FinnishLakelands.Helama.2014
+extracting: Eur-Seebergsee.Larocque-Tobler.2012
+extracting: Eur-NorthernScandinavia.Esper.2012
+extracting: Arc-GulfofAlaska.Wilson.2014
+extracting: Arc-Kittelfjall.Bjorklund.2012
+extracting: Eur-Lötschental.Büntgen.2006
+extracting: Eur-Stockholm.Leijonhufvud.2009
+extracting: Arc-AkademiiNaukIceCap.Opel.2013
+Created time series: 73 entries
+0: Ocn-RedSea.Felis.2000: d18O
+1: Ocn-RedSea.Felis.2000: year
+2: Arc-Forfjorddalen.McCarroll.2013: MXD
+3: Arc-Forfjorddalen.McCarroll.2013: year
+4: Eur-Tallinn.Tarand.2001: temperature
+5: Eur-Tallinn.Tarand.2001: year
+6: Eur-Tallinn.Tarand.2001: JulianDay
+7: Eur-CentralEurope.Dobrovolný.2009: temperature
+8: Eur-CentralEurope.Dobrovolný.2009: year
+9: Eur-EuropeanAlps.Büntgen.2011: trsgi
+10: Eur-EuropeanAlps.Büntgen.2011: year
+11: Eur-CentralandEasternPyrenees.Pla.2004: sampleID
+12: Eur-CentralandEasternPyrenees.Pla.2004: year
+13: Eur-CentralandEasternPyrenees.Pla.2004: age
+14: Eur-CentralandEasternPyrenees.Pla.2004: temperature
+15: Eur-CentralandEasternPyrenees.Pla.2004: uncertainty_temperature
+16: Arc-Tjeggelvas.Bjorklund.2012: density
+17: Arc-Tjeggelvas.Bjorklund.2012: year
+18: Arc-Indigirka.Hughes.1999: trsgi
+19: Arc-Indigirka.Hughes.1999: year
+20: Eur-SpannagelCave.Mangini.2005: d18O
+21: Eur-SpannagelCave.Mangini.2005: year
+22: Ocn-AqabaJordanAQ19.Heiss.1999: d18O
+23: Ocn-AqabaJordanAQ19.Heiss.1999: year
+24: Ocn-AqabaJordanAQ19.Heiss.1999: d13C
+25: Arc-Jamtland.Wilson.2016: MXD
+26: Arc-Jamtland.Wilson.2016: year
+27: Eur-RAPiD-17-5P.Moffa-Sanchez.2014: d18O
+28: Eur-RAPiD-17-5P.Moffa-Sanchez.2014: year
+29: Eur-LakeSilvaplana.Trachsel.2010: temperature
+30: Eur-LakeSilvaplana.Trachsel.2010: year
+31: Eur-NorthernSpain.Martín-Chivelet.2011: d18O
+32: Eur-NorthernSpain.Martín-Chivelet.2011: year
+33: Eur-MaritimeFrenchAlps.Büntgen.2012: trsgi
+34: Eur-MaritimeFrenchAlps.Büntgen.2012: year
+35: Ocn-AqabaJordanAQ18.Heiss.1999: d18O
+36: Ocn-AqabaJordanAQ18.Heiss.1999: year
+37: Ocn-AqabaJordanAQ18.Heiss.1999: d13C
+38: Arc-Tornetrask.Melvin.2012: temperature
+39: Arc-Tornetrask.Melvin.2012: year
+40: Arc-Tornetrask.Melvin.2012: temperature
+41: Arc-Tornetrask.Melvin.2012: sampleDensity
+42: Eur-EasternCarpathianMountains.Popa.2008: trsgi
+43: Eur-EasternCarpathianMountains.Popa.2008: year
+44: Arc-PolarUrals.Wilson.2015: density
+45: Arc-PolarUrals.Wilson.2015: year
+46: Eur-LakeSilvaplana.Larocque-Tobler.2010: temperature
+47: Eur-LakeSilvaplana.Larocque-Tobler.2010: year
+48: Eur-CoastofPortugal.Abrantes.2011: temperature
+49: Eur-CoastofPortugal.Abrantes.2011: year
+50: Eur-TatraMountains.Büntgen.2013: trsgi
+51: Eur-TatraMountains.Büntgen.2013: year
+52: Eur-SpanishPyrenees.Dorado-Linan.2012: trsgi
+53: Eur-SpanishPyrenees.Dorado-Linan.2012: year
+54: Eur-FinnishLakelands.Helama.2014: temperature
+55: Eur-FinnishLakelands.Helama.2014: year
+56: Eur-Seebergsee.Larocque-Tobler.2012: temperature
+57: Eur-Seebergsee.Larocque-Tobler.2012: year
+58: Eur-NorthernScandinavia.Esper.2012: MXD
+59: Eur-NorthernScandinavia.Esper.2012: year
+60: Arc-GulfofAlaska.Wilson.2014: temperature
+61: Arc-GulfofAlaska.Wilson.2014: year
+62: Arc-Kittelfjall.Bjorklund.2012: density
+63: Arc-Kittelfjall.Bjorklund.2012: year
+64: Eur-Lötschental.Büntgen.2006: MXD
+65: Eur-Lötschental.Büntgen.2006: year
+66: Eur-Stockholm.Leijonhufvud.2009: temperature
+67: Eur-Stockholm.Leijonhufvud.2009: year
+68: Arc-AkademiiNaukIceCap.Opel.2013: thickness
+69: Arc-AkademiiNaukIceCap.Opel.2013: year
+70: Arc-AkademiiNaukIceCap.Opel.2013: age
+71: Arc-AkademiiNaukIceCap.Opel.2013: d18O
+72: Arc-AkademiiNaukIceCap.Opel.2013: Na
+</pre></div>
+</div>
+</div>
+</div>
+<p>I am very interested in working with the <code class="docutils literal notranslate"><span class="pre">temperature</span></code> record from <code class="docutils literal notranslate"><span class="pre">Eur-CoastofPortugal.Abrantes.2011</span></code> (record 48 on the list). Remember that Python uses zero-indexing so the first element has index 0.</p>
+<p>You can explore the dictionary as you would normally do in Python. For instance, to get the list of available keys:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_list</span><span class="p">[</span><span class="mi">48</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;mode&#39;, &#39;time_id&#39;, &#39;@context&#39;, &#39;archiveType&#39;, &#39;createdBy&#39;, &#39;dataSetName&#39;, &#39;googleDataURL&#39;, &#39;googleMetadataWorksheet&#39;, &#39;googleSpreadSheetKey&#39;, &#39;originalDataURL&#39;, &#39;tagMD5&#39;, &#39;pub1_author&#39;, &#39;pub1_citeKey&#39;, &#39;pub1_dataUrl&#39;, &#39;pub1_issue&#39;, &#39;pub1_journal&#39;, &#39;pub1_pages&#39;, &#39;pub1_publisher&#39;, &#39;pub1_title&#39;, &#39;pub1_type&#39;, &#39;pub1_volume&#39;, &#39;pub1_year&#39;, &#39;pub1_doi&#39;, &#39;pub2_author&#39;, &#39;pub2_Urldate&#39;, &#39;pub2_citeKey&#39;, &#39;pub2_institution&#39;, &#39;pub2_title&#39;, &#39;pub2_type&#39;, &#39;pub2_url&#39;, &#39;geo_type&#39;, &#39;geo_meanLon&#39;, &#39;geo_meanLat&#39;, &#39;geo_meanElev&#39;, &#39;geo_pages2kRegion&#39;, &#39;geo_region&#39;, &#39;geo_siteName&#39;, &#39;lipdVersion&#39;, &#39;tableType&#39;, &#39;paleoData_paleoDataTableName&#39;, &#39;paleoData_paleoDataMD5&#39;, &#39;paleoData_googleWorkSheetKey&#39;, &#39;paleoData_measurementTableName&#39;, &#39;paleoData_measurementTableMD5&#39;, &#39;paleoData_filename&#39;, &#39;paleoData_tableName&#39;, &#39;paleoData_missingValue&#39;, &#39;year&#39;, &#39;yearUnits&#39;, &#39;paleoData_QCCertification&#39;, &#39;paleoData_QCnotes&#39;, &#39;paleoData_TSid&#39;, &#39;paleoData_WDSPaleoUrl&#39;, &#39;paleoData_archiveType&#39;, &#39;paleoData_description&#39;, &#39;paleoData_hasMaxValue&#39;, &#39;paleoData_hasMeanValue&#39;, &#39;paleoData_hasMedianValue&#39;, &#39;paleoData_hasMinValue&#39;, &#39;paleoData_inferredVariableType&#39;, &#39;paleoData_pages2kID&#39;, &#39;paleoData_paleoMeasurementTableMD5&#39;, &#39;paleoData_precededBy&#39;, &#39;paleoData_proxy&#39;, &#39;paleoData_units&#39;, &#39;paleoData_useInGlobalTemperatureAnalysis&#39;, &#39;paleoData_variableName&#39;, &#39;paleoData_variableType&#39;, &#39;paleoData_calibration_uncertainty&#39;, &#39;paleoData_calibration_uncertaintyType&#39;, &#39;paleoData_hasResolution_hasMinValue&#39;, &#39;paleoData_hasResolution_hasMaxValue&#39;, &#39;paleoData_hasResolution_hasMeanValue&#39;, &#39;paleoData_hasResolution_hasMedianValue&#39;, &#39;paleoData_interpretation&#39;, &#39;paleoData_number&#39;, &#39;paleoData_values&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s load this into a <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> object:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_temp</span><span class="o">=</span><span class="n">pyleo</span><span class="o">.</span><span class="n">LipdSeries</span><span class="p">(</span><span class="n">ts_list</span><span class="p">[</span><span class="mi">48</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Because <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> is a child of <code class="docutils literal notranslate"><span class="pre">Series</span></code>, all the methods applicable to <code class="docutils literal notranslate"><span class="pre">Series</span></code> will work on <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> objects. In addition, there are methods specific to <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> that we will explore as part of this tutorial.</p>
+<p>Alternatively,<code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> also supports passing the entire dictionary (d). In this case, you will be prompted to choose a <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> based on the <code class="docutils literal notranslate"><span class="pre">'dataSetName'</span></code> and variable name. The code block shown below illustrates how this would be done (we’ve commented it out for testing purposes). Essentially, we wrote the for loop above in the <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> code base so in many cases you won’t have to, but in the event you need to work with a specific keys in your LiPD database, you have a model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ts_temp = pyleo.LipdSeries(ts_list)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Also note that this option requires human interaction at that step.</p>
+</section>
+<section id="using-lipd-to-lipdseries">
+<h4>Using <code class="docutils literal notranslate"><span class="pre">Lipd.to_LipdSeries</span></code><a class="headerlink" href="#using-lipd-to-lipdseries" title="Link to this heading">#</a></h4>
+<p>Another option for creating a <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> object from a Lipd object is to use the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.lipd.Lipd.to_LipdSeries"><code class="docutils literal notranslate"><span class="pre">Lipd.to_LipdSeries</span></code></a> method. This function can take an optional argument (the index of the series of interest) if it is known. Otherwise, the behavior is equivalent to using a lipd timeseries list.</p>
+<p>It is often useful to first run this function without the optional argument when working,  and to set that argument after the series of interest has been identified, or to share notebooks. Note that the number will change if changes to the database are made. This is shown in the cell below but is commented out for testing purposes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#ts_temp = d_euro.to_LipdSeries()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By using the index directly:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_temp</span> <span class="o">=</span> <span class="n">d_euro</span><span class="o">.</span><span class="n">to_LipdSeries</span><span class="p">(</span><span class="n">number</span> <span class="o">=</span> <span class="mi">48</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>extracting paleoData...
+extracting: Ocn-RedSea.Felis.2000
+extracting: Arc-Forfjorddalen.McCarroll.2013
+extracting: Eur-Tallinn.Tarand.2001
+extracting: Eur-CentralEurope.Dobrovolný.2009
+extracting: Eur-EuropeanAlps.Büntgen.2011
+extracting: Eur-CentralandEasternPyrenees.Pla.2004
+extracting: Arc-Tjeggelvas.Bjorklund.2012
+extracting: Arc-Indigirka.Hughes.1999
+extracting: Eur-SpannagelCave.Mangini.2005
+extracting: Ocn-AqabaJordanAQ19.Heiss.1999
+extracting: Arc-Jamtland.Wilson.2016
+extracting: Eur-RAPiD-17-5P.Moffa-Sanchez.2014
+extracting: Eur-LakeSilvaplana.Trachsel.2010
+extracting: Eur-NorthernSpain.Martín-Chivelet.2011
+extracting: Eur-MaritimeFrenchAlps.Büntgen.2012
+extracting: Ocn-AqabaJordanAQ18.Heiss.1999
+extracting: Arc-Tornetrask.Melvin.2012
+extracting: Eur-EasternCarpathianMountains.Popa.2008
+extracting: Arc-PolarUrals.Wilson.2015
+extracting: Eur-LakeSilvaplana.Larocque-Tobler.2010
+extracting: Eur-CoastofPortugal.Abrantes.2011
+extracting: Eur-TatraMountains.Büntgen.2013
+extracting: Eur-SpanishPyrenees.Dorado-Linan.2012
+extracting: Eur-FinnishLakelands.Helama.2014
+extracting: Eur-Seebergsee.Larocque-Tobler.2012
+extracting: Eur-NorthernScandinavia.Esper.2012
+extracting: Arc-GulfofAlaska.Wilson.2014
+extracting: Arc-Kittelfjall.Bjorklund.2012
+extracting: Eur-Lötschental.Büntgen.2006
+extracting: Eur-Stockholm.Leijonhufvud.2009
+extracting: Arc-AkademiiNaukIceCap.Opel.2013
+Created time series: 73 entries
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-lipd-to-lipdserieslist">
+<h4>Using <code class="docutils literal notranslate"><span class="pre">Lipd.to_LipdSeriesList</span></code><a class="headerlink" href="#using-lipd-to-lipdserieslist" title="Link to this heading">#</a></h4>
+<p>This method is intended to create a list of potential <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> for use with <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_SeriesList</span> <span class="o">=</span> <span class="n">d_euro</span><span class="o">.</span><span class="n">to_LipdSeriesList</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>extracting paleoData...
+extracting: Ocn-RedSea.Felis.2000
+extracting: Arc-Forfjorddalen.McCarroll.2013
+extracting: Eur-Tallinn.Tarand.2001
+extracting: Eur-CentralEurope.Dobrovolný.2009
+extracting: Eur-EuropeanAlps.Büntgen.2011
+extracting: Eur-CentralandEasternPyrenees.Pla.2004
+extracting: Arc-Tjeggelvas.Bjorklund.2012
+extracting: Arc-Indigirka.Hughes.1999
+extracting: Eur-SpannagelCave.Mangini.2005
+extracting: Ocn-AqabaJordanAQ19.Heiss.1999
+extracting: Arc-Jamtland.Wilson.2016
+extracting: Eur-RAPiD-17-5P.Moffa-Sanchez.2014
+extracting: Eur-LakeSilvaplana.Trachsel.2010
+extracting: Eur-NorthernSpain.Martín-Chivelet.2011
+extracting: Eur-MaritimeFrenchAlps.Büntgen.2012
+extracting: Ocn-AqabaJordanAQ18.Heiss.1999
+extracting: Arc-Tornetrask.Melvin.2012
+extracting: Eur-EasternCarpathianMountains.Popa.2008
+extracting: Arc-PolarUrals.Wilson.2015
+extracting: Eur-LakeSilvaplana.Larocque-Tobler.2010
+extracting: Eur-CoastofPortugal.Abrantes.2011
+extracting: Eur-TatraMountains.Büntgen.2013
+extracting: Eur-SpanishPyrenees.Dorado-Linan.2012
+extracting: Eur-FinnishLakelands.Helama.2014
+extracting: Eur-Seebergsee.Larocque-Tobler.2012
+extracting: Eur-NorthernScandinavia.Esper.2012
+extracting: Arc-GulfofAlaska.Wilson.2014
+extracting: Arc-Kittelfjall.Bjorklund.2012
+extracting: Eur-Lötschental.Büntgen.2006
+extracting: Eur-Stockholm.Leijonhufvud.2009
+extracting: Arc-AkademiiNaukIceCap.Opel.2013
+Created time series: 73 entries
+Both age and year information are available, using age
+Both age and year information are available, using age
+Both age and year information are available, using age
+Both age and year information are available, using age
+Both age and year information are available, using age
+Both age and year information are available, using age
+Both age and year information are available, using age
+Both age and year information are available, using age
+Both age and year information are available, using age
+Both age and year information are available, using age
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/jlanders/opt/miniconda3/envs/pyleo/lib/python3.10/site-packages/pyleoclim/core/lipd.py:262: UserWarning: The timeseries from 11: Eur-CentralandEasternPyrenees.Pla.2004: sampleID could not be coerced into a LipdSeries object, passing
+  warnings.warn(txt)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note the exception handling here. For a <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> (and by extension, <code class="docutils literal notranslate"><span class="pre">Series</span></code>) to be used by most of the functionalities in <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>, the values should be floats. <code class="docutils literal notranslate"><span class="pre">&quot;sampleID&quot;</span></code> is most likely a string, and therefore this entry is skipped.</p>
+</section>
+<section id="when-should-i-use-the-various-methods">
+<h4>When should I use the various methods?<a class="headerlink" href="#when-should-i-use-the-various-methods" title="Link to this heading">#</a></h4>
+<p>In short, it depends on what you will be using the objects for afterwards. If you plan to use a <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#multipleseries-pyleoclim-multipleseries"><code class="docutils literal notranslate"><span class="pre">MulitpleSeries</span></code></a> object with all of the entries directly, then you should definitely use the <code class="docutils literal notranslate"><span class="pre">to_LipdSeriesList</span></code> method.</p>
+<p>If you need to query the resulting dictionaries for specific properties using your own code, then the <code class="docutils literal notranslate"><span class="pre">to_tso</span></code> method makes the most sense. You can then obtain each <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> independently (and put them in a list to create a <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> object if needed).</p>
+<p>If you don’t know exactly what you are looking for but the name of the dataset, <code class="docutils literal notranslate"><span class="pre">&quot;archiveType&quot;</span></code>, and variable name are useful to identify the time series of interest, then the <code class="docutils literal notranslate"><span class="pre">to_LipdSeries</span></code> is your best bet.</p>
+</section>
+<section id="example-extracting-all-the-coral-d18o-record-from-the-database">
+<h4>Example: Extracting all the coral d18O record from the database<a class="headerlink" href="#example-extracting-all-the-coral-d18o-record-from-the-database" title="Link to this heading">#</a></h4>
+<p>Let’s say I’m interested in all the coral d18O record in the database and want store them into a <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> object to create a <code class="docutils literal notranslate"><span class="pre">stackplot</span></code>. I can proceed in several ways.</p>
+<section id="programmatically">
+<h5>Programmatically<a class="headerlink" href="#programmatically" title="Link to this heading">#</a></h5>
+<p>For the programmers, it may be easier to use the <code class="docutils literal notranslate"><span class="pre">to_tso</span></code> method, select the correct indices, and create a list of <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code>. This is just an example of how to manipulate the dictionary object. You can choose any of the available properties to create the filter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_list_euro</span> <span class="o">=</span> <span class="n">d_euro</span><span class="o">.</span><span class="n">to_tso</span><span class="p">()</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ts_list_euro</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;archiveType&#39;</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="c1">#check that it is available to avoid errors on the loop</span>
+        <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;archiveType&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;coral&#39;</span><span class="p">:</span> <span class="c1">#if it&#39;s a coral, then proceed to the next step</span>
+            <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;d18O&#39;</span><span class="p">:</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+<span class="n">ts_list_euro_coral</span> <span class="o">=</span><span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+    <span class="n">ts_list_euro</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;yearUnits&#39;</span><span class="p">]</span><span class="o">=</span> <span class="s1">&#39;year&#39;</span>
+    <span class="n">ts_list_euro_coral</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyleo</span><span class="o">.</span><span class="n">LipdSeries</span><span class="p">(</span><span class="n">ts_list_euro</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+<span class="n">ms_euro_coral</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">MultipleSeries</span><span class="p">(</span><span class="n">ts_list_euro_coral</span><span class="p">)</span><span class="o">.</span><span class="n">convert_time_unit</span><span class="p">(</span><span class="s1">&#39;Years AD&#39;</span><span class="p">)</span>
+<span class="n">ms_euro_coral</span><span class="o">.</span><span class="n">stackplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>extracting paleoData...
+extracting: Ocn-RedSea.Felis.2000
+extracting: Arc-Forfjorddalen.McCarroll.2013
+extracting: Eur-Tallinn.Tarand.2001
+extracting: Eur-CentralEurope.Dobrovolný.2009
+extracting: Eur-EuropeanAlps.Büntgen.2011
+extracting: Eur-CentralandEasternPyrenees.Pla.2004
+extracting: Arc-Tjeggelvas.Bjorklund.2012
+extracting: Arc-Indigirka.Hughes.1999
+extracting: Eur-SpannagelCave.Mangini.2005
+extracting: Ocn-AqabaJordanAQ19.Heiss.1999
+extracting: Arc-Jamtland.Wilson.2016
+extracting: Eur-RAPiD-17-5P.Moffa-Sanchez.2014
+extracting: Eur-LakeSilvaplana.Trachsel.2010
+extracting: Eur-NorthernSpain.Martín-Chivelet.2011
+extracting: Eur-MaritimeFrenchAlps.Büntgen.2012
+extracting: Ocn-AqabaJordanAQ18.Heiss.1999
+extracting: Arc-Tornetrask.Melvin.2012
+extracting: Eur-EasternCarpathianMountains.Popa.2008
+extracting: Arc-PolarUrals.Wilson.2015
+extracting: Eur-LakeSilvaplana.Larocque-Tobler.2010
+extracting: Eur-CoastofPortugal.Abrantes.2011
+extracting: Eur-TatraMountains.Büntgen.2013
+extracting: Eur-SpanishPyrenees.Dorado-Linan.2012
+extracting: Eur-FinnishLakelands.Helama.2014
+extracting: Eur-Seebergsee.Larocque-Tobler.2012
+extracting: Eur-NorthernScandinavia.Esper.2012
+extracting: Arc-GulfofAlaska.Wilson.2014
+extracting: Arc-Kittelfjall.Bjorklund.2012
+extracting: Eur-Lötschental.Büntgen.2006
+extracting: Eur-Stockholm.Leijonhufvud.2009
+extracting: Arc-AkademiiNaukIceCap.Opel.2013
+Created time series: 73 entries
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 640x480 with 4 Axes&gt;,
+ {0: &lt;Axes: ylabel=&#39;d18O [permil]&#39;&gt;,
+  1: &lt;Axes: ylabel=&#39;d18O [permil]&#39;&gt;,
+  2: &lt;Axes: ylabel=&#39;d18O [permil]&#39;&gt;,
+  3: &lt;Axes: xlabel=&#39;Time [Years AD]&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/a45be529e9fa5a494eb366e62542e3d2b8932d861a49129872068526b4984593.png" src="../_images/a45be529e9fa5a494eb366e62542e3d2b8932d861a49129872068526b4984593.png" />
+</div>
+</div>
+</section>
+<section id="using-prompts">
+<h5>Using prompts<a class="headerlink" href="#using-prompts" title="Link to this heading">#</a></h5>
+<p>For the beginners, the simplest way is to use the <code class="docutils literal notranslate"><span class="pre">to_LipdSeries</span></code> method once, write down the indices of interest and then create these series one at a time. This can become tedious for a large amount of data, however. For our case, this would look like:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">number</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">#Set number to None to view the full list of indices</span>
+
+<span class="n">ts1</span> <span class="o">=</span> <span class="n">d_euro</span><span class="o">.</span><span class="n">to_LipdSeries</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>extracting paleoData...
+extracting: Ocn-RedSea.Felis.2000
+extracting: Arc-Forfjorddalen.McCarroll.2013
+extracting: Eur-Tallinn.Tarand.2001
+extracting: Eur-CentralEurope.Dobrovolný.2009
+extracting: Eur-EuropeanAlps.Büntgen.2011
+extracting: Eur-CentralandEasternPyrenees.Pla.2004
+extracting: Arc-Tjeggelvas.Bjorklund.2012
+extracting: Arc-Indigirka.Hughes.1999
+extracting: Eur-SpannagelCave.Mangini.2005
+extracting: Ocn-AqabaJordanAQ19.Heiss.1999
+extracting: Arc-Jamtland.Wilson.2016
+extracting: Eur-RAPiD-17-5P.Moffa-Sanchez.2014
+extracting: Eur-LakeSilvaplana.Trachsel.2010
+extracting: Eur-NorthernSpain.Martín-Chivelet.2011
+extracting: Eur-MaritimeFrenchAlps.Büntgen.2012
+extracting: Ocn-AqabaJordanAQ18.Heiss.1999
+extracting: Arc-Tornetrask.Melvin.2012
+extracting: Eur-EasternCarpathianMountains.Popa.2008
+extracting: Arc-PolarUrals.Wilson.2015
+extracting: Eur-LakeSilvaplana.Larocque-Tobler.2010
+extracting: Eur-CoastofPortugal.Abrantes.2011
+extracting: Eur-TatraMountains.Büntgen.2013
+extracting: Eur-SpanishPyrenees.Dorado-Linan.2012
+extracting: Eur-FinnishLakelands.Helama.2014
+extracting: Eur-Seebergsee.Larocque-Tobler.2012
+extracting: Eur-NorthernScandinavia.Esper.2012
+extracting: Arc-GulfofAlaska.Wilson.2014
+extracting: Arc-Kittelfjall.Bjorklund.2012
+extracting: Eur-Lötschental.Büntgen.2006
+extracting: Eur-Stockholm.Leijonhufvud.2009
+extracting: Arc-AkademiiNaukIceCap.Opel.2013
+Created time series: 73 entries
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, I entered 0 when prompted to create the first <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> and wrote down the other indices (22,35) so I can pass them as arguments:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts2</span><span class="o">=</span><span class="n">d_euro</span><span class="o">.</span><span class="n">to_LipdSeries</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">ts3</span><span class="o">=</span><span class="n">d_euro</span><span class="o">.</span><span class="n">to_LipdSeries</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span>
+
+<span class="n">ms_euro_coral</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">MultipleSeries</span><span class="p">([</span><span class="n">ts1</span><span class="p">,</span><span class="n">ts2</span><span class="p">,</span><span class="n">ts3</span><span class="p">])</span><span class="o">.</span><span class="n">convert_time_unit</span><span class="p">(</span><span class="s1">&#39;Years AD&#39;</span><span class="p">)</span>
+<span class="n">ms_euro_coral</span><span class="o">.</span><span class="n">stackplot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>extracting paleoData...
+extracting: Ocn-RedSea.Felis.2000
+extracting: Arc-Forfjorddalen.McCarroll.2013
+extracting: Eur-Tallinn.Tarand.2001
+extracting: Eur-CentralEurope.Dobrovolný.2009
+extracting: Eur-EuropeanAlps.Büntgen.2011
+extracting: Eur-CentralandEasternPyrenees.Pla.2004
+extracting: Arc-Tjeggelvas.Bjorklund.2012
+extracting: Arc-Indigirka.Hughes.1999
+extracting: Eur-SpannagelCave.Mangini.2005
+extracting: Ocn-AqabaJordanAQ19.Heiss.1999
+extracting: Arc-Jamtland.Wilson.2016
+extracting: Eur-RAPiD-17-5P.Moffa-Sanchez.2014
+extracting: Eur-LakeSilvaplana.Trachsel.2010
+extracting: Eur-NorthernSpain.Martín-Chivelet.2011
+extracting: Eur-MaritimeFrenchAlps.Büntgen.2012
+extracting: Ocn-AqabaJordanAQ18.Heiss.1999
+extracting: Arc-Tornetrask.Melvin.2012
+extracting: Eur-EasternCarpathianMountains.Popa.2008
+extracting: Arc-PolarUrals.Wilson.2015
+extracting: Eur-LakeSilvaplana.Larocque-Tobler.2010
+extracting: Eur-CoastofPortugal.Abrantes.2011
+extracting: Eur-TatraMountains.Büntgen.2013
+extracting: Eur-SpanishPyrenees.Dorado-Linan.2012
+extracting: Eur-FinnishLakelands.Helama.2014
+extracting: Eur-Seebergsee.Larocque-Tobler.2012
+extracting: Eur-NorthernScandinavia.Esper.2012
+extracting: Arc-GulfofAlaska.Wilson.2014
+extracting: Arc-Kittelfjall.Bjorklund.2012
+extracting: Eur-Lötschental.Büntgen.2006
+extracting: Eur-Stockholm.Leijonhufvud.2009
+extracting: Arc-AkademiiNaukIceCap.Opel.2013
+Created time series: 73 entries
+extracting paleoData...
+extracting: Ocn-RedSea.Felis.2000
+extracting: Arc-Forfjorddalen.McCarroll.2013
+extracting: Eur-Tallinn.Tarand.2001
+extracting: Eur-CentralEurope.Dobrovolný.2009
+extracting: Eur-EuropeanAlps.Büntgen.2011
+extracting: Eur-CentralandEasternPyrenees.Pla.2004
+extracting: Arc-Tjeggelvas.Bjorklund.2012
+extracting: Arc-Indigirka.Hughes.1999
+extracting: Eur-SpannagelCave.Mangini.2005
+extracting: Ocn-AqabaJordanAQ19.Heiss.1999
+extracting: Arc-Jamtland.Wilson.2016
+extracting: Eur-RAPiD-17-5P.Moffa-Sanchez.2014
+extracting: Eur-LakeSilvaplana.Trachsel.2010
+extracting: Eur-NorthernSpain.Martín-Chivelet.2011
+extracting: Eur-MaritimeFrenchAlps.Büntgen.2012
+extracting: Ocn-AqabaJordanAQ18.Heiss.1999
+extracting: Arc-Tornetrask.Melvin.2012
+extracting: Eur-EasternCarpathianMountains.Popa.2008
+extracting: Arc-PolarUrals.Wilson.2015
+extracting: Eur-LakeSilvaplana.Larocque-Tobler.2010
+extracting: Eur-CoastofPortugal.Abrantes.2011
+extracting: Eur-TatraMountains.Büntgen.2013
+extracting: Eur-SpanishPyrenees.Dorado-Linan.2012
+extracting: Eur-FinnishLakelands.Helama.2014
+extracting: Eur-Seebergsee.Larocque-Tobler.2012
+extracting: Eur-NorthernScandinavia.Esper.2012
+extracting: Arc-GulfofAlaska.Wilson.2014
+extracting: Arc-Kittelfjall.Bjorklund.2012
+extracting: Eur-Lötschental.Büntgen.2006
+extracting: Eur-Stockholm.Leijonhufvud.2009
+extracting: Arc-AkademiiNaukIceCap.Opel.2013
+Created time series: 73 entries
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 640x480 with 4 Axes&gt;,
+ {0: &lt;Axes: ylabel=&#39;d18O [permil]&#39;&gt;,
+  1: &lt;Axes: ylabel=&#39;d18O [permil]&#39;&gt;,
+  2: &lt;Axes: ylabel=&#39;d18O [permil]&#39;&gt;,
+  3: &lt;Axes: xlabel=&#39;Time [Years AD]&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/a45be529e9fa5a494eb366e62542e3d2b8932d861a49129872068526b4984593.png" src="../_images/a45be529e9fa5a494eb366e62542e3d2b8932d861a49129872068526b4984593.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="working-with-lipdseries">
+<h3>Working with LipdSeries<a class="headerlink" href="#working-with-lipdseries" title="Link to this heading">#</a></h3>
+<p>Since <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> is a child of <code class="docutils literal notranslate"><span class="pre">Series</span></code>, all methods available to <code class="docutils literal notranslate"><span class="pre">Series</span></code> will also apply to <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code>. In addition, a few other methods are specific to <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> that take advantage of the greater availability of metadata</p>
+<section id="mapping">
+<h4>Mapping<a class="headerlink" href="#mapping" title="Link to this heading">#</a></h4>
+<p>Let’s <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.lipdseries.LipdSeries.map">map</a> the location of the record from <code class="docutils literal notranslate"><span class="pre">Eur-CoastofPortugal.Abrantes.2011</span></code> that we extracted at the beginning of this tutorial and update the legend to reflect the name of the dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ts_temp</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
+<span class="n">legend_label</span> <span class="o">=</span> <span class="s1">&#39;Abrantes.2011&#39;</span>
+<span class="n">current_handles</span><span class="p">,</span> <span class="n">current_labels</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">current_handles</span><span class="p">,[</span><span class="n">legend_label</span><span class="p">],</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x29be2eb30&gt;
+</pre></div>
+</div>
+<img alt="../_images/cd0302cf21972216d0b132ae5077c17be15092f3ed4424022e8d9fc5d88330d5.png" src="../_images/cd0302cf21972216d0b132ae5077c17be15092f3ed4424022e8d9fc5d88330d5.png" />
+</div>
+</div>
+<p>To add the label directly near the point and turn off the legend:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ts_temp</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">markersize</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="n">legend_label</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">());</span> <span class="c1">#need to use the transform option for use with cartopy to set the projection for the data, in this case the label.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(2, 30, &#39;Abrantes.2011&#39;)
+</pre></div>
+</div>
+<img alt="../_images/d4775bdad457df2730e95106de75c3ef0eac30b152ab443279f6fe00fb268960.png" src="../_images/d4775bdad457df2730e95106de75c3ef0eac30b152ab443279f6fe00fb268960.png" />
+</div>
+</div>
+</section>
+<section id="map-records-closest-to-the-one-of-interest">
+<h4>Map records closest to the one of interest<a class="headerlink" href="#map-records-closest-to-the-one-of-interest" title="Link to this heading">#</a></h4>
+<p>The <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.lipdseries.LipdSeries.mapNearRecord"><code class="docutils literal notranslate"><span class="pre">mapNearRecord</span></code></a> method allows one to plot the nearest records in a LiPD database.</p>
+<p>The method takes an argument, which corresponds to the <code class="docutils literal notranslate"><span class="pre">Lipd</span></code> object from which the <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code> was extracted:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_temp</span><span class="o">.</span><span class="n">mapNearRecord</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="n">d_euro</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 640x480 with 1 Axes&gt;, &lt;GeoAxes: &gt;)
+</pre></div>
+</div>
+<img alt="../_images/c4abf4d3fab35704a9b7f0c9e6164c226247eb0a6cb173f70e7dcc0a8bb97a76.png" src="../_images/c4abf4d3fab35704a9b7f0c9e6164c226247eb0a6cb173f70e7dcc0a8bb97a76.png" />
+</div>
+</div>
+<p>You can modify the map as we have done previously to move the legend. In addition, the function allows one to restrict the near records to those of the same archive type or to those within a certain distance of original record.</p>
+</section>
+<section id="dashboard">
+<h4>Dashboard<a class="headerlink" href="#dashboard" title="Link to this heading">#</a></h4>
+<p><a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.lipdseries.LipdSeries.dashboard">Dashboards</a> plot essential information about a <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code>, making use of various functions applicable to <code class="docutils literal notranslate"><span class="pre">Series</span></code> and <code class="docutils literal notranslate"><span class="pre">LipdSeries</span></code>. Everything is customizable by passing the appropriate arguments to each of the functionalities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_temp</span><span class="o">.</span><span class="n">dashboard</span><span class="p">(</span><span class="n">spectralsignif_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;number&#39;</span><span class="p">:</span><span class="mi">1000</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 1000/1000 [00:01&lt;00:00, 613.80it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1100x800 with 4 Axes&gt;,
+ {&#39;ts&#39;: &lt;Axes: xlabel=&#39;Year [AD]&#39;, ylabel=&#39;temperature [degC]&#39;&gt;,
+  &#39;dts&#39;: &lt;Axes: xlabel=&#39;Counts&#39;&gt;,
+  &#39;map&#39;: &lt;GeoAxes: &gt;,
+  &#39;spec&#39;: &lt;Axes: xlabel=&#39;Period [yrs]&#39;, ylabel=&#39;PSD&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/5587faff9c52231be70cdfd9d4dfea83a8704b20fbdfe3212847d5568be5130d.png" src="../_images/5587faff9c52231be70cdfd9d4dfea83a8704b20fbdfe3212847d5568be5130d.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="working-with-lipd-records-that-contain-age-ensemble-information">
+<h3>Working with LiPD records that contain age ensemble information<a class="headerlink" href="#working-with-lipd-records-that-contain-age-ensemble-information" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> makes use of age ensembles for uncertainty quantification. Although the package doesn’t contain age modeling software, it is capable of leveraging the output of such software.</p>
+<p>Note: Since most age modeling software packages have an R interface, age modeling for LiPD datasets is handled through the <a class="reference external" href="https://gchron.copernicus.org/articles/3/149/2021/gchron-3-149-2021-discussion.html">GeochronR</a> package. Note that Jupyter can support R code through Magics so it is possible to use both software using the Jupyter environment.</p>
+<p>Let’s load a file with such an age model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_cave</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Lipd</span><span class="p">(</span><span class="s1">&#39;../data/Crystal.McCabe-Glynn.2013.lpd&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Disclaimer: LiPD files may be updated and modified to adhere to standards
+
+reading: Crystal.McCabe-Glynn.2013.lpd
+1.42 MB :That&#39;s a big file! This may take a while to load...
+Finished read: 1 record
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s load the d18O record</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">d_cave</span><span class="o">.</span><span class="n">to_LipdSeries</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>extracting paleoData...
+extracting: Crystal.McCabe-Glynn.2013
+Created time series: 3 entries
+</pre></div>
+</div>
+</div>
+</div>
+<p>To attach the age model ensemble, you can used the function <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.lipdseries.LipdSeries.chronEnsembleToPaleo"><code class="docutils literal notranslate"><span class="pre">chronEnsembleToPaleo</span></code></a>.</p>
+<p>Note that this function needs to reference the original <code class="docutils literal notranslate"><span class="pre">Lipd</span></code> object (d_cave, in this case).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ens_cave</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">chronEnsembleToPaleo</span><span class="p">(</span><span class="n">d_cave</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time axis values sorted in ascending order
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now plot the record on this ensemble of ages. Prior to doing this, we need to align these time axes, which we do via <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.multipleseries.MultipleSeries.common_time"><code class="docutils literal notranslate"><span class="pre">common_time</span></code></a>. You can learn more about how to use <code class="docutils literal notranslate"><span class="pre">.common_time()</span></code> in the <code class="docutils literal notranslate"><span class="pre">basic_MSES_manipulation.ipynb</span></code> tutorial.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ens_cave</span><span class="o">.</span><span class="n">common_time</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;interp&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/62c7da99ecd193b377d663ad56784688cadfd6ad62da9fbbfb8afe952e293326.png" src="../_images/62c7da99ecd193b377d663ad56784688cadfd6ad62da9fbbfb8afe952e293326.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L0_working_with_geoseries.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Working with GeoSeries</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L1_uniform_time_sampling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Uniform time sampling with Pyleoclim</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Working with LiPD files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-a-lipdseries">Extracting a LipdSeries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-lipd-to-tso">Using Lipd.to_tso</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-lipd-to-lipdseries">Using <code class="docutils literal notranslate"><span class="pre">Lipd.to_LipdSeries</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-lipd-to-lipdserieslist">Using <code class="docutils literal notranslate"><span class="pre">Lipd.to_LipdSeriesList</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#when-should-i-use-the-various-methods">When should I use the various methods?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-extracting-all-the-coral-d18o-record-from-the-database">Example: Extracting all the coral d18O record from the database</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#programmatically">Programmatically</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#using-prompts">Using prompts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-lipdseries">Working with LipdSeries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping">Mapping</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#map-records-closest-to-the-one-of-interest">Map records closest to the one of interest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dashboard">Dashboard</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-lipd-records-that-contain-age-ensemble-information">Working with LiPD records that contain age ensemble information</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
