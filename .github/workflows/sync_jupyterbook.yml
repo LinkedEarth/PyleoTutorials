@@ -1,0 +1,82 @@
+name: Sync JupyterBook
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  sync-jupyterbook:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: pyleo
+        environment-file: environment.yml
+        auto-activate-base: false
+    - name: Install dependencies
+      run: |
+        conda activate pyleo
+        pip install pyyaml
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+    - name: Copy Files and Update TOC
+      run: |
+        git checkout jupyterbook
+        rm -rf notebooks/ data/
+        git checkout main -- notebooks/ data/
+        
+        cat << 'EOF' > update_toc.py
+        import yaml
+        import glob
+        import os
+        
+        toc = {
+            'format': 'jb-book',
+            'root': 'intro.md',
+            'parts': [
+                {
+                    'caption': 'Getting Started',
+                    'chapters': []
+                },
+                {
+                    'caption': 'Manipulating Data and Graphics',
+                    'chapters': []
+                },
+                {
+                    'caption': 'Data Analysis with Pyleoclim',
+                    'chapters': []
+                }
+            ]
+        }
+        
+        notebooks = glob.glob('notebooks/L[0-2]*.ipynb')
+        notebooks.sort()
+        
+        level_map = {'L0': 0, 'L1': 1, 'L2': 2}
+        
+        for nb in notebooks:
+            level = os.path.basename(nb)[:2]
+            if level in level_map:
+                part_index = level_map[level]
+                toc['parts'][part_index]['chapters'].append({'file': nb})
+        
+        with open('_toc.yml', 'w') as f:
+            yaml.dump(toc, f, sort_keys=False)
+        EOF
+        
+        conda activate pyleo
+        python update_toc.py
+        
+        git add notebooks/ data/ _toc.yml
+        if ! git diff --staged --quiet; then
+          git commit -m "Auto-sync notebooks, data, and update TOC"
+          git push origin jupyterbook
+        fi
