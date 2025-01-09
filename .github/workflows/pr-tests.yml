@@ -1,11 +1,7 @@
-name: Run nbmake for the main Branch
-
+name: PR Tests
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -15,23 +11,18 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-
-    - name: Checkout files in repo
-      uses: actions/checkout@v3
-
-    - name: Setup Miniconda
-      uses: conda-incubator/setup-miniconda@v2
+    - uses: actions/checkout@v3
+    - uses: conda-incubator/setup-miniconda@v2
       with:
         activate-environment: pyleo
         environment-file: environment.yml
         auto-activate-base: false
-
-    - name: Conda list
+    - name: Install test dependencies
       run: |
         conda activate pyleo
         pip install pytest-xdist nbmake
         conda list
-    - name: Test with pytest
+    - name: Test notebooks
       run: |
         conda activate pyleo
         pytest --nbmake -n=auto --nbmake-timeout=3600 notebooks/*ipynb
