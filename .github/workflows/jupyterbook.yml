@@ -1,9 +1,12 @@
 name: Publish JupyterBook to GitHub Pages
 
+
 on: 
-  push: # trigger build only when push to master
-    branches:
-      - jupyterbook
+  workflow_run:
+    workflows: ["Sync JupyterBook"]  # name of the first workflow
+    types: 
+      - completed
+  workflow_dispatch:
 
 jobs:
   build:
