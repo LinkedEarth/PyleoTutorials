@@ -1,31 +1,27 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
 format: jb-book
 root: intro.md
 parts:
-  - caption: Getting Started
-    chapters:
-    - file: notebooks/L0_a_quickstart.ipynb
-    - file: notebooks/L0_paleopandas.ipynb
-    - file: notebooks/L0_loading_to_series.ipynb
-    - file: notebooks/L0_basic_ts_manipulation.ipynb
-    - file: notebooks/L0_basic_MSES_manipulation.ipynb
-    - file: notebooks/L0_working_with_geoseries.ipynb
-  - caption: Manipulating Data and Graphics
-    chapters:
-    - file: notebooks/L1_working_with_LiPD.ipynb
-    - file: notebooks/L1_uniform_time_sampling.ipynb
-    - file: notebooks/L1_filtering_and_detrending.ipynb
-    - file: notebooks/L1_figures_with_multiple_panels.ipynb
-    - file: notebooks/L1_surrogates.ipynb
-    - file: notebooks/L1_working_with_age_ensembles.ipynb
-  - caption: Data Analysis with Pyleoclim
-    chapters:
-    - file: notebooks/L2_correlations.ipynb
-    - file: notebooks/L2_spectral_analysis.ipynb
-    - file: notebooks/L2_wavelet_analysis.ipynb
-    - file: notebooks/L2_singular_spectrum_analysis.ipynb
-    - file: notebooks/L2_principal_component_analysis.ipynb
-    - file: notebooks/L2_outlier_detection.ipynb
-    - file: notebooks/L2_tracing_transformations.ipynb
+- caption: Getting Started
+  chapters:
+  - file: notebooks/L0_a_quickstart.ipynb
+  - file: notebooks/L0_basic_MSES_manipulation.ipynb
+  - file: notebooks/L0_basic_ts_manipulation.ipynb
+  - file: notebooks/L0_loading_to_series.ipynb
+  - file: notebooks/L0_paleopandas.ipynb
+  - file: notebooks/L0_working_with_geoseries.ipynb
+- caption: Manipulating Data and Graphics
+  chapters:
+  - file: notebooks/L1_figures_with_multiple_panels.ipynb
+  - file: notebooks/L1_filtering_and_detrending.ipynb
+  - file: notebooks/L1_surrogates.ipynb
+  - file: notebooks/L1_uniform_time_sampling.ipynb
+  - file: notebooks/L1_working_with_age_ensembles.ipynb
+- caption: Data Analysis with Pyleoclim
+  chapters:
+  - file: notebooks/L2_correlations.ipynb
+  - file: notebooks/L2_outlier_detection.ipynb
+  - file: notebooks/L2_principal_component_analysis.ipynb
+  - file: notebooks/L2_singular_spectrum_analysis.ipynb
+  - file: notebooks/L2_spectral_analysis.ipynb
+  - file: notebooks/L2_tracing_transformations.ipynb
+  - file: notebooks/L2_wavelet_analysis.ipynb
