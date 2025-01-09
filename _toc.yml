@@ -14,6 +14,7 @@ parts:
   - file: notebooks/L1_figures_with_multiple_panels.ipynb
   - file: notebooks/L1_filtering_and_detrending.ipynb
   - file: notebooks/L1_surrogates.ipynb
+  - file: notebooks/L1_time_semanics.ipynb
   - file: notebooks/L1_uniform_time_sampling.ipynb
   - file: notebooks/L1_working_with_age_ensembles.ipynb
 - caption: Data Analysis with Pyleoclim
