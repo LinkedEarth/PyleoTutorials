@@ -1,0 +1,54 @@
+name: Publish JupyterBook to GitHub Pages
+
+on:
+  workflow_run:
+    workflows: ["Sync JupyterBook"]  # Must match the exact name of your sync workflow
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Check out the jupyterbook branch to build from
+      - uses: actions/checkout@v2
+        with:
+          ref: jupyterbook
+
+      # 2) Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      # 3) Install Python dependencies
+      - name: Install Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip install jupyter-book ghp-import pyleoclim
+          # This ensures ~/.local/bin is on PATH:
+          PATH="${PATH}:${HOME}/.local/bin"
+
+      # 4) (Optional) Build the TOC (only needed if you rely on jupyter-book toc .)
+      - name: Build book TOC file 
+        run: |
+          jupyter-book toc .
+
+      # 5) Build book HTML
+      - name: Build book HTML 
+        run: |
+          jupyter-book build .
+
+      # 6) Deploy _build/html to gh-pages
+      - name: Push _build/html to gh-pages
+        run: |
+          # Fix any permissions issues
+          sudo chown -R $(whoami):$(whoami) .
+          # Configure git
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+          git remote set-url origin "https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY"
+          # Use ghp-import to push the HTML build to gh-pages branch
+          ghp-import ./_build/html -f -p -n
