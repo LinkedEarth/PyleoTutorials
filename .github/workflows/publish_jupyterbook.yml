@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-23.04
 
     steps:
       # 1) Check out the jupyterbook branch to build from
