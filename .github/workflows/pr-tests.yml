@@ -25,4 +25,4 @@ jobs:
     - name: Test notebooks
       run: |
         conda activate pyleo
-        pytest --nbmake --forked -n=auto -v --nbmake-timeout=3600 notebooks/*ipynb
+        pytest --nbmake --forked -n=2 -v --nbmake-timeout=3600 notebooks/*ipynb
