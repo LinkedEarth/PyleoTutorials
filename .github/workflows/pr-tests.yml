@@ -20,7 +20,7 @@ jobs:
     - name: Install test dependencies
       run: |
         conda activate pyleo
-        pip install pytest-xdist nbmake
+        pip install pytest-xdist pytest-forked nbmake
         conda list
     - name: Test notebooks
       run: |
