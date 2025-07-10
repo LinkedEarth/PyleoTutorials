@@ -1,0 +1,1671 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Loading data into Pyleoclim &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L0_loading_to_series';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working with Pandas" href="L0_paleopandas.html" />
+    <link rel="prev" title="Basic timeseries manipulation" href="L0_basic_ts_manipulation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L0_loading_to_series.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L0_loading_to_series.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L0_loading_to_series.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Loading data into Pyleoclim</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-loaded-datasets">Pre-loaded datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lipd">LiPD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-single-lipd-file">Loading a single LiPD file</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-multiple-lipd-files">Loading multiple LiPD files</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#netcdf">NetCDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv">CSV</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noaa-txt-files">NOAA txt files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-from-pangaea">Loading from PANGAEA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#takeway">Takeway</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="loading-data-into-pyleoclim">
+<h1>Loading data into Pyleoclim<a class="headerlink" href="#loading-data-into-pyleoclim" title="Link to this heading">#</a></h1>
+<p>by <a class="reference external" href="https://orcid.org/0000-0001-9772-7617">Jordan Landers</a>, <a class="reference external" href="https://orcid.org/0000-0001-7501-8430">Deborah Khider</a>, <a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a>.</p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p>Contrary to common beliefs, Pyleoclim is not specific to the <a class="reference external" href="https://lipd.net">LiPD</a>.  The object at the heart of the package is the
+<a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/ui.html#series-pyleoclim-series"><code class="docutils literal notranslate"><span class="pre">Series</span></code> object</a>, which describes the fundamentals of a time series. To create a
+Pyleoclim <code class="docutils literal notranslate"><span class="pre">Series</span></code>, we first need to load the data set, and then specify values for its various properties:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code>: Time values for the time series</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code>: Paleo values for the time series</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time_name</span></code> (optional): Name of the time vector, (e.g., ‘Time’, ‘Age’). This is used to label the x-axis on plots</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time_unit</span></code> (optional): The units of the time axis (e.g., ‘years’)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value_name</span></code> (optional): The name of the paleo variable (e.g., ‘Temperature’)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value_unit</span></code> (optional): The units of the paleo variable (e.g., ‘deg C’)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">label</span></code> (optional): Name of the time series (e.g., ‘Nino 3.4’)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log</span></code> (dict) – Dictionary of tuples documentating the various transformations applied to the object</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keep_log</span></code> (bool) – Whether to keep a log of applied transformations. False by default</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">importedFrom</span></code> (string) – source of the dataset. If it came from a LiPD file, this could be the datasetID property</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">archiveType</span></code> (string) – climate archive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dropna</span></code> (bool) – Whether to drop NaNs from the series to prevent downstream functions from choking on them defaults to True</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sort_ts</span></code> (str) – Direction of sorting over the time coordinate; ‘ascending’ or ‘descending’ Defaults to ‘ascending’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code> (bool) – If True, will print warning messages if there is any</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clean_ts</span></code> (optional): set to True to remove the NaNs and make time axis strictly prograde with duplicated timestamps reduced by averaging the values Default is None.</p></li>
+</ul>
+<p>Data may be stored in different file types, which can be ingested in different ways.</p>
+<section id="goals">
+<h3>Goals:<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Create Pyleoclim Series objects from datasets stored as CSV, NetCDF, LiPD, and NOAA txt files.</p></li>
+</ul>
+<p><strong>Reading Time:</strong> 5 minutes</p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>CSV; NetCDF; LiPD, Series; EnsembleSeries; MultipleSeries</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>None. This tutorial assumes basic knowledge of Python. If you are not familiar with this coding language, check out this tutorial: <a class="reference external" href="http://linked.earth/ec_workshops_py/">http://linked.earth/ec_workshops_py/</a>.</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>Pandas; Xarray; pylipd; pangaeapy</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>McCabe-Glynn, S., Johnson, K., Strong, C. et al. Variable
+North Pacific influence on drought in southwestern North America since AD 854. Nature Geosci 6, 617–621 (2013).
+<a class="reference external" href="https://doi.org/10.1038/ngeo1862">doi:10.1038/ngeo1862</a></p></li>
+<li><p>Euro2k database: PAGES2k Consortium., Emile-Geay, J., McKay, N. et al. A global multiproxy database for temperature
+reconstructions of the Common Era. Sci Data 4, 170088 (2017). <a class="reference external" href="https://doi.org/10.1038/sdata.2017.88">doi:10.1038/sdata.2017.88</a></p></li>
+<li><p>Lisiecki, L. E., and Raymo, M. E. (2005), A Pliocene-Pleistocene stack of 57 globally distributed benthic
+δ18O records, Paleoceanography, 20, PA1003, <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2004PA001071">doi:10.1029/2004PA001071</a>.</p></li>
+</ul>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<p>First we import our favorite packages:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pylipd.lipd</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiPD</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pangaeapy.pandataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">PanDataSet</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="pre-loaded-datasets">
+<h3>Pre-loaded datasets<a class="headerlink" href="#pre-loaded-datasets" title="Link to this heading">#</a></h3>
+<p>First, note that <code class="docutils literal notranslate"><span class="pre">pyleoclim</span></code> ships with a few pre-defined datasets:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">available_dataset_names</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;SOI&#39;,
+ &#39;NINO3&#39;,
+ &#39;HadCRUT5&#39;,
+ &#39;AIR&#39;,
+ &#39;LR04&#39;,
+ &#39;AACO2&#39;,
+ &#39;EDC-dD&#39;,
+ &#39;GISP2&#39;,
+ &#39;cenogrid_d18O&#39;,
+ &#39;cenogrid_d13C&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>To load one such dataset, simply type its name within <code class="docutils literal notranslate"><span class="pre">pyleo.utils.load_dataset()</span></code>, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;cenogrid_d18O&#39;</span><span class="p">)</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [My BP]&#39;, ylabel=&#39;$\\delta^{18} \\mathrm{O}$ [‰ VPDB]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/7f82556d0e19ed2e31af00da95222dba20c6e6f03632899c42f0aa0f2d7cb7cd.png" src="../_images/7f82556d0e19ed2e31af00da95222dba20c6e6f03632899c42f0aa0f2d7cb7cd.png" />
+</div>
+</div>
+<p>Of course, there is a whole world out there full of wondrous data. How do you pull them into your Python workspace and get them to play nice with Pyleoclim? A few options below.</p>
+</section>
+<section id="lipd">
+<h3>LiPD<a class="headerlink" href="#lipd" title="Link to this heading">#</a></h3>
+<p>Linked Paleo Data format (<a class="reference external" href="http://www.clim-past-discuss.net/11/4309/2015/cpd-11-4309-2015-discussion.html">LiPD</a>) files contain time series information in addition to supporting metadata (e.g., root metadata, location).</p>
+<p>Data stored in this format can be loaded into Python through a package called <a class="reference external" href="https://pylipd.readthedocs.io/en/latest/">pylipd</a>. Tutorials for this toolbox are available <a class="reference external" href="https://github.com/LinkedEarth/pylipdTutorials">here</a>.</p>
+<section id="loading-a-single-lipd-file">
+<h4>Loading a single LiPD file<a class="headerlink" href="#loading-a-single-lipd-file" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_path</span> <span class="o">=</span> <span class="s1">&#39;../data/Crystal.McCabe-Glynn.2013.lpd&#39;</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">LiPD</span><span class="p">()</span>
+<span class="n">D</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading 1 LiPD files
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  6.13it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded..
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can extract each available variable and load them into a Pandas DataFrame. Each row will represent one variable:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_timeseries</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">get_all_dataset_names</span><span class="p">(),</span> <span class="n">to_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extracting timeseries from dataset: Crystal.McCabe-Glynn.2013 ...
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mode</th>
+      <th>time_id</th>
+      <th>archiveType</th>
+      <th>createdBy</th>
+      <th>pub1_author</th>
+      <th>pub1_title</th>
+      <th>pub1_pages</th>
+      <th>pub1_volume</th>
+      <th>pub1_abstract</th>
+      <th>pub1_year</th>
+      <th>...</th>
+      <th>paleoData_takenAtDepth</th>
+      <th>paleoData_hasMinValue</th>
+      <th>paleoData_hasMeanValue</th>
+      <th>paleoData_units</th>
+      <th>paleoData_values</th>
+      <th>paleoData_resolution_hasMaxValue</th>
+      <th>paleoData_resolution_hasMinValue</th>
+      <th>paleoData_resolution_hasMedianValue</th>
+      <th>paleoData_resolution_hasMeanValue</th>
+      <th>paleoData_proxyObservationType</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Speleothem</td>
+      <td>excel</td>
+      <td>Max Berkelhammer Courtenay Strong;Hai Cheng an...</td>
+      <td>Variable North Pacific influence on drought in...</td>
+      <td>617-621</td>
+      <td>6.0</td>
+      <td>Precipitation in southwestern North America ha...</td>
+      <td>2013</td>
+      <td>...</td>
+      <td>depth</td>
+      <td>851.90</td>
+      <td>1427.506736</td>
+      <td>yr AD</td>
+      <td>[2007.7, 2007.0, 2006.3, 2005.6, 2004.9, 2004....</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Speleothem</td>
+      <td>excel</td>
+      <td>Max Berkelhammer Courtenay Strong;Hai Cheng an...</td>
+      <td>Variable North Pacific influence on drought in...</td>
+      <td>617-621</td>
+      <td>6.0</td>
+      <td>Precipitation in southwestern North America ha...</td>
+      <td>2013</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>0.05</td>
+      <td>51.292647</td>
+      <td>mm</td>
+      <td>[0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0...</td>
+      <td>-0.7</td>
+      <td>2.5</td>
+      <td>-1.1</td>
+      <td>-1.097626</td>
+      <td>depth</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Speleothem</td>
+      <td>excel</td>
+      <td>Max Berkelhammer Courtenay Strong;Hai Cheng an...</td>
+      <td>Variable North Pacific influence on drought in...</td>
+      <td>617-621</td>
+      <td>6.0</td>
+      <td>Precipitation in southwestern North America ha...</td>
+      <td>2013</td>
+      <td>...</td>
+      <td>depth</td>
+      <td>10.43</td>
+      <td>-9.021176</td>
+      <td>permil</td>
+      <td>[-8.01, -8.23, -8.61, -8.54, -8.6, -9.08, -8.9...</td>
+      <td>-0.7</td>
+      <td>2.5</td>
+      <td>-1.1</td>
+      <td>-1.097626</td>
+      <td>d18O</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 52 columns</p>
+</div></div></div>
+</div>
+<p>The available properties are stored in the columns of the DataFrame:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;mode&#39;, &#39;time_id&#39;, &#39;archiveType&#39;, &#39;createdBy&#39;, &#39;pub1_author&#39;,
+       &#39;pub1_title&#39;, &#39;pub1_pages&#39;, &#39;pub1_volume&#39;, &#39;pub1_abstract&#39;, &#39;pub1_year&#39;,
+       &#39;pub1_journal&#39;, &#39;pub1_dataUrl&#39;, &#39;pub1_doi&#39;, &#39;investigator&#39;, &#39;hasUrl&#39;,
+       &#39;funding1_agency&#39;, &#39;funding1_grant&#39;, &#39;funding2_grant&#39;,
+       &#39;funding2_agency&#39;, &#39;funding3_grant&#39;, &#39;funding3_agency&#39;, &#39;dataSetName&#39;,
+       &#39;lipdVersion&#39;, &#39;geo_meanLon&#39;, &#39;geo_meanLat&#39;, &#39;geo_meanElev&#39;, &#39;geo_type&#39;,
+       &#39;tableType&#39;, &#39;paleoData_tableName&#39;, &#39;paleoData_filename&#39;,
+       &#39;paleoData_missingValue&#39;, &#39;age&#39;, &#39;ageUnits&#39;, &#39;depth&#39;, &#39;depthUnits&#39;,
+       &#39;paleoData_TSid&#39;, &#39;paleoData_number&#39;, &#39;paleoData_hasMaxValue&#39;,
+       &#39;paleoData_hasMedianValue&#39;, &#39;paleoData_inferredVariableType&#39;,
+       &#39;paleoData_variableName&#39;, &#39;paleoData_variableType&#39;,
+       &#39;paleoData_takenAtDepth&#39;, &#39;paleoData_hasMinValue&#39;,
+       &#39;paleoData_hasMeanValue&#39;, &#39;paleoData_units&#39;, &#39;paleoData_values&#39;,
+       &#39;paleoData_resolution_hasMaxValue&#39;, &#39;paleoData_resolution_hasMinValue&#39;,
+       &#39;paleoData_resolution_hasMedianValue&#39;,
+       &#39;paleoData_resolution_hasMeanValue&#39;, &#39;paleoData_proxyObservationType&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s see which variables are available:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;age&#39;, &#39;depth&#39;, &#39;d18O&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filter</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;d18O&#39;</span><span class="p">]</span>
+<span class="n">df_filter</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mode</th>
+      <th>time_id</th>
+      <th>archiveType</th>
+      <th>createdBy</th>
+      <th>pub1_author</th>
+      <th>pub1_title</th>
+      <th>pub1_pages</th>
+      <th>pub1_volume</th>
+      <th>pub1_abstract</th>
+      <th>pub1_year</th>
+      <th>...</th>
+      <th>paleoData_takenAtDepth</th>
+      <th>paleoData_hasMinValue</th>
+      <th>paleoData_hasMeanValue</th>
+      <th>paleoData_units</th>
+      <th>paleoData_values</th>
+      <th>paleoData_resolution_hasMaxValue</th>
+      <th>paleoData_resolution_hasMinValue</th>
+      <th>paleoData_resolution_hasMedianValue</th>
+      <th>paleoData_resolution_hasMeanValue</th>
+      <th>paleoData_proxyObservationType</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Speleothem</td>
+      <td>excel</td>
+      <td>Max Berkelhammer Courtenay Strong;Hai Cheng an...</td>
+      <td>Variable North Pacific influence on drought in...</td>
+      <td>617-621</td>
+      <td>6.0</td>
+      <td>Precipitation in southwestern North America ha...</td>
+      <td>2013</td>
+      <td>...</td>
+      <td>depth</td>
+      <td>10.43</td>
+      <td>-9.021176</td>
+      <td>permil</td>
+      <td>[-8.01, -8.23, -8.61, -8.54, -8.6, -9.08, -8.9...</td>
+      <td>-0.7</td>
+      <td>2.5</td>
+      <td>-1.1</td>
+      <td>-1.097626</td>
+      <td>d18O</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 52 columns</p>
+</div></div></div>
+</div>
+<p>Let’s create a <code class="docutils literal notranslate"><span class="pre">Series</span></code> object from the information in the file:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">df_filter</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">df_filter</span><span class="p">[</span><span class="s1">&#39;paleoData_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">time_name</span> <span class="o">=</span> <span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">time_unit</span> <span class="o">=</span> <span class="n">df_filter</span><span class="p">[</span><span class="s1">&#39;ageUnits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">value_name</span> <span class="o">=</span> <span class="n">df_filter</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                  <span class="n">value_unit</span> <span class="o">=</span> <span class="n">df_filter</span><span class="p">[</span><span class="s1">&#39;paleoData_units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">label</span> <span class="o">=</span> <span class="n">df_filter</span><span class="p">[</span><span class="s1">&#39;dataSetName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">archiveType</span> <span class="o">=</span> <span class="n">df_filter</span><span class="p">[</span><span class="s1">&#39;archiveType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                  <span class="n">auto_time_params</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And plot the timeseries:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [yr AD]&#39;, ylabel=&#39;d18O [permil]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/fa0a56bff68d82de5fe3034111ffd19da36f7e203a33d97d8e8d1b3744a59cb0.png" src="../_images/fa0a56bff68d82de5fe3034111ffd19da36f7e203a33d97d8e8d1b3744a59cb0.png" />
+</div>
+</div>
+<p>By default, the plot will use the name/units passed to <code class="docutils literal notranslate"><span class="pre">Series</span></code> to make the plots. You can change these labels directly on the graph or update the information in the <code class="docutils literal notranslate"><span class="pre">Series</span></code> object at any time:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">value_name</span> <span class="o">=</span> <span class="s1">&#39;$\delta^</span><span class="si">{18}</span><span class="s1">$O&#39;</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">value_unit</span> <span class="o">=</span> <span class="s2">&quot;&#39;‰ VPDB&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [CE]&#39;, ylabel=&quot;$\\delta^{18}$O [&#39;‰ VPDB]&quot;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/00e80f4fc5b0127a149bfdf48e9f702e580c853db9c548a8872667fec59dd69e.png" src="../_images/00e80f4fc5b0127a149bfdf48e9f702e580c853db9c548a8872667fec59dd69e.png" />
+</div>
+</div>
+</section>
+<section id="loading-multiple-lipd-files">
+<h4>Loading multiple LiPD files<a class="headerlink" href="#loading-multiple-lipd-files" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_path</span> <span class="o">=</span> <span class="s1">&#39;../data/Euro2k/&#39;</span>
+<span class="n">D_euro</span> <span class="o">=</span> <span class="n">LiPD</span><span class="p">()</span>
+<span class="n">D_euro</span><span class="o">.</span><span class="n">load_from_dir</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading 31 LiPD files
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 31/31 [00:00&lt;00:00, 89.96it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded..
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s use the same <code class="docutils literal notranslate"><span class="pre">.get_timeseries</span></code> function to load all the variables in a DataFrame:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_euro</span><span class="p">,</span> <span class="n">df_euro</span> <span class="o">=</span> <span class="n">D_euro</span><span class="o">.</span><span class="n">get_timeseries</span><span class="p">(</span><span class="n">D_euro</span><span class="o">.</span><span class="n">get_all_dataset_names</span><span class="p">(),</span><span class="n">to_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extracting timeseries from dataset: Ocn-RedSea.Felis.2000 ...
+Extracting timeseries from dataset: Arc-Forfjorddalen.McCarroll.2013 ...
+Extracting timeseries from dataset: Eur-Tallinn.Tarand.2001 ...
+Extracting timeseries from dataset: Eur-CentralEurope.Dobrovoln_.2009 ...
+Extracting timeseries from dataset: Eur-EuropeanAlps.B_ntgen.2011 ...
+Extracting timeseries from dataset: Eur-CentralandEasternPyrenees.Pla.2004 ...
+Extracting timeseries from dataset: Arc-Tjeggelvas.Bjorklund.2012 ...
+Extracting timeseries from dataset: Arc-Indigirka.Hughes.1999 ...
+Extracting timeseries from dataset: Eur-SpannagelCave.Mangini.2005 ...
+Extracting timeseries from dataset: Ocn-AqabaJordanAQ19.Heiss.1999 ...
+Extracting timeseries from dataset: Arc-Jamtland.Wilson.2016 ...
+Extracting timeseries from dataset: Eur-RAPiD-17-5P.Moffa-Sanchez.2014 ...
+Extracting timeseries from dataset: Eur-LakeSilvaplana.Trachsel.2010 ...
+Extracting timeseries from dataset: Eur-NorthernSpain.Mart_n-Chivelet.2011 ...
+Extracting timeseries from dataset: Eur-MaritimeFrenchAlps.B_ntgen.2012 ...
+Extracting timeseries from dataset: Ocn-AqabaJordanAQ18.Heiss.1999 ...
+Extracting timeseries from dataset: Arc-Tornetrask.Melvin.2012 ...
+Extracting timeseries from dataset: Eur-EasternCarpathianMountains.Popa.2008 ...
+Extracting timeseries from dataset: Arc-PolarUrals.Wilson.2015 ...
+Extracting timeseries from dataset: Eur-LakeSilvaplana.Larocque-Tobler.2010 ...
+Extracting timeseries from dataset: Eur-CoastofPortugal.Abrantes.2011 ...
+Extracting timeseries from dataset: Eur-TatraMountains.B_ntgen.2013 ...
+Extracting timeseries from dataset: Eur-SpanishPyrenees.Dorado-Linan.2012 ...
+Extracting timeseries from dataset: Eur-FinnishLakelands.Helama.2014 ...
+Extracting timeseries from dataset: Eur-Seebergsee.Larocque-Tobler.2012 ...
+Extracting timeseries from dataset: Eur-NorthernScandinavia.Esper.2012 ...
+Extracting timeseries from dataset: Arc-GulfofAlaska.Wilson.2014 ...
+Extracting timeseries from dataset: Arc-Kittelfjall.Bjorklund.2012 ...
+Extracting timeseries from dataset: Eur-L_tschental.B_ntgen.2006 ...
+Extracting timeseries from dataset: Eur-Stockholm.Leijonhufvud.2009 ...
+Extracting timeseries from dataset: Arc-AkademiiNaukIceCap.Opel.2013 ...
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s have a look at the available variable names:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_euro</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;year&#39;, &#39;d18O&#39;, &#39;MXD&#39;, &#39;temperature&#39;, &#39;JulianDay&#39;, &#39;ringWidth&#39;,
+       &#39;age&#39;, &#39;sampleID&#39;, &#39;uncertainty&#39;, &#39;density&#39;, &#39;d13C&#39;, &#39;count&#39;,
+       &#39;sodium&#39;, &#39;thickness&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s filter the temperature records:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_euro_filt</span> <span class="o">=</span> <span class="n">df_euro</span><span class="p">[</span><span class="n">df_euro</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span>
+
+<span class="n">df_euro_filt</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(12, 117)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Which leaves us with 12 timeseries. Let’s iterate over the DataFrame and create a <code class="docutils literal notranslate"><span class="pre">Series</span></code> for each of these:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">row</span> <span class="ow">in</span> <span class="n">df_euro_filt</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">ts_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyleo</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">],</span><span class="n">value</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_values&#39;</span><span class="p">],</span>
+                            <span class="n">time_name</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="n">value_name</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">],</span>
+                            <span class="n">time_unit</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;yearUnits&#39;</span><span class="p">],</span> <span class="n">value_unit</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_units&#39;</span><span class="p">],</span>
+                            <span class="n">lat</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;geo_meanLat&#39;</span><span class="p">],</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;geo_meanLon&#39;</span><span class="p">],</span>
+                            <span class="n">archiveType</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;archiveType&#39;</span><span class="p">],</span>
+                            <span class="n">label</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;dataSetName&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_proxy&#39;</span><span class="p">],</span>
+                            <span class="n">auto_time_params</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>  
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here I chose to keep these series into a list, which makes it easy to create a <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#multipleseries-pyleoclim-multipleseries"><code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> object</a>. However, you could choose to keep them in a dictionary, using the datasetname/proxy as a key.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">MultipleSeries</span><span class="p">(</span><span class="n">ts_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And plot them:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x2000 with 13 Axes&gt;,
+ {0: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  1: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  2: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  3: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  4: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  5: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  6: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  7: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  8: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  9: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  10: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  11: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  &#39;x_axis&#39;: &lt;Axes: xlabel=&#39;Time [yr AD]&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/e30ce61a7a8aa7f0f1b10a66c25aee983f563736feadb73086b1b5c63e49fce6.png" src="../_images/e30ce61a7a8aa7f0f1b10a66c25aee983f563736feadb73086b1b5c63e49fce6.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="netcdf">
+<h3>NetCDF<a class="headerlink" href="#netcdf" title="Link to this heading">#</a></h3>
+<p>In order to load data from a NetCDF file, we will use <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html">Xarray</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;../data/p2k_ngeo19_recons.nc&#39;</span>
+<span class="n">p2k_nc</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The coordinates of this data set are <code class="docutils literal notranslate"><span class="pre">year</span></code> and <code class="docutils literal notranslate"><span class="pre">ens</span></code>, and the temperature anamoly is contained in the variable
+<code class="docutils literal notranslate"><span class="pre">LMRv2.1</span></code>. Below we extract the timeseries for the ensemble runs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable_name</span> <span class="o">=</span> <span class="s1">&#39;LMRv2.1&#39;</span>
+<span class="n">ens_runs</span> <span class="o">=</span> <span class="n">p2k_nc</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;ens&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To create the <code class="docutils literal notranslate"><span class="pre">pyleo.Series</span></code>, we pass the time coordinate of the dataset, <code class="docutils literal notranslate"><span class="pre">p2k_nc.year</span></code>, as <code class="docutils literal notranslate"><span class="pre">time</span></code>, and one of the ensemble runs as <code class="docutils literal notranslate"><span class="pre">value</span></code>. It is optional to specify <code class="docutils literal notranslate"><span class="pre">time_name</span></code> and <code class="docutils literal notranslate"><span class="pre">time_unit</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">value_name</span></code> and <code class="docutils literal notranslate"><span class="pre">value_unit</span></code>, but doing so ensures that plot axes are properly labeled.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ens_run1</span> <span class="o">=</span> <span class="n">ens_runs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data_vars</span><span class="p">[</span><span class="n">variable_name</span><span class="p">]</span>
+<span class="n">p2k_ps</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">p2k_nc</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">ens_run1</span><span class="p">,</span>
+                      <span class="n">time_name</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">time_unit</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;LMRv2.1 member #1&#39;</span><span class="p">,</span>
+                      <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;GMST&#39;</span><span class="p">,</span> <span class="n">value_unit</span><span class="o">=</span><span class="s1">&#39;$^{\circ}$C&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">p2k_ps</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b54964847c94f47e9afa9543a54c1cc6199cd0ada50623018eea48943450595b.png" src="../_images/b54964847c94f47e9afa9543a54c1cc6199cd0ada50623018eea48943450595b.png" />
+</div>
+</div>
+<p>However, given this is an ensemble, capturing this data in a <code class="docutils literal notranslate"><span class="pre">pyleo.EnsembleSeries</span></code> will open up opportunities for
+specific analysis and visualization. In the cell below, we generate a list of <code class="docutils literal notranslate"><span class="pre">pyleo.Series</span></code> (one for each trace) for
+the full set of ensemble runs in much the same way as above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">ts_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p2k_nc</span><span class="o">.</span><span class="n">ens</span><span class="p">)):</span>
+    <span class="n">ens_run</span> <span class="o">=</span> <span class="n">ens_runs</span><span class="p">[</span><span class="n">im</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data_vars</span><span class="p">[</span><span class="n">variable_name</span><span class="p">]</span>
+    <span class="n">ts_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">p2k_nc</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">ens_run</span><span class="p">,</span>
+                      <span class="n">time_name</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">time_unit</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;GMST&#39;</span><span class="p">,</span> <span class="n">value_unit</span><span class="o">=</span><span class="s1">&#39;$^{\circ}$C&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 699 ms, sys: 6.41 ms, total: 705 ms
+Wall time: 262 ms
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then we simply pass <code class="docutils literal notranslate"><span class="pre">ts_list</span></code> to <code class="docutils literal notranslate"><span class="pre">pyleo.EnsembleSeries</span></code>…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_ens</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleSeries</span><span class="p">(</span><span class="n">ts_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For more detail on visualizing <code class="docutils literal notranslate"><span class="pre">pyleo.EnsembleSeries</span></code>, check out the tutorial on <a class="reference internal" href="#L0_basic_MSES_manipulation.md"><span class="xref myst">Basic operations with
+MultipleSeries and EnsembleSeries</span></a>, but we can use <code class="docutils literal notranslate"><span class="pre">plot_traces()</span></code> to quickly check to make sure the data seems
+properly organized (by default, <code class="docutils literal notranslate"><span class="pre">plot_traces()</span></code> plots 10 randomly selected traces).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_ens</span><span class="o">.</span><span class="n">plot_traces</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/66f84599051e1bf2443f81363f88eef7f866b33a3d95233b5bdad3f42f67b6de.png" src="../_images/66f84599051e1bf2443f81363f88eef7f866b33a3d95233b5bdad3f42f67b6de.png" />
+</div>
+</div>
+</section>
+<section id="csv">
+<h3>CSV<a class="headerlink" href="#csv" title="Link to this heading">#</a></h3>
+<p>CSV files have a table structure, so we will use <a class="reference external" href="https://pandas.pydata.org">Pandas</a> and the read the data into a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/LR04.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">LR04</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Time (ka)</th>
+      <th>Benthic d18O (per mil)</th>
+      <th>Standard error (per mil)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>3.23</td>
+      <td>0.03</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>3.23</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.0</td>
+      <td>3.18</td>
+      <td>0.03</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.0</td>
+      <td>3.29</td>
+      <td>0.03</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.0</td>
+      <td>3.30</td>
+      <td>0.03</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;Time (ka)&#39;, &#39;Benthic d18O (per mil)  &#39;, &#39;Standard error (per mil)&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>To create a <code class="docutils literal notranslate"><span class="pre">pyleo.Series</span></code>, we pass the <code class="docutils literal notranslate"><span class="pre">Time</span> <span class="pre">(ka)</span></code> column as <code class="docutils literal notranslate"><span class="pre">time</span></code> and the <code class="docutils literal notranslate"><span class="pre">Benthic</span> <span class="pre">d18O</span> <span class="pre">(per</span> <span class="pre">mil)</span></code> column as <code class="docutils literal notranslate"><span class="pre">value</span></code>. Note the extra space at the end of that column name! We have to work with what the interwebs give us.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04_ps</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">LR04</span><span class="p">[</span><span class="s1">&#39;Time (ka)&#39;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">LR04</span><span class="p">[</span><span class="s1">&#39;Benthic d18O (per mil)  &#39;</span><span class="p">],</span>
+                      <span class="n">time_name</span><span class="o">=</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">time_unit</span><span class="o">=</span><span class="s1">&#39;ka&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;$\delta^</span><span class="si">{18}</span><span class="s1">$O&#39;</span><span class="p">,</span> <span class="n">value_unit</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;‰&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">LR04_ps</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2fa3513c6509edce439bff404ccd73bce404fc87841dfd6b25afc771e22e5586.png" src="../_images/2fa3513c6509edce439bff404ccd73bce404fc87841dfd6b25afc771e22e5586.png" />
+</div>
+</div>
+<p>Note that you would get the exact same result with <code class="docutils literal notranslate"><span class="pre">LR04_ps</span> <span class="pre">=</span> <span class="pre">pyleo.utils.load_dataset('LR04')</span></code>. Generally speaking, it is very easy to go between <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> and CSV files, but the file needs to have a certain structure to be properly read with the function <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.from_csv">from_csv()</a>. For an example, see <a class="reference internal" href="#L0_paleopandas.md"><span class="xref myst">this tutorial</span></a>. If it doesn’t follow that structure, proceed as outlined above.</p>
+</section>
+<section id="noaa-txt-files">
+<h3>NOAA txt files<a class="headerlink" href="#noaa-txt-files" title="Link to this heading">#</a></h3>
+<p>As you may now, the World Data Service for paleoclimatology, operated by NCEI/NOAA of the US Department of Commerce, hosts thousands of data files in various formats. A common one is a <a class="reference external" href="https://www.ncei.noaa.gov/pub/data/paleo/templates/noaa-wds-paleo-template-instructions.txt">templated text file</a>, containing rich data and metadata. One can treat the file as a raw text file, ignoring the header and loading the data directly into a <a class="reference external" href="https://pandas.pydata.org">Pandas</a> <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;ftp://ftp.ncdc.noaa.gov/pub/data/paleo/icecore/antarctica/antarctica2015co2composite.txt&#39;</span>
+<span class="n">co2df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">137</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">co2df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age_gas_calBP</th>
+      <th>co2_ppm</th>
+      <th>co2_1s_ppm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-51.03</td>
+      <td>368.02</td>
+      <td>0.06</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-48.00</td>
+      <td>361.78</td>
+      <td>0.37</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-46.28</td>
+      <td>359.65</td>
+      <td>0.10</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-44.41</td>
+      <td>357.11</td>
+      <td>0.16</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-43.08</td>
+      <td>353.95</td>
+      <td>0.04</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Notice how <code class="docutils literal notranslate"><span class="pre">pandas</span></code> retrieved the data over the network, without needing to download a local copy of the file. However, it would work just as well if you did have such a copy on your hardrive, and you would simply replace <code class="docutils literal notranslate"><span class="pre">path</span></code> with the local file path  (everything else would stay the same). We did cheat a bit, however: we had to peak at the file to know how many header lines to skip (137). The separator (<code class="docutils literal notranslate"><span class="pre">sep</span></code>) argument is set to <code class="docutils literal notranslate"><span class="pre">'\t'</span></code>, which means “tab”. It works well in this case, but we cannot guarantee that it will work on all NOAA text files.</p>
+<p>Finally, we pull the relevant columns of this datframe into a Series object, convert the years to kyr for ease of use, and put in the relevant metadata so that we can get a well-labeled, publication-quality plot right off the bat:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">co2df</span><span class="p">[</span><span class="s1">&#39;age_gas_calBP&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span><span class="n">value</span><span class="o">=</span> <span class="n">co2df</span><span class="p">[</span><span class="s1">&#39;co2_ppm&#39;</span><span class="p">],</span>
+                     <span class="n">time_name</span><span class="o">=</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span><span class="n">time_unit</span><span class="o">=</span><span class="s1">&#39;kyr BP&#39;</span><span class="p">,</span><span class="n">value_name</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$CO_2$&#39;</span><span class="p">,</span>
+                     <span class="n">value_unit</span><span class="o">=</span><span class="s1">&#39;ppm&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;EPICA Dome C CO2&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">co2ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [kyr BP]&#39;, ylabel=&#39;$CO_2$ [ppm]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/036488ad75a14a128d0c29a45642795190eccad82d20521cd0f0c2d234a7ede7.png" src="../_images/036488ad75a14a128d0c29a45642795190eccad82d20521cd0f0c2d234a7ede7.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="loading-from-pangaea">
+<h2>Loading from PANGAEA<a class="headerlink" href="#loading-from-pangaea" title="Link to this heading">#</a></h2>
+<p>Another major repository for paleoclimate data is <a class="reference external" href="https://www.pangaea.de">PANGAEA</a>. Here we load the dataset of <a class="reference external" href="https://doi.pangaea.de/10.1594/PANGAEA.619066">Skinner et al. (2007)</a>, using the very helpful <a class="reference external" href="https://github.com/pangaea-data-publisher/pangaeapy">pangaeapy</a> package:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">PanDataSet</span><span class="p">(</span><span class="s1">&#39;10.1594/PANGAEA.619066&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Deep-water temperature, stable oxygen isotopes and Mg/Ca on benthic foraminifera of sediment core MD99-2334
+      Age  Mg/Ca   Temp  G. affinis δ18O  δ18O H2O      Event   Latitude  \
+0  10.534  3.490  2.272             3.47      0.09  MD99-2334  37.801167   
+1  11.394  3.231  1.303             4.14      0.50  MD99-2334  37.801167   
+2  11.761  2.585 -1.498             3.77     -0.66  MD99-2334  37.801167   
+3  12.064  2.993  0.344             3.79     -0.12  MD99-2334  37.801167   
+4  12.368  2.786 -0.558             3.91     -0.25  MD99-2334  37.801167   
+
+   Longitude  Elevation  Date/Time  
+0 -10.171333    -3166.0 1999-09-14  
+1 -10.171333    -3166.0 1999-09-14  
+2 -10.171333    -3166.0 1999-09-14  
+3 -10.171333    -3166.0 1999-09-14  
+4 -10.171333    -3166.0 1999-09-14  
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once again, this method eschewed a download, retrieving the data directly from PANGAEA’s web server. Notice that all you needed was the dataset DOI, easily gleaned from the page’s URL or from the contents themselves.  The <code class="docutils literal notranslate"><span class="pre">PanDataSet</span></code> is a custom data structure built on <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, much in the way Pyleoclim <code class="docutils literal notranslate"><span class="pre">Series</span></code> will be in a few releases.</p>
+<p>One can extract the dataset column names via:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;Age&#39;, &#39;Mg/Ca&#39;, &#39;Temp&#39;, &#39;G. affinis δ18O&#39;, &#39;δ18O H2O&#39;, &#39;Event&#39;,
+       &#39;Latitude&#39;, &#39;Longitude&#39;, &#39;Elevation&#39;, &#39;Date/Time&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Temp&#39;</span><span class="p">])</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pandas.core.series.Series
+</pre></div>
+</div>
+</div>
+</div>
+<p>As a pandas Series object, this variable has an associated plot method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Temp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/9a60e1cc4c1006a2b54bce15d27df7f17a4bf7c801e20e8b1da49a04607052de.png" src="../_images/9a60e1cc4c1006a2b54bce15d27df7f17a4bf7c801e20e8b1da49a04607052de.png" />
+</div>
+</div>
+<p>However, we see that the x-axis knows nothing about time; indeed, PANGAEA services a dizzying array of dataset types, and their API has to be very general. This is one reason to have a Pyleoclim Series class that knows explicitly about time. Let us create an instance here, with proper metadata that are not available in the original, barebones PANGAEA format:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S07_temp</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Temp&#39;</span><span class="p">],</span>
+                        <span class="n">time_name</span><span class="o">=</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">time_unit</span><span class="o">=</span><span class="s1">&#39;ka BP&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Temperature&#39;</span><span class="p">,</span> <span class="n">value_unit</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$^{\circ}$ C&#39;</span><span class="p">,</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Skinner et al. (2007)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S07_temp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [ka BP]&#39;, ylabel=&#39;Temperature [$^{\\circ}$ C]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/4ee0e1f76da5631e25d430653d7ef90cd1cd04bcaeecfccc5103df465857f1fd.png" src="../_images/4ee0e1f76da5631e25d430653d7ef90cd1cd04bcaeecfccc5103df465857f1fd.png" />
+</div>
+</div>
+<p>As of now, you can create this object manually, but we will soon automate this process to a large extent. Let us also load their reconstruction of seawater <span class="math notranslate nohighlight">\(\delta^{18}\)</span>O:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S07_d18Osw</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;δ18O H2O&#39;</span><span class="p">],</span>
+                      <span class="n">time_name</span><span class="o">=</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">time_unit</span><span class="o">=</span><span class="s1">&#39;ka BP&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;seawater $\delta^</span><span class="si">{18}</span><span class="s1">$O&#39;</span><span class="p">,</span> <span class="n">value_unit</span><span class="o">=</span><span class="s1">&#39;$\perthousand$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S07_d18Osw</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [ka BP]&#39;, ylabel=&#39;seawater $\\delta^{18}$O [$\\perthousand$]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/baad43a9b2c9e4d8b82d90bc2c74e15af38c49251f44a3822660e8dbb4337d9b.png" src="../_images/baad43a9b2c9e4d8b82d90bc2c74e15af38c49251f44a3822660e8dbb4337d9b.png" />
+</div>
+</div>
+<p>We can put both series into a <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#multipleseries-pyleoclim-multipleseries">MultipleSeries</a> object, which unlocks fun features, like <code class="docutils literal notranslate"><span class="pre">stackplot()</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span> <span class="o">=</span> <span class="n">S07_temp</span> <span class="o">&amp;</span> <span class="n">S07_d18Osw</span>
+<span class="n">ms</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;marker&#39;</span><span class="p">:</span><span class="s1">&#39;o&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 640x480 with 3 Axes&gt;,
+ {0: &lt;Axes: ylabel=&#39;Temperature [$^{\\circ}$ C]&#39;&gt;,
+  1: &lt;Axes: ylabel=&#39;seawater $\\delta^{18}$O [$\\perthousand$]&#39;&gt;,
+  &#39;x_axis&#39;: &lt;Axes: xlabel=&#39;Age [ka]&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/94539402139759fa37158ab689648cc8e687edd55558759443bf2c911e541627.png" src="../_images/94539402139759fa37158ab689648cc8e687edd55558759443bf2c911e541627.png" />
+</div>
+</div>
+<p>For more information on <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code>, read the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#multipleseries-pyleoclim-multipleseries">documentation</a> and/or follow <a class="reference internal" href="#basic_MSES_manipulation.md"><span class="xref myst">this tutorial</span></a>.</p>
+</section>
+<section id="takeway">
+<h2>Takeway<a class="headerlink" href="#takeway" title="Link to this heading">#</a></h2>
+<p>There are multiple paths into Series, unlocking the full power of <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> to work with data originally stored in all manner of formats.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Jul 10 2025
+
+Python implementation: CPython
+Python version       : 3.12.0
+IPython version      : 9.3.0
+
+xarray   : 2025.6.1
+sys      : 3.12.0 | packaged by conda-forge | (main, Oct  3 2023, 08:36:57) [Clang 15.0.7 ]
+json     : 2.0.9
+pylipd   : 1.4.1
+IPython  : 9.3.0
+pyleoclim: 1.2.1
+pangaeapy: 1.0.20
+pandas   : 2.1.4
+
+Watermark: 2.5.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "linkedearth"
+        },
+        kernelOptions: {
+            name: "linkedearth",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'linkedearth'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L0_basic_ts_manipulation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Basic timeseries manipulation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L0_paleopandas.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-loaded-datasets">Pre-loaded datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lipd">LiPD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-single-lipd-file">Loading a single LiPD file</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-multiple-lipd-files">Loading multiple LiPD files</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#netcdf">NetCDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv">CSV</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noaa-txt-files">NOAA txt files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-from-pangaea">Loading from PANGAEA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#takeway">Takeway</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

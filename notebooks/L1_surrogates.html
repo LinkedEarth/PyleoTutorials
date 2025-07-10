@@ -1,0 +1,1134 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Using Surrogate Series with Pyleoclim &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L1_surrogates';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Time Semantics" href="L1_time_semanics.html" />
+    <link rel="prev" title="Filtering and Detrending with Pyleoclim" href="L1_filtering_and_detrending.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L1_surrogates.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L1_surrogates.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L1_surrogates.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Using Surrogate Series with Pyleoclim</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">Motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-surrogates">Parametric Surrogates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-surrogates-to-a-target-the-southern-oscillation-index">Fitting surrogates to a target: the Southern Oscillation Index</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uses-for-significance-testing">Uses for significance testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-surrogates">Non-parametric surrogates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-randomization-and-correlations">Phase randomization and correlations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unevenly-spaced-surrogates">Unevenly-spaced surrogates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#takeways">Takeways</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800"><section class="tex2jax_ignore mathjax_ignore" id="using-surrogate-series-with-pyleoclim">
+<h1>Using Surrogate Series with Pyleoclim<a class="headerlink" href="#using-surrogate-series-with-pyleoclim" title="Link to this heading">#</a></h1>
+<p>by <em><a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a>, USC</em></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p>This tutorial gives an overview of the <code class="docutils literal notranslate"><span class="pre">SurrogateSeries</span></code> class: we explain general concept about surrogates, show how to generate and visualize them with <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>, and show how use them to assess the significance of various analyses.</p>
+<section id="goals">
+<h3>Goals<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Learn general concepts about surrogates</p></li>
+<li><p>Learn how to generate and visualize them with <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">from_series</span></code> (show how to obtain parameters)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">from_param</span></code></p></li>
+</ul>
+</li>
+<li><p>Learn how use them to assess the significance of various analyses</p></li>
+</ul>
+<p><strong>Reading Time: 10 min</strong></p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>Surrogates, Autoregressive model, Long-memory models, Phase scrambling</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>Some timeseries analysis, ideally</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>pyleoclim, pandas, matplotlib, numpy</p>
+</section>
+</section>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading">#</a></h2>
+<p>We start with the Big Question: why? <strong>Why on Earth would Earth Scientists need surrogate series, if they have real (observation-based) series?</strong> The answer is simple: significance. In many areas of the sciences, we compute some kind of number (a “statistic”) from the data and we ask: is this notable or not? What we usually mean by that is: “How likely was this result, or something as anomalous as this result,  to have arisen under some specified <strong>null hypothesis</strong>.</p>
+<p>To be more specific: how likely would you be to observe this result if your data had been swapped with <em>data that have specific characteristics, but are otherwise random</em>? That’s what surrogate data are: random data that can be used as a <a class="reference external" href="https://en.wikipedia.org/wiki/Null_hypothesis">null hypothesis</a> for what we are trying to test. However, there are many ways to be “random”. Indeed, surrogate data can be:</p>
+<ol class="arabic simple">
+<li><p><strong>generated by Gaussian white noise</strong> (the most common null hypothesis used in science, though not always the most appropriate).</p></li>
+<li><p><strong>generated by another, more complex parametric model</strong>, for instance an <a class="reference external" href="https://en.wikipedia.org/wiki/Autoregressive_moving-average_model">autoregressive or moving-average model</a>. If you are new to such models, we strongly advise learning a bit about them (for instance, in Chapter 8 of <a class="reference external" href="https://figshare.com/articles/book/Data_Analysis_in_the_Earth_Environmental_Sciences/1014336/11">this free book</a>). In essence, they use stochastic (random) processes and a few parameters to capture the key properties of observed timeseries, e.g. their memory (aka persistence).</p></li>
+<li><p><strong>data obtained by perturbing the original dataset</strong> in ways that modify certain key characteristics, but preserve others. Example of this include the <a class="reference external" href="https://doi.org/10.1201/9780429246593">bootstrap</a>, block bootstrap, <a class="reference external" href="http://dx.doi.org/10.1016/j.asieco.2006.09.001">maximum-entropy bootstrap</a>, and <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.73.951">phase scrambling</a>.  The last method, in turn is rather common in climate science (e.g. <a class="reference external" href="http://dx.doi.org/10.1175/1520-0442(1997)010%3C2147:AMTETS%3E2.0.CO;2">here</a> and <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2023GL106585">here</a>.)</p></li>
+</ol>
+<p>The first two are examples of <strong>parametric</strong> surrogates: they are generated by mathematical models (simple or complex) that have in common an expression of the series values as a function of some parameters. The third kind are <strong>non-parametric</strong> surrogates: they are obtained by manipulating the original data, but involve no such parameters.</p>
+<p>Both types of surrogates are allowed in <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>, and have different advantages and disadvantages.</p>
+</section>
+<section id="data-description">
+<h2>Data description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The <a class="reference external" href="https://www.ncei.noaa.gov/access/monitoring/enso/soi">Southern Oscillation Index</a></p></li>
+<li><p>The <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2004PA001071">LR04 benthic stack</a></p></li>
+</ul>
+<p>Let us first load necessary packages:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="parametric-surrogates">
+<h2>Parametric Surrogates<a class="headerlink" href="#parametric-surrogates" title="Link to this heading">#</a></h2>
+<p>The first null (Gaussian white noise) is common because it is convenient, and has been so for over 150 years, lending itself to all kinds of analytical results. That is what most introductory statistics textbooks cover. However, what is easy is seldom what is right, and nowhere is that more true than in the paleosciences. For instance, processes like bioturbation (sediments), karst mixing (caves), or isotope diffusion (ice cores) impart memory, so the behavior is no longer white. That is, consecutive values are no longer independent, which undermines 95% of common statistical methods, which have it as their most bedrock assumption that data are independent (and identically distributed). This means that those methods or tests are not applicable to such data.</p>
+<p>To circumvent this problem, one wants surrogates that are simple enough to serve as plausible nulls, but exhibit some kind of memory. Two such models are currently implemented in <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process">AR(1) surrogates</a>: this an example of “short-memory” processes, where autocorrelation decays exponentially.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Colors_of_noise">Colored Noise surrogates</a> have a power spectrum <span class="math notranslate nohighlight">\(S(f)\)</span> in the form of a power law <span class="math notranslate nohighlight">\(f^{-\beta}\)</span>, with <span class="math notranslate nohighlight">\(\beta\)</span> a constant that is frequently near unity or larger (see <a class="reference external" href="https://doi.org/10.1073/pnas.1809959116">Zhu et al (2019)</a>). The autocorrelation also behaves as a power law, of the form <span class="math notranslate nohighlight">\(\gamma(t) = t^{-\beta -1}\)</span>.</p></li>
+</ul>
+<p>There are two ways of generating such surrogates in <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>:</p>
+<ol class="arabic simple">
+<li><p>using given parameters (see <code class="docutils literal notranslate"><span class="pre">from_param()</span></code>)</p></li>
+<li><p>emulating an existing series (see <code class="docutils literal notranslate"><span class="pre">from_series()</span></code>)</p></li>
+</ol>
+<p>In both cases, we first need to request a <code class="docutils literal notranslate"><span class="pre">SurrogateSeries</span></code> object, specify what method we’ll use for that, and how many surrogates we want. For instance, to set up 10 AR(1) surrogates:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ar1</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">SurrogateSeries</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> 
+<span class="nb">type</span><span class="p">(</span><span class="n">ar1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pyleoclim.core.surrogateseries.SurrogateSeries
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we specify the model parameters (e-folding time <span class="math notranslate nohighlight">\(\tau\)</span>, noise variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>), and how many time steps we want, and plot the result</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="o">=</span><span class="mi">1000</span>
+<span class="n">ar1</span><span class="o">.</span><span class="n">from_param</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ar1</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">rf</span><span class="s1">&#39;AR(1) synthetic series ($\tau=</span><span class="si">{</span><span class="mi">2</span><span class="si">}</span><span class="s1">,\sigma^2=</span><span class="si">{</span><span class="mi">2</span><span class="si">}</span><span class="s1">$)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;AR(1) synthetic series ($\\tau=2,\\sigma^2=2$)&#39;}, xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;value&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/98c5a1f13a38b510cdacf71d70832a902eb4f697860925c01f90da6cf91f9c69.png" src="../_images/98c5a1f13a38b510cdacf71d70832a902eb4f697860925c01f90da6cf91f9c69.png" />
+</div>
+</div>
+<p>The ensemble is small (<span class="math notranslate nohighlight">\(n=20\)</span>) so the mean is not flat. With a larger, ensemble, the mean should flatline:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ar1_L</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">SurrogateSeries</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span> 
+<span class="n">ar1_L</span><span class="o">.</span><span class="n">from_param</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ar1_L</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">rf</span><span class="s1">&#39;AR(1) synthetic series ($\tau=</span><span class="si">{</span><span class="mi">2</span><span class="si">}</span><span class="s1">,\sigma^2=</span><span class="si">{</span><span class="mi">2</span><span class="si">}</span><span class="s1">$)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;AR(1) synthetic series ($\\tau=2,\\sigma^2=2$)&#39;}, xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;value&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/63b20de6ab09f77d1289124d811c58f29c124c8aaa2378473d3f561b08ad2005.png" src="../_images/63b20de6ab09f77d1289124d811c58f29c124c8aaa2378473d3f561b08ad2005.png" />
+</div>
+</div>
+<p>That is indeed what we observe, and it is a reminder that small ensembles are marred by sampling artifacts: there may appear to be some structure, when in fact it disappears with a large enough sample. Note that <code class="docutils literal notranslate"><span class="pre">SurrogateSeries</span></code> is a child of <a class="reference internal" href="#./L0_basic_MSES_manipulation.md"><span class="xref myst">EnsembleSeries</span></a>, so it naturally inherits its attributes, including the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.ensembleseries.EnsembleSeries.plot_envelope">plot_envelope()</a> function used to visualize this result. Another useful one is <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.ensembleseries.EnsembleSeries.plot_traces">plot_traces()</a>. For instance, to plot 5 random traces from this ensemble, do:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ar1_L</span><span class="o">.</span><span class="n">plot_traces</span><span class="p">(</span><span class="n">num_traces</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;AR(1) surrogates (MoM)&#39;}, xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;value&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/b163f85c83e066e1dffa771cc2a76935b325a132f35519a7bbae514cb1abc7b8.png" src="../_images/b163f85c83e066e1dffa771cc2a76935b325a132f35519a7bbae514cb1abc7b8.png" />
+</div>
+</div>
+<p>To generate a pink noise series (aka “shot noise” or “<a class="reference external" href="https://en.wikipedia.org/wiki/Flicker_noise">flicker noise</a>”, characterized by a spectrum that goes as <span class="math notranslate nohighlight">\(1/f\)</span>), simply use the <code class="docutils literal notranslate"><span class="pre">CN</span></code> method with a slope parameter of 1.0:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pink</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">SurrogateSeries</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;CN&#39;</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># define noise type</span>
+<span class="n">pink</span><span class="o">.</span><span class="n">from_param</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">])</span> <span class="c1"># sample from model, given parameters</span>
+<span class="n">pink</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">rf</span><span class="s1">&#39;Pink noise  ($\beta=1.0$)&#39;</span><span class="p">)</span> <span class="c1"># plot the result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Pink noise  ($\\beta=1.0$)&#39;}, xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;value&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/0b05308a7dc0e8db04d93160dea28d6323b2a698cf6ac0649b5d6343c0619a5e.png" src="../_images/0b05308a7dc0e8db04d93160dea28d6323b2a698cf6ac0649b5d6343c0619a5e.png" />
+</div>
+</div>
+<p>It’s hard to tell what else might be difference by staring at these ensemble plots. Let’s compare the spectral densities of these two models:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">ar1</span><span class="p">,</span><span class="n">pink</span><span class="p">]):</span>
+    <span class="n">psd</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span>
+    <span class="n">psd</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">members_plot_num</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span><span class="s1">&#39;lower center&#39;</span><span class="p">})</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;AR(1)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pink noise&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 20/20 [00:00&lt;00:00, 129.94it/s]
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+Performing spectral analysis on individual series: 100%|██████████| 20/20 [00:00&lt;00:00, 151.69it/s]
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Pink noise&#39;)
+</pre></div>
+</div>
+<img alt="../_images/a592b1789c5a6a43e8e1e3c38249a08646c274c00d1767f95378baff5b510e1b.png" src="../_images/a592b1789c5a6a43e8e1e3c38249a08646c274c00d1767f95378baff5b510e1b.png" />
+</div>
+</div>
+<p>This is the main difference between these types of noise : an AR(1) model has a spectrum that flattens at long periods (see the thick red curve on the left, flattening at periods ~20y with this choice of parameters) whereas the flicker noise has power that keeps growing with frequency. Here it flattens at periods of ~200y, but if we generated longer series, it would keep growing indefinitely as the period lengthens, i.e. as we move to the left of the graph. Try it if you’re not convinced!</p>
+<section id="fitting-surrogates-to-a-target-the-southern-oscillation-index">
+<h3>Fitting surrogates to a target: the Southern Oscillation Index<a class="headerlink" href="#fitting-surrogates-to-a-target-the-southern-oscillation-index" title="Link to this heading">#</a></h3>
+<p>More commonly, you will want to generate surrogates that emulate a particular target, e.g. the Southern Oscillation Index or LR04. Let’s start with the former, and inspect its spectrum to figure out what null might be most appropriate:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SOI</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;SOI&#39;</span><span class="p">)</span>
+<span class="n">psd</span> <span class="o">=</span> <span class="n">SOI</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span>
+<span class="n">psd</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/10d4edff37452915c9c17690391c69a45ce960743abab4a4ea99e6fda6ad643c.png" src="../_images/10d4edff37452915c9c17690391c69a45ce960743abab4a4ea99e6fda6ad643c.png" />
+</div>
+</div>
+<p>It looks like there are several peaks superimposed on what looks like a classical AR(1) background. The AR(1) surrogates would therefore be more appropriate to test the significance of such peaks. Let us visualize these surrogates:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyleo</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;1.1.1b0&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">),</span><span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">surr</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span><span class="s1">&#39;CN&#39;</span><span class="p">]):</span>
+    <span class="n">surr</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">SurrogateSeries</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> 
+    <span class="n">surr</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">from_series</span><span class="p">(</span><span class="n">SOI</span><span class="p">)</span>
+    <span class="n">surr</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">plot_traces</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">num_traces</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">SOI</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">:</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/c0579bd389fb971610520ac045700d2102aabb9e793f70a31bcdb832fc640f85.png" src="../_images/c0579bd389fb971610520ac045700d2102aabb9e793f70a31bcdb832fc640f85.png" />
+</div>
+</div>
+<p>It does seem like the colored noise surrogates are too smooth. Note that we can retrieve the model parameters rather simply:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">surr</span><span class="p">[</span><span class="s1">&#39;CN&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.5833208448587595]
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is a consequence of fitting a single spectral slope to a spectrum that clearly has several regimes: a flat one from scales of ~5 to 50 years, and a steeper one from 0.2y to 2y. The function <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.psds.PSD.beta_est">beta_est()</a> can help us zero in on the slope in different ranges of frequencies (inverse of scales):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">psd</span><span class="o">.</span><span class="n">beta_est</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">beta_est_res</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.09625868569645563
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">psd</span><span class="o">.</span><span class="n">beta_est</span><span class="p">(</span><span class="n">fmin</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">.2</span><span class="p">)</span><span class="o">.</span><span class="n">beta_est_res</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6893110814786663
+</pre></div>
+</div>
+</div>
+</div>
+<p>One could fit a more elaborate noise model with several spectral regimes, but it becomes hard to justify this on physical grounds, unless one has a mechanistic model that behaves this way.</p>
+</section>
+<section id="uses-for-significance-testing">
+<h3>Uses for significance testing<a class="headerlink" href="#uses-for-significance-testing" title="Link to this heading">#</a></h3>
+<p>Let us look at the consequences of choosing either type of surrogate to evaluate the significance of spectral peaks. Several <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> objects or methods have associated significance tests, and for all those, the choice of the <code class="docutils literal notranslate"><span class="pre">method</span></code> parameter is simply the name of the surrogate. For instance, for <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.psds.PSD">PSD</a> objects:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">psd_s</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span><span class="s1">&#39;CN&#39;</span><span class="p">]):</span>
+    <span class="n">psd_s</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">signif_test</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">psd_s</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 1000/1000 [00:05&lt;00:00, 171.79it/s]
+Performing spectral analysis on individual series: 100%|██████████| 1000/1000 [00:07&lt;00:00, 136.99it/s]
+</pre></div>
+</div>
+<img alt="../_images/697f0a53310c4f157796e31cadde98012784ee77adfcf83968185f2fb2b56bc8.png" src="../_images/697f0a53310c4f157796e31cadde98012784ee77adfcf83968185f2fb2b56bc8.png" />
+</div>
+</div>
+<p>We see that both surrogate methods would gauge the interannual peak as significant. The peak around 20y, however, is significant with respect to the AR(1) benchmark, but not the colored noise benchmark (at the 95% level). Subannual peaks are insignificant with respect to either benchmark.</p>
+</section>
+</section>
+<section id="non-parametric-surrogates">
+<h2>Non-parametric surrogates<a class="headerlink" href="#non-parametric-surrogates" title="Link to this heading">#</a></h2>
+<p>The previous example illustrates the drawback of parametric modeling: when there is no clear model to use as a null, it may be difficult to choose an appropriate one, and the choice clearly affects the results. An alternative is to use non-parametric models, as mentioned in the introduction. Here we discuss the case of <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.73.951">phase randomization</a>, implemented as <code class="docutils literal notranslate"><span class="pre">phaseran</span></code> in <code class="docutils literal notranslate"><span class="pre">Pyleolim</span></code>.</p>
+<section id="phase-randomization-and-correlations">
+<h3>Phase randomization and correlations<a class="headerlink" href="#phase-randomization-and-correlations" title="Link to this heading">#</a></h3>
+<p>In a seminal paper, <a class="reference external" href="http://dx.doi.org/10.1175/1520-0442(1997)010%3C2147:AMTETS%3E2.0.CO;2">Ebusizaki (1997)</a> introduced the idea of phase randomization to test the significance of correlations. If you look at the <a class="reference internal" href="#./L2_correlations.md"><span class="xref myst">tutorial on correlations</span></a>, you will see that correlations far greater than 0 can easily arise between series that are “warm-colored”, in the sense that their spectrum shows more energy at long timescales (low frequencies) than short timescales (high frequencies), as SOI does, along with a large majority of climate and paleoclimate time series.</p>
+<p>For instance, the LR04 benthic stack:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;LR04&#39;</span><span class="p">)</span>
+<span class="n">LR04_ls</span> <span class="o">=</span> <span class="n">LR04</span><span class="o">.</span><span class="n">spectral</span><span class="p">()</span>
+<span class="n">LR04_ls</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Period [ky]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/cac5061e1f17d6b7ad11f2c79a30204398303ccbbd65c8215f04d7f49ec082d3.png" src="../_images/cac5061e1f17d6b7ad11f2c79a30204398303ccbbd65c8215f04d7f49ec082d3.png" />
+</div>
+</div>
+<p>There is no easy parametric fit to this series. Instead, the idea of phase randomization is to generate surrogates that share the <strong>same power spectrum</strong> (amplitude of the sines and cosines that make up the timeseries, in Fourier’s view) as the target series,  <strong>but random phases</strong>. The surrogates will have the same low-order moments as the target series (same mean, same variance, same <a class="reference external" href="https://en.wikipedia.org/wiki/Autocorrelation">autocorrelation function</a>), but the sequence of events will differ. Put another way, they’ll show the same kind of wiggles (same amplitude, same periods) as the original, but the wiggles will be in different places.</p>
+<p>That way, when computing a correlation or a coherence between two series, one can use as benchmark a set of surrogates that share a lot of similarities with the original, but where phase relationships between the members of those ensembles are purely the result of chance. We can then computee the statistic of interest (e.g. Pearson’s correlation) and see how it fares compared to the distribution of correlations obtained between pairs of such surrogates. If the correlation (say 0.38) falls within the normal range of values for those pairs (say, lower than the 95th percentile), one would conclude that there is nothing exceptional about a correlation of 0.38, given the characteristics of the series. If, on the other hand, the correlation falls in the very tails of the distribution (say, higher than the 95th or even 99th percentile), then you would have very strong grounds to claim that the result is <strong>significant</strong>.</p>
+<p>Let us look at the properties of phase-randomized surrogates of the LR04 record. Note that this series is unevenly spaced, which you can gauge by applying the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.resolution">resolution()</a> function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04</span><span class="o">.</span><span class="n">resolution</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [ky BP]&#39;, ylabel=&#39;resolution [ky BP]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/6a901b65694f061fbcb0d02455d6b45de83d45960da900e10cd759a704e1d0ca.png" src="../_images/6a901b65694f061fbcb0d02455d6b45de83d45960da900e10cd759a704e1d0ca.png" />
+</div>
+</div>
+<p>As of now May 2024, phase randomization in <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> is only possible for evenly-spaced series, so we interpolate it with 2ky increments, and limit our analysis to the Pleistocene (the past ~900ky) to better see what is going on:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04_2k</span> <span class="o">=</span> <span class="n">LR04</span><span class="o">.</span><span class="n">slice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">900</span><span class="p">])</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># why is sel() not doing anything??</span>
+<span class="n">psd</span> <span class="o">=</span> <span class="n">LR04_2k</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">,</span><span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NW&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we generate LR04 surrogates. To enable comparisons between different kinds of surrogates, let us write a little function to easily apply computations and visualizatons to 3 different knds of surrogates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">pearsonr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gridspec</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">LR04_surr_viz</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;phaseran&#39;</span><span class="p">,</span> <span class="n">nsurr</span> <span class="o">=</span> <span class="mi">200</span><span class="p">):</span>
+
+    <span class="n">surr</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">SurrogateSeries</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="n">nsurr</span><span class="p">)</span>
+    <span class="n">surr</span><span class="o">.</span><span class="n">from_series</span><span class="p">(</span><span class="n">LR04_2k</span><span class="p">)</span>
+    
+    <span class="c1"># EnsembleSeries correlation should allow an option without signif_test</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">nsurr</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">ts</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">surr</span><span class="o">.</span><span class="n">series_list</span><span class="p">):</span>
+        <span class="n">corr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">LR04_2k</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">ts</span><span class="o">.</span><span class="n">value</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c1"># compute spectra</span>
+    <span class="n">psd_surr</span> <span class="o">=</span>  <span class="n">surr</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">,</span><span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NW&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span> 
+    
+    <span class="c1"># make the figure</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">tight_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="s1">&#39;ts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
+    <span class="n">surr</span><span class="o">.</span><span class="n">plot_traces</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="s1">&#39;ts&#39;</span><span class="p">],</span><span class="n">num_traces</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span> <span class="c1"># plot_legend argument does not work; also called &quot;legend&quot; in plot() ; should have consistent terminology</span>
+    <span class="n">LR04_2k</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="s1">&#39;ts&#39;</span><span class="p">],</span><span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Pleistocene LR04 and surrogates (</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="c1"># plot spectra</span>
+    <span class="n">ax</span><span class="p">[</span><span class="s1">&#39;spec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">psd_surr</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="s1">&#39;spec&#39;</span><span class="p">],</span><span class="n">plot_legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">curve_clr</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span>
+                           <span class="n">members_plot_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">shade_clr</span><span class="o">=</span><span class="s1">&#39;silver&#39;</span><span class="p">)</span>
+    <span class="n">psd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="s1">&#39;spec&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;MTM spectra&#39;</span><span class="p">)</span>
+    <span class="c1"># plot correlations</span>
+    <span class="n">ax</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">],</span><span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$r(surr,LR04)$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Correlations&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04_surr_viz</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 200/200 [00:00&lt;00:00, 314.10it/s]
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/55b09a4f1dc632249105ac1acec7ecdd66a820f898f9edabee1e8ec6c4505c39.png" src="../_images/55b09a4f1dc632249105ac1acec7ecdd66a820f898f9edabee1e8ec6c4505c39.png" />
+</div>
+</div>
+<p>The top panel shows the original trace and its surrogates. As promised, they show similar wiggles, but in different places. The lower left panel, and shows that all surrogates have a spectrum that is virtually identical to that of LR04 (it would be identical if we had infinitely many samples). On the lower right is a histogram of correlations between the target and the phase-randomized surrogates. It is symmetric and centered around 0, which one would expect. More surprisingly, while correlations of <span class="math notranslate nohighlight">\(\pm0.5\)</span> are relatively rare, they are not unheard of. That means we can’t claim that a correlation of 0.38 with LR04, for instance, is all that remarkable (“significant”).</p>
+<p>Let us now compare this to the colored noise (CN) surrogates:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04_surr_viz</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;CN&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 200/200 [00:00&lt;00:00, 232.17it/s]
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/39e6880fad6329ba5d01e7d5c5e26019c9ac5712616bf34fe8ad64103e299817.png" src="../_images/39e6880fad6329ba5d01e7d5c5e26019c9ac5712616bf34fe8ad64103e299817.png" />
+</div>
+</div>
+<p>Here we see that the method fit the slope to the entire spectrum, so it is rather flat, and the surrogates are not terribly convincing emulations of the LR04 stack. What about AR(1) surrogates?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04_surr_viz</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 200/200 [00:00&lt;00:00, 291.42it/s]
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/46ba772d10e72cb919302ba0363190d3c7b3e703a782f371238cef87f105736a.png" src="../_images/46ba772d10e72cb919302ba0363190d3c7b3e703a782f371238cef87f105736a.png" />
+</div>
+</div>
+<p>AR(1) surrogates appear more appropriate here.</p>
+</section>
+</section>
+<section id="unevenly-spaced-surrogates">
+<h2>Unevenly-spaced surrogates<a class="headerlink" href="#unevenly-spaced-surrogates" title="Link to this heading">#</a></h2>
+<p>Lastly, we finish by noting that both the <code class="docutils literal notranslate"><span class="pre">ar1sim</span></code> and <code class="docutils literal notranslate"><span class="pre">CN</span></code> options allow for unevenly-spaced patterns. That is, they match the temporal pattern of observations of the original series. For instance, generating AR(1) surrogates and plotting their resolution shows that it matches the original:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04_ar1</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">SurrogateSeries</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">LR04_ar1</span><span class="o">.</span><span class="n">from_series</span><span class="p">(</span><span class="n">LR04</span><span class="p">)</span> 
+<span class="n">LR04</span><span class="o">.</span><span class="n">resolution</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">LR04_ar1</span><span class="o">.</span><span class="n">series_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">resolution</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Surrogates&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Surrogates&#39;}, xlabel=&#39;Age [ky BP]&#39;, ylabel=&#39;resolution [ky BP]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/e14824a08449c1559c1d176de8332fbdafa2a025de48c6b44e77840bd3067783.png" src="../_images/e14824a08449c1559c1d176de8332fbdafa2a025de48c6b44e77840bd3067783.png" />
+<img alt="../_images/cc20f5b8f2483ac5111c07ee455f1beed5e096963df5794a483c8a31d7a58ef1.png" src="../_images/cc20f5b8f2483ac5111c07ee455f1beed5e096963df5794a483c8a31d7a58ef1.png" />
+</div>
+</div>
+<p>Finally, you can use these surrogates to test all kinds of things. For instance, if you wanted to assess the significance of the spectral peaks in LR04 with respect to an AR(1) benchmark, you would do:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04_ls_sig</span> <span class="o">=</span> <span class="n">LR04_ls</span><span class="o">.</span><span class="n">signif_test</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 200/200 [01:22&lt;00:00,  2.41it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LR04_ls_sig</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Period [ky]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/1e1138c1afca7b8201051cf4184a43255cd6892b1359f207da784d9a9b93021b.png" src="../_images/1e1138c1afca7b8201051cf4184a43255cd6892b1359f207da784d9a9b93021b.png" />
+</div>
+</div>
+<p>If you wanted to use a colored noise benchmark, all you would change is <code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">=</span> <span class="pre">'CN'</span></code> in the call above. However, we just saw that it is not a particularly convincing model for this series, so that would be ill-advised.</p>
+</section>
+<section id="takeways">
+<h2>Takeways<a class="headerlink" href="#takeways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Surrogates are the basis of most non-parametric tests, particularly anything colloquially labeled “Monte Carlo”.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> has multiple ways of generating surrogates</p></li>
+<li><p>They can be used to assess the significance of various results, like spectral peaks, correlations, or wavelet coherence</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L1_filtering_and_detrending.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Filtering and Detrending with Pyleoclim</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L1_time_semanics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Time Semantics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">Motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-surrogates">Parametric Surrogates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-surrogates-to-a-target-the-southern-oscillation-index">Fitting surrogates to a target: the Southern Oscillation Index</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uses-for-significance-testing">Uses for significance testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-surrogates">Non-parametric surrogates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-randomization-and-correlations">Phase randomization and correlations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unevenly-spaced-surrogates">Unevenly-spaced surrogates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#takeways">Takeways</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

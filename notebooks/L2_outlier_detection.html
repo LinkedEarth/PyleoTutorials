@@ -1,0 +1,3213 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Outlier Detection with Pyleoclim &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L2_outlier_detection';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Principal Component Analysis with Pyleoclim" href="L2_principal_component_analysis.html" />
+    <link rel="prev" title="Correlation Analysis in Pyleoclim" href="L2_correlations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L2_outlier_detection.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L2_outlier_detection.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L2_outlier_detection.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Outlier Detection with Pyleoclim</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unsupervised-machine-learning-clustering">Unsupervised machine learning - clustering</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dbscan">DBSCAN</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means">k-means</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#threshold">threshold</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#lof">LOF</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-detection-in-pyleoclim">Outlier detection in Pyleoclim</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-dectection-using-k-means">Outlier dectection using k-means</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-threshold-value-based-on-the-euclidean-distance-from-centroid">Using a threshold value based on the Euclidean Distance from centroid</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#using-lof">Using LOF</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-detection-with-dbscan">Outlier detection with DBSCAN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="outlier-detection-with-pyleoclim">
+<h1>Outlier Detection with Pyleoclim<a class="headerlink" href="#outlier-detection-with-pyleoclim" title="Link to this heading">#</a></h1>
+<p>by <a class="reference external" href="https://orcid.org/0000-0001-7501-8430">Deborah Khider</a> &amp; <a class="reference external" href="https://orcid.org/0009-0001-7891-1715">Pin-Tzu Lee</a></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<section id="goals">
+<h3>Goals<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Understand outlier detection through clustering</p></li>
+<li><p>Apply detection algorithm and understand the difference between the two algorithms used in Pyleoclim, namely k-means and DBSCAN.</p></li>
+<li><p>Understand the diagnostic metrics returned by each algorithm</p></li>
+<li><p>Understand the parameters and when to apply them</p></li>
+</ul>
+<p><strong>Reading time:</strong> 10 minutes</p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>Outlier detection; anomaly detection; clustering; unsupervised machine learning.</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>An understanding of clustering is useful</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>scikit-learn</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<p>This tutorial makes use of the following dataset, stored in LiPD format:</p>
+<ul class="simple">
+<li><p>Khider, D., Jackson, C. S., and Stott, L. D. (2014), Assessing millennial-scale variability during the Holocene: A perspective from the western tropical Pacific, Paleoceanography, 29, 143– 159, <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2013PA002534">doi:10.1002/2013PA002534</a>.</p></li>
+</ul>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<p>Let’s import the necessary packages:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pylipd.lipd</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiPD</span>
+
+<span class="c1"># For clustering</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBSCAN</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w">  </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalOutlierFactor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The watermark extension is already loaded. To reload it, use:
+  %reload_ext watermark
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">LiPD</span><span class="p">()</span>
+
+<span class="n">D</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../data/MD982181.Khider.2014.lpd&#39;</span><span class="p">)</span>
+
+<span class="n">timeseries</span><span class="p">,</span><span class="n">df</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_timeseries</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">get_all_dataset_names</span><span class="p">(),</span><span class="n">to_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading 1 LiPD files
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████| 1/1 [00:00&lt;00:00,  1.57it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded..
+Extracting timeseries from dataset: MD982181.Khider.2014 ...
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mode</th>
+      <th>time_id</th>
+      <th>funding1_agency</th>
+      <th>funding1_grant</th>
+      <th>funding1_principalInvestigator</th>
+      <th>funding1_country</th>
+      <th>funding2_agency</th>
+      <th>funding2_principalInvestigator</th>
+      <th>funding2_country</th>
+      <th>funding2_grant</th>
+      <th>...</th>
+      <th>paleoData_interpretation</th>
+      <th>paleoData_takenAtDepth</th>
+      <th>paleoData_inferredVariableType</th>
+      <th>paleoData_notes</th>
+      <th>paleoData_physicalSample_collectionmethod</th>
+      <th>paleoData_physicalSample_name</th>
+      <th>paleoData_physicalSample_housedat</th>
+      <th>paleoData_sensorGenus</th>
+      <th>paleoData_sensorSpecies</th>
+      <th>paleoData_calibration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'variableDetail': 'calendar', 'rank': 1.0, '...</td>
+      <td>Depth</td>
+      <td>Age</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'hasVariable': {'label': 'temperature'}, 'sc...</td>
+      <td>Depth</td>
+      <td>NaN</td>
+      <td>Average duplicates from paleo1measurementTable1</td>
+      <td>Calypso Giant Corer</td>
+      <td>MD98-2181</td>
+      <td>Oregon State University</td>
+      <td>Cibicidoides</td>
+      <td>mundulus</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'scope': 'Isotope', 'interpdirection': 'posi...</td>
+      <td>depth_cm</td>
+      <td>d18O</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[{'equation': 'T = 14.9 - 4.81(dc-dsw+0.27)', ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'variableDetail': 'sea surface', 'local': 'l...</td>
+      <td>depth_cm</td>
+      <td>NaN</td>
+      <td>Average duplicates from paleo1measurementTable1</td>
+      <td>Calypso Giant Corer</td>
+      <td>MD98-2181</td>
+      <td>Oregon State University</td>
+      <td>Globigerinoides</td>
+      <td>ruber</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'scope': 'Climate', 'interpdirection': 'posi...</td>
+      <td>depth_cm</td>
+      <td>Sea Surface Temperature</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[{'equation': 'Mg/Ca = 0.5exp(0.08T)', 'uncert...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'local': 'local', 'interpdirection': 'positi...</td>
+      <td>depth_cm</td>
+      <td>NaN</td>
+      <td>Average duplicates from paleo1measurementTable1</td>
+      <td>Calypso Giant Corer</td>
+      <td>MD98-2181</td>
+      <td>Oregon State University</td>
+      <td>Globigerinoides</td>
+      <td>ruber</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'scope': 'Age', 'rank': 1.0, 'hasVariable': ...</td>
+      <td>depth_cm</td>
+      <td>Age</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>depth_cm</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>depth_cm</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Calypso Giant Corer</td>
+      <td>MD98-2181</td>
+      <td>Oregon State University</td>
+      <td>Globigerinoides</td>
+      <td>ruber</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'local': 'local', 'hasVariable': {'label': '...</td>
+      <td>depth_cm</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Calypso Giant Corer</td>
+      <td>MD98-2181</td>
+      <td>Oregon State University</td>
+      <td>Globigerinoides</td>
+      <td>ruber</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'rank': 1.0, 'hasVariable': {'label': 'tempe...</td>
+      <td>depth_cm</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Calypso Giant Corer</td>
+      <td>MD98-2181</td>
+      <td>Oregon State University</td>
+      <td>Globigerinoides</td>
+      <td>ruber</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>depth_cm</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Calypso Giant Corer</td>
+      <td>MD98-2181</td>
+      <td>Oregon State University</td>
+      <td>Cibicidoides</td>
+      <td>mundulus</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>[{'hasVariable': {'label': 'd18Osw'}, 'local':...</td>
+      <td>depth_cm</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Calypso Giant Corer</td>
+      <td>MD98-2181</td>
+      <td>Oregon State University</td>
+      <td>Cibicidoides</td>
+      <td>mundulus</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>National Science Foundation</td>
+      <td>[AGS#1049238]</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>National Science Foundation</td>
+      <td>L. Stott</td>
+      <td>United States</td>
+      <td>[AGS#1344514]</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>16 rows × 87 columns</p>
+</div></div></div>
+</div>
+<p>Let’s use the sea surface temperatures (SST) record:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span>
+
+<span class="n">ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+    <span class="n">time</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">value</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">time_name</span> <span class="o">=</span> <span class="s1">&#39;Age&#39;</span><span class="p">,</span>
+    <span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;yr BP&#39;</span><span class="p">,</span>
+    <span class="n">value_name</span> <span class="o">=</span> <span class="s1">&#39;SST&#39;</span><span class="p">,</span>
+    <span class="n">value_unit</span> <span class="o">=</span> <span class="s1">&#39;deg C&#39;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s1">&#39;MD982181.Khider.2014&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NaNs have been detected and dropped.
+Time axis values sorted in ascending order
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s plot the timeseries:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [yr BP]&#39;, ylabel=&#39;SST [deg C]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/3f6623f82f813965185425037e74119340db06bbc1ef77e3edf3b070edfff22a.png" src="../_images/3f6623f82f813965185425037e74119340db06bbc1ef77e3edf3b070edfff22a.png" />
+</div>
+</div>
+<p>This record contains a long-term trend through the Holocence. In addition, it is fairly noisy, with some spurious spikes. Tempted to remove them by hand? Let’s use the outlier detection algorithm on this dataset first.</p>
+<section id="unsupervised-machine-learning-clustering">
+<h3>Unsupervised machine learning - clustering<a class="headerlink" href="#unsupervised-machine-learning-clustering" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Unsupervised_learning">Unsupervised learning</a> learns patterns from unlabeled data. One example of unsupervised learning is <a class="reference external" href="https://en.wikipedia.org/wiki/Cluster_analysis">clustering</a>, which groups a set of objects in such a way that objects in the same group (called a cluster) are more similar (in some sense) to each other than to those in other groups (clusters). Outliers can then be identified depending on how far they fall from the cluster. They are several methods for clustering. In Pyleoclim, we make use of two algorithms:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/K-means_clustering">k-means</a>, which is centroid based. The principle is simple: find the <span class="math notranslate nohighlight">\(k\)</span> cluster centers and assign the objects to the nearest cluster center, such that the squared distances from the cluster are minimized. This algorithm requires the number of clusters to be known in advance. Alternatively, one can sweep over a number of clusters and use an optimization metric to decide on the number of clusters present in the dataset. Outliers are then indentified as data falling from a certain distance away from the centroid or its local density compared to the local densities of its neighbors (LOF). We’ll elaborate more on outlier detection later.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/DBSCAN">DBSCAN</a> is an example of density-based clustering, in which clusters are defined as areas of higher density than the remainder of the data set. Data that sit in sparse areas are usually considered to be outliers.</p></li>
+</ul>
+<p>Let’s have a look on how these two methods work for clustering.</p>
+<section id="dbscan">
+<h4>DBSCAN<a class="headerlink" href="#dbscan" title="Link to this heading">#</a></h4>
+<p>Pyleoclim makes use of the method in <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">scikit-learn</a>. Let’s import the package and run through an example:</p>
+<p>First, let’s make some random blobs of 300 data points for illustrative purposes. Let’s create four clusters, with data clustered within a 0.60 standard deviation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mf">0.60</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x33f5998d0&gt;
+</pre></div>
+</div>
+<img alt="../_images/3c277bd4c40c69e5dbd8c18b9007374e020811ba41da9bf38a6f4c5c3f8de628.png" src="../_images/3c277bd4c40c69e5dbd8c18b9007374e020811ba41da9bf38a6f4c5c3f8de628.png" />
+</div>
+</div>
+<p>Have a look at the parameters for the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN algorithm</a>. The most relevant ones are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eps</span></code>: Threshold <span class="math notranslate nohighlight">\(\epsilon\)</span>. Two points are considered neighbors if the distance between the two points is below the threshold <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_samples</span></code>: The minimum number of neighbors a given point should have in order to be classified as a core point. It’s important to note that the point itself is included in the minimum number of samples. If the value of this parameter is set to 8, then there must be at least 8 points to form a cluster.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metric</span></code>: The metric to use when calculating distance between instances in a feature array (i.e. euclidean distance).</p></li>
+</ul>
+<p>Let’s have a look using semi-random values for <code class="docutils literal notranslate"><span class="pre">eps</span></code> and <code class="docutils literal notranslate"><span class="pre">min_samples</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">DBSCAN</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DBSCAN(eps=0.3)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;DBSCAN<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.cluster.DBSCAN.html">?<span>Documentation for DBSCAN</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>DBSCAN(eps=0.3)</pre></div> </div></div></div></div></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">labels_</span></code> property contains the list of clusters and their respective points:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using these particular values, DBSCAN identified 11 clusters (the points contained in the ‘-1’ label are considered outliers by the algorithm), which is more than the 4 blobs they were originally created. Let’s plot them in various colors. The outliers will be plotted in navy (dark blue):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="s1">&#39;maroon&#39;</span><span class="p">,</span> <span class="s1">&#39;forestgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;mediumorchid&#39;</span><span class="p">,</span> <span class="s1">&#39;tan&#39;</span><span class="p">,</span> <span class="s1">&#39;deeppink&#39;</span><span class="p">,</span> <span class="s1">&#39;olive&#39;</span><span class="p">,</span> <span class="s1">&#39;goldenrod&#39;</span><span class="p">,</span> <span class="s1">&#39;lightcyan&#39;</span><span class="p">,</span> <span class="s1">&#39;navy&#39;</span><span class="p">]</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">x</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">(</span><span class="n">clusters</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x33efa2c10&gt;
+</pre></div>
+</div>
+<img alt="../_images/eb2482a12d9a70e38a94a7b4ad4fbd46d43e94b4ed43bccfd564a2866638e500.png" src="../_images/eb2482a12d9a70e38a94a7b4ad4fbd46d43e94b4ed43bccfd564a2866638e500.png" />
+</div>
+</div>
+<p>There seems to be a lot of outliers and clusters that seem to be very close to each other. Remember that we chose a distance threshold of 0.3. Let’s increase this value to 0.7:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m2</span> <span class="o">=</span> <span class="n">DBSCAN</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">min_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">m2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-2 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-2 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-2 pre {
+  padding: 0;
+}
+
+#sk-container-id-2 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-2 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-2 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-2 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-2 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-2 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-2 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-2 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-2 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-2 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-2 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-2 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-2 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-2 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-2 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-2 div.sk-label label.sk-toggleable__label,
+#sk-container-id-2 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-2 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-2 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-2 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-2 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-2 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-2 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-2 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-2 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-2 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DBSCAN(eps=0.7)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" checked><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;DBSCAN<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.cluster.DBSCAN.html">?<span>Documentation for DBSCAN</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>DBSCAN(eps=0.7)</pre></div> </div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="n">m2</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-1,  0,  1,  2])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We have identified 3 clusters (and other outliers).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="s1">&#39;maroon&#39;</span><span class="p">,</span> <span class="s1">&#39;forestgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;navy&#39;</span><span class="p">]</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">x</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">(</span><span class="n">clusters</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x33f00e750&gt;
+</pre></div>
+</div>
+<img alt="../_images/582928cb9eff17aed92cfadb911783d86a26703f19a9e9938bf034b393df2e8d.png" src="../_images/582928cb9eff17aed92cfadb911783d86a26703f19a9e9938bf034b393df2e8d.png" />
+</div>
+</div>
+<p>With this value of <code class="docutils literal notranslate"><span class="pre">eps</span></code>, we now have three clusters and some outliers. You may ask yourself, if this algortihm is so sensitive to the parameter values, how do I know which one to choose? One solution (the one implemented by Pyleoclim) is to sweep throught a range of values for <code class="docutils literal notranslate"><span class="pre">eps</span></code> and <code class="docutils literal notranslate"><span class="pre">min_sample</span></code> and evaluate the best combination using a performance metric, in this case, the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html">silhouette score</a>.</p>
+<p>The Silhouette Coefficient is calculated using the mean intra-cluster distance (<code class="docutils literal notranslate"><span class="pre">a</span></code>) and the mean nearest-cluster distance (<code class="docutils literal notranslate"><span class="pre">b</span></code>) for each sample. The Silhouette Coefficient for a sample is <code class="docutils literal notranslate"><span class="pre">(b</span> <span class="pre">-</span> <span class="pre">a)</span> <span class="pre">/</span> <span class="pre">max(a,</span> <span class="pre">b)</span></code>. To clarify, <code class="docutils literal notranslate"><span class="pre">b</span></code> is the distance between a sample and the nearest cluster that the sample is not a part of.</p>
+<p>The best value is 1 and the worst value is -1. Values near 0 indicate overlapping clusters. Negative values generally indicate that a sample has been assigned to the wrong cluster, as a different cluster is more similar.</p>
+<p>Let’s calculate the silhouette score for the two different <code class="docutils literal notranslate"><span class="pre">eps</span></code> values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s1</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="n">s1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.25666666666666665
+</pre></div>
+</div>
+</div>
+</div>
+<p>The silhouette score for <code class="docutils literal notranslate"><span class="pre">eps</span> <span class="pre">=</span> <span class="pre">0.3</span></code> is negative and close to zero, which indicates that this really wasn’t an appropriate choice for parameter values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s2</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m2</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="n">s2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.41586666666666666
+</pre></div>
+</div>
+</div>
+</div>
+<p>A silhouette score of 0.42 is definitely better, but let’s see if we can improve upon the score by sweeping across values of the parameters. Now, the question becomes, what are appropriate values for <code class="docutils literal notranslate"><span class="pre">eps</span></code> and <code class="docutils literal notranslate"><span class="pre">min_samples</span></code> to sweep over. Well, let’s start with <code class="docutils literal notranslate"><span class="pre">min_samples</span></code>.</p>
+<p>Essentially, this is the number of samples to expect <em>at a minimum</em> in each cluster, which means that we need at least 2 samples. The maximum values will depend on the application but let’s assume that we don’t want more than 1/4 of the data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_samples_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the <code class="docutils literal notranslate"><span class="pre">eps</span></code> value, we can decide based on distance to the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html#sklearn.neighbors.NearestNeighbors">nearest neighbor</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">NearestNeighbors</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neigh</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">nbrs</span> <span class="o">=</span> <span class="n">neigh</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">distances</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">nbrs</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;distance&#39;)
+</pre></div>
+</div>
+<img alt="../_images/f6da033e38d97cb15c88d2342bf3d374d7e1ba843ec516dfa02ad3201a33d1f2.png" src="../_images/f6da033e38d97cb15c88d2342bf3d374d7e1ba843ec516dfa02ad3201a33d1f2.png" />
+</div>
+</div>
+<p>From this plot, it would make sense to sweep from 0.05 to 0.8. If you are familiar with DBSCAN, you know that this method can be used to define the “best” <code class="docutils literal notranslate"><span class="pre">eps</span></code> value as the “knee” of the curve (or elbow depending on your perspective). This would indicate that <code class="docutils literal notranslate"><span class="pre">0.3</span></code> would have been the best value; yet we have shown that it defnitely isn’t. For this reason, Pyleoclim does not emply this method by default and we caution against the use of it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eps_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s sweep!… and keep track of a few things:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nbr_clusters</span><span class="o">=</span><span class="p">[]</span> <span class="c1"># the number of clusters</span>
+<span class="n">sil_score</span> <span class="o">=</span><span class="p">[]</span> <span class="c1"># the silhouette score</span>
+<span class="n">eps_matrix</span><span class="o">=</span><span class="p">[]</span> <span class="c1"># tracking the value of eps for each min_sample</span>
+<span class="n">min_sample_matrix</span><span class="o">=</span><span class="p">[]</span> <span class="c1"># tracking the value of min_sample for each eps</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">eps</span> <span class="ow">in</span> <span class="n">eps_list</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">min_samples</span> <span class="ow">in</span> <span class="n">min_samples_list</span><span class="p">:</span>
+        <span class="n">eps_matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span>
+        <span class="n">min_sample_matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">min_samples</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">DBSCAN</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">min_samples</span><span class="o">=</span><span class="n">min_samples</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">nbr_clusters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">labels_</span><span class="p">)))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sil_score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">labels_</span><span class="p">))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">sil_score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;eps&#39;</span><span class="p">:</span><span class="n">eps_matrix</span><span class="p">,</span><span class="s1">&#39;min_samples&#39;</span><span class="p">:</span><span class="n">min_sample_matrix</span><span class="p">,</span><span class="s1">&#39;number of clusters&#39;</span><span class="p">:</span><span class="n">nbr_clusters</span><span class="p">,</span><span class="s1">&#39;silhouette score&#39;</span><span class="p">:</span><span class="n">sil_score</span><span class="p">})</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>eps</th>
+      <th>min_samples</th>
+      <th>number of clusters</th>
+      <th>silhouette score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.05</td>
+      <td>2</td>
+      <td>20</td>
+      <td>-0.624168</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.05</td>
+      <td>3</td>
+      <td>2</td>
+      <td>-0.224822</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.05</td>
+      <td>4</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.05</td>
+      <td>6</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.05</td>
+      <td>7</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>0.80</td>
+      <td>69</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>0.80</td>
+      <td>70</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>0.80</td>
+      <td>72</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>0.80</td>
+      <td>73</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>0.80</td>
+      <td>75</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 4 columns</p>
+</div></div></div>
+</div>
+<p>And now let’s locate the maximum value of the silhouette score (which hopefully is close to 1):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;silhouette score&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;silhouette score&#39;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>eps</th>
+      <th>min_samples</th>
+      <th>number of clusters</th>
+      <th>silhouette score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>905</th>
+      <td>0.760526</td>
+      <td>9</td>
+      <td>5</td>
+      <td>0.672543</td>
+    </tr>
+    <tr>
+      <th>906</th>
+      <td>0.760526</td>
+      <td>10</td>
+      <td>5</td>
+      <td>0.672543</td>
+    </tr>
+    <tr>
+      <th>955</th>
+      <td>0.800000</td>
+      <td>9</td>
+      <td>5</td>
+      <td>0.672543</td>
+    </tr>
+    <tr>
+      <th>956</th>
+      <td>0.800000</td>
+      <td>10</td>
+      <td>5</td>
+      <td>0.672543</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This looks promising: I’m beeing told that I have 5 clusters (the 4 clusters I asked for in the blob + the outliers) and the silhouette score is closer to 1. Let’s plot #906:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m3</span> <span class="o">=</span> <span class="n">DBSCAN</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="mf">0.760526</span><span class="p">,</span> <span class="n">min_samples</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">m3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="s1">&#39;maroon&#39;</span><span class="p">,</span> <span class="s1">&#39;forestgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;mediumorchid&#39;</span><span class="p">,</span> <span class="s1">&#39;deeppink&#39;</span><span class="p">]</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">x</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">(</span><span class="n">m3</span><span class="o">.</span><span class="n">labels_</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;eps: 0.76; min_samples: 10&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/fd8a7a45a49f9e51ab8fff6e8b39f7b5559e19c8ac17a288733f10426ea7049b.png" src="../_images/fd8a7a45a49f9e51ab8fff6e8b39f7b5559e19c8ac17a288733f10426ea7049b.png" />
+</div>
+</div>
+<p>The clusters look like something I would have chosen by eye, with 2 outliers (deep pink) on the outside.</p>
+</section>
+<section id="k-means">
+<h4>k-means<a class="headerlink" href="#k-means" title="Link to this heading">#</a></h4>
+<p>Pyleoclim uses the k-means method from <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">scikit-learn</a>. In this case, the most important parameter is the number of clusters. Let’s use this algorithm on the blobs, with a number set to 4:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s have a look at our four clusters:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="s1">&#39;maroon&#39;</span><span class="p">,</span> <span class="s1">&#39;forestgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;mediumorchid&#39;</span><span class="p">]</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">x</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">(</span><span class="n">m3</span><span class="o">.</span><span class="n">labels_</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x33f250d10&gt;
+</pre></div>
+</div>
+<img alt="../_images/15a99ec57fed2bf225fbde5942ac4a64f8081dc46aa07138410bff67a4c96e6e.png" src="../_images/15a99ec57fed2bf225fbde5942ac4a64f8081dc46aa07138410bff67a4c96e6e.png" />
+</div>
+</div>
+<p>Now that we have our four clusters, how do we determing the outliers?</p>
+<p>Outliers are identified based on their distance from the clusters. This can be done in two ways:
+(1) by using a threshold that corresponds to the Euclidean distance from the centroid and
+(2) using the <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/neighbors/plot_lof_outlier_detection.html">Local Outlier Function</a></p>
+<p>Let’s take a look at the result of these two different approaches:</p>
+<section id="threshold">
+<h5>threshold<a class="headerlink" href="#threshold" title="Link to this heading">#</a></h5>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">threshold</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">center</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">labels_</span><span class="p">]</span>
+<span class="n">distance</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">center</span><span class="p">):</span>
+    <span class="n">distance</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">,:]))</span>
+<span class="n">idx_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span><span class="o">&gt;</span><span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s plot our clusters and outliers in red:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">(</span><span class="n">m3</span><span class="o">.</span><span class="n">labels_</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">idx_out</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">idx_out</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x33f260610&gt;
+</pre></div>
+</div>
+<img alt="../_images/280967543a133ed77bd0f740d75a66bb5a12810c142afa34d688ae7085c5b528.png" src="../_images/280967543a133ed77bd0f740d75a66bb5a12810c142afa34d688ae7085c5b528.png" />
+</div>
+</div>
+<p>How to choose the right number of clusters? Visual inspection can be useful but a simlar sweep with the sillhouette score as the performance metric can also be used.</p>
+</section>
+<section id="lof">
+<h5>LOF<a class="headerlink" href="#lof" title="Link to this heading">#</a></h5>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_frac</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">contamination</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LocalOutlierFactor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="n">n_frac</span><span class="p">),</span> <span class="n">contamination</span><span class="o">=</span><span class="n">contamination</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">idx_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pred</span><span class="o">==-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">(</span><span class="n">m3</span><span class="o">.</span><span class="n">labels_</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">idx_out</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">idx_out</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x33237bbd0&gt;
+</pre></div>
+</div>
+<img alt="../_images/56f95180ab1db3eb0651e5b1ee94985663864487d6e1ac4e469dc445f686ab1f.png" src="../_images/56f95180ab1db3eb0651e5b1ee94985663864487d6e1ac4e469dc445f686ab1f.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="outlier-detection-in-pyleoclim">
+<h3>Outlier detection in Pyleoclim<a class="headerlink" href="#outlier-detection-in-pyleoclim" title="Link to this heading">#</a></h3>
+<p>Pyleoclim employs the two clustering algorithms details aboved for its <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#pyleoclim.core.series.Series.outliers">outlier detection</a> in timeseries data. The functions take several arguments, the most relevant being listed here:</p>
+<ul class="simple">
+<li><p>method – You can select either ‘kmeans’ or ‘DBSCAN’</p></li>
+<li><p>remove (bool, optional) – If True, removes the outliers.</p></li>
+<li><p>settings (dict, optional) – Specific arguments for the clustering functions. As detailed above the argument for each of these methods can be quite different. Let’s have a look:</p>
+<ul>
+<li><p><a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/utils/introduction.html#pyleoclim.utils.tsutils.detect_outliers_DBSCAN">DBSCAN</a>:</p>
+<ul>
+<li><p>nbr_clusters – Number of clusters. Remember that the DSBCAN method finds the number of clusters automatically. This is an optimization parameter, allowing you to override the behavior of looking for the highest silhouette score.</p></li>
+<li><p>eps – epsilon. The default is None, which allows the algorithm to optimize for the best value of eps, using the silhouette score as the optimization criterion. The sweep is made over eps values determined from nearest neighbors optimization as described above. You can choose to pass your own list for the sweep or choose one value.</p></li>
+<li><p>min_samples – The number of samples (or total weight) in a neighborhood for a point to be considered as a core point. This includes the point itself. The default is None and optimized using the silhouette score. The sweep occurs from 2 to len(y)/4. You can pass your own list for the sweep.</p></li>
+<li><p>n_neighbors – Number of neighbors to use by default for kneighbors queries, which can be used to calculate a range of plausible eps values. The default is None, which results in using the scikit-learn default.</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/utils/introduction.html#pyleoclim.utils.tsutils.detect_outliers_kmeans">kmeans</a>:</p>
+<ul>
+<li><p>nbr_clusters – A user number of clusters to considered. The default is None to use the optimization from the Silhouette Score. If the number of clusters can be inferred from a plot, use this parameter to set it.</p></li>
+<li><p>max_cluster – The maximum number of clusters to consider in the optimization based on the Silhouette Score. The default is 10.</p></li>
+<li><p>threshold – The algorithm uses the suclidean distance for each point in the cluster to identify the outliers. This parameter sets the threshold on the euclidean distance to define an outlier. The default is 3. By default, the algorithm standardizes the timeseries. Therefore, a value of 3 represents three standard deviation away from the mean.</p></li>
+<li><p>LOF – By default, detect_outliers_kmeans uses <strong>euclidean distance</strong> for outlier detection (LOF = False). Set LOF to True to use <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html"><strong>LocalOutlierFactor</strong></a> for outlier detection. LOF measures the local deviation of the density of a given sample with respect to its neighbors. By comparing the local density of a sample to the local densities of its neighbors, one can identify samples that have a substantially lower density than their neighbors. These are considered outliers.</p></li>
+<li><p>n_frac – The percentage of the time series length (the length, representing number of points) to be used to set the n_neighbors parameter for the LOF function in scikit-learn. We recommend using at least 50% (n_frac=0.5) of the timeseries. You cannot use 100% (n_frac!=1)</p></li>
+<li><p>contamination – Same as LOF parameter from scikit-learn. We recommend using the default mode of ‘auto’. See <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html">scikit-learn document</a> for details.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>fig_outliers – Whether to display the timeseries showing the outliers. The default is True. This is a diagnostic plot, showing you the outliers in red.</p></li>
+<li><p>fig_clusters – Whether to display the clusters. The default is True. This is a diagnostic plot.</p></li>
+<li><p>keep_log – Keeps a log of the transformation. We recommend setting this value to <code class="docutils literal notranslate"><span class="pre">True</span></code> since the log will contain several diagnostics that can be very useful.</p></li>
+</ul>
+<p>Let’s give this a try on the MD98-2181 series. As you can imagine, trends can be problematic for clustering so let’s remove it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_p</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">detrend</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span>
+
+<span class="n">ts_p</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [yr BP]&#39;, ylabel=&#39;SST [deg C]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/2d38efbbd4a206757182498d53b8c2cee87ca44e6534d4b3c6c522c8d7c09969.png" src="../_images/2d38efbbd4a206757182498d53b8c2cee87ca44e6534d4b3c6c522c8d7c09969.png" />
+</div>
+</div>
+<p>And let’s apply our outlier algorithm. We will start with <code class="docutils literal notranslate"><span class="pre">kmeans</span></code>, which is the default in Pyleoclim. Remember that these algorithms are fundamentally different, and may return different clusters.</p>
+<section id="outlier-dectection-using-k-means">
+<h4>Outlier dectection using k-means<a class="headerlink" href="#outlier-dectection-using-k-means" title="Link to this heading">#</a></h4>
+<section id="using-a-threshold-value-based-on-the-euclidean-distance-from-centroid">
+<h5>Using a threshold value based on the Euclidean Distance from centroid<a class="headerlink" href="#using-a-threshold-value-based-on-the-euclidean-distance-from-centroid" title="Link to this heading">#</a></h5>
+<p>For the purpose of demonstration, let’s set the <code class="docutils literal notranslate"><span class="pre">remove</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">False</span></code>, keep the log, and use the default removal method, which uses the threshold value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/2d38efbbd4a206757182498d53b8c2cee87ca44e6534d4b3c6c522c8d7c09969.png" src="../_images/2d38efbbd4a206757182498d53b8c2cee87ca44e6534d4b3c6c522c8d7c09969.png" />
+<img alt="../_images/8cd79331ac07b3694d76c2266e24da411d5ccc6e3794f2cf157053832a6eb84d.png" src="../_images/8cd79331ac07b3694d76c2266e24da411d5ccc6e3794f2cf157053832a6eb84d.png" />
+</div>
+</div>
+<p>Using the default settings, the number of clusters that maximizes the silhouette score is 4, with no outliers detected. Let’s have a look at the diagnostic kept in the log:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;results&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>number of clusters</th>
+      <th>silhouette score</th>
+      <th>outlier indices</th>
+      <th>clusters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0.557350</td>
+      <td>[]</td>
+      <td>[0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>0.530963</td>
+      <td>[]</td>
+      <td>[2, 0, 0, 1, 0, 0, 2, 0, 2, 0, 0, 1, 0, 2, 2, ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>0.565988</td>
+      <td>[]</td>
+      <td>[2, 0, 2, 0, 0, 0, 2, 2, 2, 2, 0, 3, 0, 2, 2, ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>0.549426</td>
+      <td>[]</td>
+      <td>[2, 0, 2, 0, 0, 2, 2, 2, 4, 2, 0, 3, 0, 4, 2, ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>0.539486</td>
+      <td>[]</td>
+      <td>[2, 4, 2, 0, 4, 4, 2, 2, 1, 2, 0, 5, 4, 1, 2, ...</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>0.542952</td>
+      <td>[]</td>
+      <td>[5, 6, 3, 0, 6, 3, 5, 3, 5, 3, 0, 2, 6, 5, 5, ...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>0.548035</td>
+      <td>[]</td>
+      <td>[1, 6, 7, 0, 6, 6, 1, 7, 1, 7, 0, 5, 0, 1, 1, ...</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>9</td>
+      <td>0.538591</td>
+      <td>[]</td>
+      <td>[4, 8, 0, 3, 8, 8, 4, 0, 4, 0, 3, 1, 3, 4, 4, ...</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10</td>
+      <td>0.540070</td>
+      <td>[]</td>
+      <td>[8, 2, 4, 5, 2, 4, 8, 4, 0, 4, 5, 1, 5, 0, 8, ...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The dataframe contains several pieces of information:</p>
+<ul class="simple">
+<li><p>the number of clusters - Remember that this is set as in input to the k-means algorithm and we are sweeping over this range of values.</p></li>
+<li><p>the silhouette score - Notice that it doesn’t vary much in this case for the various number of clusters.</p></li>
+<li><p>the indices of the outliers - In this case, there are none.</p></li>
+<li><p>the cluster assignment for each point - This can be valuable if you are more interested in recovering the clusters than the outliers.</p></li>
+</ul>
+<p>But let’s consider the silhouette score for a minute. There is not much difference between 0.557 (2 clusters) and the optimized 0.565 (4 clusters). However, an argument could be made that there are really two clusters in this series (above and below 0) and the outlying clusters in turquoise and light blue are just representing the noise.</p>
+<p>Let’s run this again, but impose 2 clusters:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/2d38efbbd4a206757182498d53b8c2cee87ca44e6534d4b3c6c522c8d7c09969.png" src="../_images/2d38efbbd4a206757182498d53b8c2cee87ca44e6534d4b3c6c522c8d7c09969.png" />
+<img alt="../_images/0d869dff1827b3eaddf77cd4ed106afe42dc32ea23dd1451fcb9ff3544e8758d.png" src="../_images/0d869dff1827b3eaddf77cd4ed106afe42dc32ea23dd1451fcb9ff3544e8758d.png" />
+</div>
+</div>
+<p>Results are very much identical, with no outliers being detected.</p>
+<p>Let’s lower the threshold:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;threshold&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/34898ec35d3cf689388dfd95a0b35d1b8f33d012bfba8d1b5be8e78f34d8cba5.png" src="../_images/34898ec35d3cf689388dfd95a0b35d1b8f33d012bfba8d1b5be8e78f34d8cba5.png" />
+<img alt="../_images/feefe497accf86036466a66554fc2ed5c690a145d6684ea1c58fe938b7fb67d6.png" src="../_images/feefe497accf86036466a66554fc2ed5c690a145d6684ea1c58fe938b7fb67d6.png" />
+</div>
+</div>
+<p>With a lower threshold, the outmost values are being removed, which is not surprising. This is the most sensitive parameter when using the k-mean algorithm and should be chosen with care.</p>
+</section>
+<section id="using-lof">
+<h5>Using LOF<a class="headerlink" href="#using-lof" title="Link to this heading">#</a></h5>
+<p>Next, let’s try out the other outlier removal method: LOF. For the purpose of demonstration, we start with the default settings of <code class="docutils literal notranslate"><span class="pre">n_frac</span></code> = <code class="docutils literal notranslate"><span class="pre">0.9</span></code>, <code class="docutils literal notranslate"><span class="pre">contamination</span></code> = <code class="docutils literal notranslate"><span class="pre">'auto'</span></code>, and also set the <code class="docutils literal notranslate"><span class="pre">remove</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">False</span></code> and keep the log.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/f619fe1cbdc74a25df66e25bfe944b25210e9f0341a8a3e4e3cc6448359bc9b8.png" src="../_images/f619fe1cbdc74a25df66e25bfe944b25210e9f0341a8a3e4e3cc6448359bc9b8.png" />
+<img alt="../_images/57a6c2ff74a9dedcca9e09b66e622a63155b5edbb74bc4c84446693fe9b12e74.png" src="../_images/57a6c2ff74a9dedcca9e09b66e622a63155b5edbb74bc4c84446693fe9b12e74.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;results&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>number of clusters</th>
+      <th>silhouette score</th>
+      <th>outlier indices</th>
+      <th>clusters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0.557350</td>
+      <td>([],)</td>
+      <td>[1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>0.530963</td>
+      <td>([],)</td>
+      <td>[2, 0, 0, 1, 0, 0, 2, 0, 2, 0, 0, 1, 0, 2, 2, ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>0.565762</td>
+      <td>([],)</td>
+      <td>[1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 2, 0, 1, 1, ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>0.511526</td>
+      <td>([],)</td>
+      <td>[1, 2, 2, 0, 0, 2, 1, 1, 1, 2, 0, 4, 0, 1, 1, ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>0.543902</td>
+      <td>([],)</td>
+      <td>[4, 1, 4, 5, 1, 4, 4, 4, 0, 4, 5, 2, 1, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>0.536126</td>
+      <td>([],)</td>
+      <td>[4, 5, 0, 5, 5, 0, 4, 0, 4, 0, 5, 2, 5, 4, 4, ...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>0.548035</td>
+      <td>([],)</td>
+      <td>[3, 0, 7, 5, 0, 0, 3, 7, 3, 7, 5, 4, 5, 3, 3, ...</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>9</td>
+      <td>0.541802</td>
+      <td>([],)</td>
+      <td>[0, 7, 7, 8, 1, 7, 0, 4, 0, 4, 8, 5, 1, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10</td>
+      <td>0.543038</td>
+      <td>([],)</td>
+      <td>[3, 7, 0, 4, 7, 0, 3, 0, 9, 0, 4, 1, 4, 9, 3, ...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As expected, the best silhouette score is obtained with two clusters. Let’s set <code class="docutils literal notranslate"><span class="pre">nbr_cluster</span></code> to <code class="docutils literal notranslate"><span class="pre">2</span></code> and look at how the two removal method compare.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/f619fe1cbdc74a25df66e25bfe944b25210e9f0341a8a3e4e3cc6448359bc9b8.png" src="../_images/f619fe1cbdc74a25df66e25bfe944b25210e9f0341a8a3e4e3cc6448359bc9b8.png" />
+<img alt="../_images/707fa57faba24bc356204d9fc7226cc2ad68cafbada3f2dd6221724ba07019e0.png" src="../_images/707fa57faba24bc356204d9fc7226cc2ad68cafbada3f2dd6221724ba07019e0.png" />
+</div>
+</div>
+<p>Results are identical with previous one using euclidean distance with no outliers being detected.</p>
+<p>LOF has two main parameters to consider: <code class="docutils literal notranslate"><span class="pre">n_frac</span></code> and <code class="docutils literal notranslate"><span class="pre">contamination</span></code>. Let’s have a look at these two.</p>
+<p>First let’s vary <code class="docutils literal notranslate"><span class="pre">n_frac</span></code> from <code class="docutils literal notranslate"><span class="pre">0.5</span></code> to <code class="docutils literal notranslate"><span class="pre">0.9</span></code> (default)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;n_frac&#39;</span><span class="p">:</span><span class="mf">0.5</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotoutliers_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;n_frac=0.5&#39;</span><span class="p">})</span>
+<span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;n_frac&#39;</span><span class="p">:</span><span class="mf">0.6</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotoutliers_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;n_frac=0.6&#39;</span><span class="p">})</span>
+<span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;n_frac&#39;</span><span class="p">:</span><span class="mf">0.7</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotoutliers_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;n_frac=0.7&#39;</span><span class="p">})</span>
+<span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;n_frac&#39;</span><span class="p">:</span><span class="mf">0.8</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotoutliers_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;n_frac=0.8&#39;</span><span class="p">})</span>
+<span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;n_frac&#39;</span><span class="p">:</span><span class="mf">0.9</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotoutliers_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;n_frac=0.9&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/c80c432fc5bc577cfc5ff89243e5e1b6951b6dabe661ae812fea346b1733df43.png" src="../_images/c80c432fc5bc577cfc5ff89243e5e1b6951b6dabe661ae812fea346b1733df43.png" />
+<img alt="../_images/8fc02affb38f966e8faf42b5e6a59764d2f26453bb6a7014968c3d1af3cebe85.png" src="../_images/8fc02affb38f966e8faf42b5e6a59764d2f26453bb6a7014968c3d1af3cebe85.png" />
+<img alt="../_images/835f26c858ebe21e817b7de16202c531df17e4b61d59bdcb057d0ff14091813b.png" src="../_images/835f26c858ebe21e817b7de16202c531df17e4b61d59bdcb057d0ff14091813b.png" />
+<img alt="../_images/28c7f7276b64841b41d24495604ab3c95df73889a6dcb2f42552f532b036f29e.png" src="../_images/28c7f7276b64841b41d24495604ab3c95df73889a6dcb2f42552f532b036f29e.png" />
+<img alt="../_images/38ad3d201d69b3dac477e2dba2ffc3b2023330fb6318118a5b2bf118bcd018a0.png" src="../_images/38ad3d201d69b3dac477e2dba2ffc3b2023330fb6318118a5b2bf118bcd018a0.png" />
+<img alt="../_images/8d35f8b4f020fb1d7de876abe74ddfe2f602a9de7ee36fff19623664e9a6b776.png" src="../_images/8d35f8b4f020fb1d7de876abe74ddfe2f602a9de7ee36fff19623664e9a6b776.png" />
+<img alt="../_images/356bc9b222573e3e661c46874ef3c34a1965a8ba9a65776bff24da4821569e01.png" src="../_images/356bc9b222573e3e661c46874ef3c34a1965a8ba9a65776bff24da4821569e01.png" />
+<img alt="../_images/bb7dfc9cdbcdafb3fc7224a8408ded55084dbd7d3c290c97dcf5e10eba209138.png" src="../_images/bb7dfc9cdbcdafb3fc7224a8408ded55084dbd7d3c290c97dcf5e10eba209138.png" />
+<img alt="../_images/ca8ab555d510d526c50319ffddf365b4d240b354a81eaec29b995446f2dd9ae0.png" src="../_images/ca8ab555d510d526c50319ffddf365b4d240b354a81eaec29b995446f2dd9ae0.png" />
+<img alt="../_images/099298d489596bafaeed45cf4bc448d809c8b164a6b63f5c9a7e5845f586d042.png" src="../_images/099298d489596bafaeed45cf4bc448d809c8b164a6b63f5c9a7e5845f586d042.png" />
+</div>
+</div>
+<p>Next let’s vary <code class="docutils literal notranslate"><span class="pre">contamination</span></code> with <code class="docutils literal notranslate"><span class="pre">0.02</span></code>, <code class="docutils literal notranslate"><span class="pre">0.1</span></code>, <code class="docutils literal notranslate"><span class="pre">0.3</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;contamination&#39;</span><span class="p">:</span><span class="mf">0.02</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotoutliers_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;contamination=0.02&#39;</span><span class="p">})</span>
+<span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;contamination&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotoutliers_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;contamination=0.1&#39;</span><span class="p">})</span>
+<span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nbr_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LOF&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;contamination&#39;</span><span class="p">:</span><span class="mf">0.3</span><span class="p">},</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotoutliers_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;contamination=0.3&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/e42bc5a1758fbc941072e816b9e24ace83857d434bbf0ac8e54b0a4280d2fefc.png" src="../_images/e42bc5a1758fbc941072e816b9e24ace83857d434bbf0ac8e54b0a4280d2fefc.png" />
+<img alt="../_images/03748f1887a3c050ba94c8c1018b7789106840f12ce3427d5c72538daedc7ba6.png" src="../_images/03748f1887a3c050ba94c8c1018b7789106840f12ce3427d5c72538daedc7ba6.png" />
+<img alt="../_images/e1a68d9d902faf0a5ad1c20c39279527197c5ffc811e1bbd4ac3cf5d97c794c9.png" src="../_images/e1a68d9d902faf0a5ad1c20c39279527197c5ffc811e1bbd4ac3cf5d97c794c9.png" />
+<img alt="../_images/2b61a9a596f60f690793fe604c709d32e03167277d8d0467e2c4f52ff8c1a825.png" src="../_images/2b61a9a596f60f690793fe604c709d32e03167277d8d0467e2c4f52ff8c1a825.png" />
+<img alt="../_images/c5cf301e7243e55c2f773eaabc504c09a064160c51f441c6afb28f1c0665b123.png" src="../_images/c5cf301e7243e55c2f773eaabc504c09a064160c51f441c6afb28f1c0665b123.png" />
+<img alt="../_images/05a9f6c65141d0781964eab78249d8387cc914504d2f289845b4dc26d6f77acf.png" src="../_images/05a9f6c65141d0781964eab78249d8387cc914504d2f289845b4dc26d6f77acf.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="outlier-detection-with-dbscan">
+<h4>Outlier detection with DBSCAN<a class="headerlink" href="#outlier-detection-with-dbscan" title="Link to this heading">#</a></h4>
+<p>Let’s turn our attention to DBSCAN:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_out</span> <span class="o">=</span> <span class="n">ts_p</span><span class="o">.</span><span class="n">outliers</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DBSCAN&#39;</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">keep_log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimizing for the best number of clusters, this may take a few minutes
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div>
+</div>
+<img alt="../_images/48aa1c8c67d748fda5be7d89a5804b27212ccc625a7ba7b8d79091d8fe01cc32.png" src="../_images/48aa1c8c67d748fda5be7d89a5804b27212ccc625a7ba7b8d79091d8fe01cc32.png" />
+<img alt="../_images/c7ab72790071ea01ce0f53d341b7edf63f9aaf5231224b3763fbedcc86cf69f2.png" src="../_images/c7ab72790071ea01ce0f53d341b7edf63f9aaf5231224b3763fbedcc86cf69f2.png" />
+</div>
+</div>
+<p>The algorithm optimizes for one cluster and two outliers. Let’s have a look at the log, which will contain the silhouette score:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">ts_out</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;results&#39;</span><span class="p">]</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>eps</th>
+      <th>min_samples</th>
+      <th>number of clusters</th>
+      <th>silhouette score</th>
+      <th>outlier indices</th>
+      <th>clusters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.010000</td>
+      <td>2</td>
+      <td>65</td>
+      <td>0.346318</td>
+      <td>[2, 8, 11, 13, 14, 16, 21, 25, 26, 28, 29, 30,...</td>
+      <td>[0, 1, -1, 2, 3, 4, 5, 6, -1, 7, 8, -1, 9, -1,...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.010000</td>
+      <td>3</td>
+      <td>44</td>
+      <td>0.185807</td>
+      <td>[0, 2, 8, 11, 13, 14, 16, 17, 21, 24, 25, 26, ...</td>
+      <td>[-1, 0, -1, 1, 2, 15, 3, 32, -1, 4, 5, -1, 6, ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.010000</td>
+      <td>5</td>
+      <td>15</td>
+      <td>-0.272447</td>
+      <td>[0, 2, 3, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, ...</td>
+      <td>[-1, 0, -1, -1, 1, -1, 13, -1, -1, -1, -1, -1,...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.010000</td>
+      <td>7</td>
+      <td>3</td>
+      <td>-0.280342</td>
+      <td>[0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14...</td>
+      <td>[-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.010000</td>
+      <td>8</td>
+      <td>2</td>
+      <td>-0.306025</td>
+      <td>[0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14...</td>
+      <td>[-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2495</th>
+      <td>5.665417</td>
+      <td>77</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[]</td>
+      <td>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>2496</th>
+      <td>5.665417</td>
+      <td>79</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[]</td>
+      <td>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>2497</th>
+      <td>5.665417</td>
+      <td>80</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[]</td>
+      <td>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>2498</th>
+      <td>5.665417</td>
+      <td>82</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[]</td>
+      <td>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>2499</th>
+      <td>5.665417</td>
+      <td>84</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[]</td>
+      <td>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...</td>
+    </tr>
+  </tbody>
+</table>
+<p>2500 rows × 6 columns</p>
+</div></div></div>
+</div>
+<p>The log contains the values of <code class="docutils literal notranslate"><span class="pre">eps</span></code> and <code class="docutils literal notranslate"><span class="pre">min_samples</span></code> that were tried, the number of resulting clusters, the silhouette score, the indices of the outliers and the cluster assignment.</p>
+<p>Let’s look for the maximum value of the silhouette score:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;silhouette score&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;silhouette score&#39;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>eps</th>
+      <th>min_samples</th>
+      <th>number of clusters</th>
+      <th>silhouette score</th>
+      <th>outlier indices</th>
+      <th>clusters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>202</th>
+      <td>0.471667</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0.616233</td>
+      <td>[145, 201]</td>
+      <td>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>203</th>
+      <td>0.471667</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0.616233</td>
+      <td>[145, 201]</td>
+      <td>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...</td>
+    </tr>
+    <tr>
+      <th>204</th>
+      <td>0.471667</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.616233</td>
+      <td>[145, 201]</td>
+      <td>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Several combinations result in a similar silhouette score (by default, Pyleoclim will work with the first one), with a <code class="docutils literal notranslate"><span class="pre">eps</span></code> value of 0.47. Let’s make sure that this value is not the maximum that was tried (if so, I would recommend passing your own list of eps value direclty):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.6654168267442815
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.01
+</pre></div>
+</div>
+</div>
+</div>
+<p>This seems reasonable (and not an artifact of the limits on the parameter sweeps). Note that DBSCAN and k-means both identified a common set of outliers that could be candidates for removal. Generally, if the answers are sensitive to the method and parameters, then it is a good indication that the method is too sensitive and conclusions (i.e., whether the data points are outliers) are not robust. If this is the case, proceed carefully with <code class="docutils literal notranslate"><span class="pre">remove</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Mar 04 2024
+
+Python implementation: CPython
+Python version       : 3.11.7
+IPython version      : 8.20.0
+
+pyleoclim: 0.13.1b0
+
+Watermark: 2.4.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L2_correlations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Correlation Analysis in Pyleoclim</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L2_principal_component_analysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Principal Component Analysis with Pyleoclim</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unsupervised-machine-learning-clustering">Unsupervised machine learning - clustering</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dbscan">DBSCAN</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means">k-means</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#threshold">threshold</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#lof">LOF</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-detection-in-pyleoclim">Outlier detection in Pyleoclim</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-dectection-using-k-means">Outlier dectection using k-means</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-threshold-value-based-on-the-euclidean-distance-from-centroid">Using a threshold value based on the Euclidean Distance from centroid</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#using-lof">Using LOF</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-detection-with-dbscan">Outlier detection with DBSCAN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

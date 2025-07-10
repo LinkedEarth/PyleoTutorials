@@ -1,0 +1,1293 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Singular Spectrum Analysis with Pyleoclim &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L2_singular_spectrum_analysis';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spectral Analysis with Pyleoclim" href="L2_spectral_analysis.html" />
+    <link rel="prev" title="Principal Component Analysis with Pyleoclim" href="L2_principal_component_analysis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L2_singular_spectrum_analysis.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L2_singular_spectrum_analysis.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L2_singular_spectrum_analysis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Singular Spectrum Analysis with Pyleoclim</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-ssa">Monte-Carlo SSA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssa-pre-filtering">SSA pre-filtering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssa-with-missing-values">SSA with missing values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssa-approximation">SSA approximation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kaiser-method">Kaiser method</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-thresholding-method">Variance thresholding method</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#knee-finding-method">Knee finding method</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="singular-spectrum-analysis-with-pyleoclim">
+<h1>Singular Spectrum Analysis with Pyleoclim<a class="headerlink" href="#singular-spectrum-analysis-with-pyleoclim" title="Link to this heading">#</a></h1>
+<p>by <a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p>Introduced by <a class="reference external" href="https://doi.org/10.1016/0167-2789(86)90031-X">Broomhead &amp; King, (1986)</a>, SSA is a method steeped in the theory of dynamical systems, designed specifically for the short and noisy timeseries that paleogeoscientists love so. (yes, even if a record reaches back to the precambrian, it is “short” if the number of points is less than a few hundred samples). SSA is based on a <a class="reference external" href="https://en.wikipedia.org/wiki/Takens%27s_theorem">fundamental theorem due to Takens</a>.
+Unlike Fourier or wavelet analysis, and like principal component analysis, SSA extracts patterns of variations from the data themselves (using an <a class="reference external" href="https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">eigendecomposition</a> of lagged copies of the timeseries) to extract eigenmodes (natural oscillating tones present in the series). It then projects the data onto these eigenmodes to achieve various things, like smoothing, interpolation, or decomposition. In effect, SSA replaces Fourier’s sines/cosines, or wavelet bases, by oscillations it pulls out of the data. The advantage is that those patterns came from the data, so they are (by construction) well suited to describing the data in question. The disadvantage is that some data must be sacrificed to find these patterns in the first place (unlike parametric methods like Fourier or wavelet analysis, where they are imposed). There is no free lunch!</p>
+<section id="goals">
+<h3>Goals<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Learn the basics of SSA</p></li>
+<li><p>Learn how to apply SSA in <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code></p></li>
+<li><p>Use SSA for three applications: reconstruction, filtering, and imputation of missing values (interpolation).</p></li>
+</ul>
+<p><strong>Reading Time: 15 min</strong></p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>Singular Spectral Analysis, Synthesis, Filtering, Imputation, Visualization</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>None</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>pandas, matplotlib</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<p>Sea-surface temperature from <a class="reference external" href="https://psl.noaa.gov/data/gridded/data.kaplan_sst.html">Kaplan (1998)</a> averaged over the NINO3 (5N-5S, 150W-190E) region.</p>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<p>Caveat emptor: like the vast majority of timeseries techniques, SSA assumes that the data are evenly-spaced. If you want to apply SSA to an unevenly-spaced series, you will need to cast it onto a regular time grid, using <a class="reference external" href="https://en.wikipedia.org/wiki/NaN">NaNs</a> to signal missing values. <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>’s SSA implementation does allow modest amounts of missing values in the timeseries, though they should not be present in large contiguous blocks (see last section, below).</p>
+<p>We start by importing relevant packages, loading and plotting the timeseries of interest (NINO3). To simplify matters, let’s standardize this timeseries (give it zero mean and unit standard deviation).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gridspec</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_nino</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;NINO3&#39;</span><span class="p">)</span>  
+<span class="n">ts_n</span>    <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span> <span class="s1">&#39;Niño3 SST (standardized)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3706228dbd09a74901252d2f7361142920fb012d7bface96934565c15e702024.png" src="../_images/3706228dbd09a74901252d2f7361142920fb012d7bface96934565c15e702024.png" />
+</div>
+</div>
+<p>Let us now apply SSA to this series. While SSA is non-parametric, it does rely on one crucial parameter, the <strong>embedding dimension</strong>, denoted <span class="math notranslate nohighlight">\(M\)</span>, which describes the length of the time window over which SSA will hunt for oscillations. It has been shown that SSA can well identify oscillations with a period between <span class="math notranslate nohighlight">\(M/5\)</span> and <span class="math notranslate nohighlight">\(M\)</span>.  By default, <code class="docutils literal notranslate"><span class="pre">pyleoclim</span></code> will use a value of 10% of the timeseries, in this case 159 months. In order to focus on interannual modes, let’s use 60 months (5 years), in accord with <a class="reference external" href="https://doi.org/10.1029/2000RG000092">Ghil et al (2002)</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_ssa</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The output of this function is an <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/master/core/api.html#ssares-pyleoclim-ssares">SsaRes</a> object, which includes a number of fields.</p>
+<p>Let us now see how to make use of all these arrays. The first step is to inspect the eigenvalue spectrum (”<a class="reference external" href="https://en.wikipedia.org/wiki/Scree_plot">scree plot</a>”) to identify remarkable modes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_ssa</span><span class="o">.</span><span class="n">screeplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 600x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;SSA scree plot&#39;}, xlabel=&#39;Mode index $i$&#39;, ylabel=&#39;$\\lambda_i$&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/17f00f98e49430f1c41cb37fff18788e0646c7650dbb617b2547ae743392b924.png" src="../_images/17f00f98e49430f1c41cb37fff18788e0646c7650dbb617b2547ae743392b924.png" />
+</div>
+</div>
+<p>This highlights a few common phenomena with SSA:</p>
+<ol class="arabic simple">
+<li><p>the eigenvalues are in descending order</p></li>
+<li><p>their uncertainties are proportional to the eigenvalues themselves</p></li>
+<li><p>the eigenvalues tend to come in pairs : (0,1) (2,3),  are all clustered within uncertainties.</p></li>
+<li><p>around <span class="math notranslate nohighlight">\(i=15\)</span>, the eigenvalues appear to reach a floor, and all subsequent eigenvalues explain a very small amount of variance.</p></li>
+</ol>
+<p>Indeed, the variance explained by mode <span class="math notranslate nohighlight">\(i\)</span> is  $<span class="math notranslate nohighlight">\( v_i = \frac{\lambda_i}{\sum_{k=0}^{M} \lambda_k} \)</span><span class="math notranslate nohighlight">\( where \)</span>\lambda_{i}<span class="math notranslate nohighlight">\( the eigenvalue corresponding to mode \)</span>i$. So, summing the variance of all modes higher than 15, we get:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">nino_ssa</span><span class="o">.</span><span class="n">pctvar</span><span class="p">[</span><span class="mi">15</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.112069865177367
+</pre></div>
+</div>
+</div>
+</div>
+<p>That is, over 95% of the variance is in the first 15 modes; almost all of it in the first 10 modes. That is a typical result for a “warm-colored” timeseries, which is most geophysical timeseries; a few modes do the vast majority of the work. That means we can focus our attention on these modes and capture most of the interesting behavior. To see this, let’s use the reconstructed components (RCs), and sum the RC matrix over the first 10 columns:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RCk</span> <span class="o">=</span> <span class="n">nino_ssa</span><span class="o">.</span><span class="n">RCmat</span><span class="p">[:,:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;NINO3 index&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_n</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">RCk</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;SSA reconstruction, 15 modes&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x1746aa770&gt;
+</pre></div>
+</div>
+<img alt="../_images/86a1e68d0d90cabdbc4a45bfa6cbf5aff519f993eef8e3ac8c3a091ed6980317.png" src="../_images/86a1e68d0d90cabdbc4a45bfa6cbf5aff519f993eef8e3ac8c3a091ed6980317.png" />
+</div>
+</div>
+<p>Indeed, these first few modes capture the vast majority of the low-frequency behavior, including all the El Niño/La Niña events. What is left (the blue wiggles not captured in the orange curve) are high-frequency oscillations that might be considered “noise” from the standpoint of ENSO dynamics. This illustrates how SSA might be used for filtering a timeseries. One must be careful however:</p>
+<ol class="arabic simple">
+<li><p>there was not much rhyme or reason for picking 15 modes. Why not 5, or 39? All we have seen so far is that they gather &gt;95% of the variance, which is by no means a magic number.</p></li>
+<li><p>there is no guarantee that the first few modes will filter out high-frequency behavior, or at what frequency cutoff they will do so. If you need to cut out specific frequencies, you are better off doing it with a classical filter (see <a class="reference internal" href="#./L1_filtering_and_detrending.md"><span class="xref myst">filtering and detrending</span></a>). However, in many instances the choice of a cutoff frequency is itself rather arbitrary. In such cases, SSA provides a principled alternative for generating a version of a timeseries that preserves features and excludes others (i.e, a filter).</p></li>
+<li><p>as with all orthogonal decompositions, summing over all RCs will recover the original signal within numerical precision.</p></li>
+</ol>
+<section id="monte-carlo-ssa">
+<h3>Monte-Carlo SSA<a class="headerlink" href="#monte-carlo-ssa" title="Link to this heading">#</a></h3>
+<p>Selecting meaningful modes in eigenproblems like SSA or PCA is more art than science. However, one technique stands out here: Monte Carlo SSA, introduced by <a class="reference external" href="https://doi.org/10.1175/1520-0442(1996)009%3C3373:MCSDIO%3E2.0.CO;2">Allen &amp; Smith, (1996)</a> to identiy SSA modes that rise above what one would expect from “red noise”, specifically an <a class="reference external" href="https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process">AR(1) process</a>. To run it, simply provide the parameter <span class="math notranslate nohighlight">\(MC\)</span>, ideally with a number of iterations sufficient to get decent statistics. Here’s let’s use <span class="math notranslate nohighlight">\(MC = 1000\)</span>. The result will be stored in the <strong>eigvals_q</strong> array, which has the same length as <code class="docutils literal notranslate"><span class="pre">eigvals</span></code>, and its two columns contain the 5% and 95% quantiles of the ensemble of MC-SSA eigenvalues.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_mcssa</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">nMC</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s look at the result:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">screeplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 600x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;SSA scree plot&#39;}, xlabel=&#39;Mode index $i$&#39;, ylabel=&#39;$\\lambda_i$&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/9be52f0e24ba9f52e8f05add23b8061e2076c6d5f17e3d2816ed4e3893fb240a.png" src="../_images/9be52f0e24ba9f52e8f05add23b8061e2076c6d5f17e3d2816ed4e3893fb240a.png" />
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">screeplot</span></code> method was able to make use of this new information and added a red noise background spectrum (in red, naturally). The plot suggests that modes 1, 2 and 6 to 10 fall above the red noise benchmark. More precisely, one may extract those modes using <code class="docutils literal notranslate"><span class="pre">mode_idx</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">mode_idx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 1, 5, 6, 7, 8, 9])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pursuant to Python’s 0-based indices, this vector of indices is 0-based. However, to conform to standard usage, the modes are referred to by their ordinal (i.e. index <span class="math notranslate nohighlight">\(i\)</span> corresponds to mode <span class="math notranslate nohighlight">\(i+1\)</span>).
+Let us zoom in on those modes, and use them for pre-filtering prior to spectral analysis.</p>
+</section>
+<section id="ssa-pre-filtering">
+<h3>SSA pre-filtering<a class="headerlink" href="#ssa-pre-filtering" title="Link to this heading">#</a></h3>
+<p>Let’s first look at the spectrum of the raw index, using two  methods included in Pyleoclim: the Multi-Taper Method (MTM) and the Weighted Wavelet Z transform (WWZ). A tutorial on <code class="docutils literal notranslate"><span class="pre">pyleoclim</span></code>’s spectral methods may be found <a class="reference internal" href="#L2_spectral_analysis.md"><span class="xref myst">here</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">psd_mtm</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NW&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="n">psd_wwz</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;wwz&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;freq&#39;</span><span class="p">:</span><span class="n">psd_mtm</span><span class="o">.</span><span class="n">frequency</span><span class="p">})</span>  <span class="c1"># pass the frequency vector to compare apples to apples</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">psd_wwz</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;WWZ&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">psd_mtm</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;MTM&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+</pre></div>
+</div>
+<img alt="../_images/da62d665c22a46767623cf012978a6820ef2eb7653888bfbacfc05a4691c0631.png" src="../_images/da62d665c22a46767623cf012978a6820ef2eb7653888bfbacfc05a4691c0631.png" />
+</div>
+</div>
+<p>Here we see clear interannual peaks, particular the <a class="reference external" href="https://link.springer.com/article/10.1007/BF00223723">quasi-quadriennial</a> one (around 4 years, as the name implies). MTM with default parameters smoothes out the decadal-to-centennial part of the spectrum, but produces a lot of peaks at periods shorter than 2 years.  In contrast, WWZ smoothes out these high-frequency features, but shows peaks in the decadal range that MTM, certainly, does not see. Would pre-filtering NINO3 using the most robust SSA modes help with that? Also, are each of the interannual peaks carried by individual oscillations that a linear method like SSA could separate?</p>
+<p>To answer these questions, let’s inspect those key modes with the <code class="docutils literal notranslate"><span class="pre">modeplot</span></code> function, which shows the corresponding T-EOF, RC, and spectra. First, mode 1 (remember that index = mode - 1).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/99c44cfe6210f8999e68247f4ce9c0f1177beefb2224c0eef337a8a84c7e451c.png" src="../_images/99c44cfe6210f8999e68247f4ce9c0f1177beefb2224c0eef337a8a84c7e451c.png" />
+</div>
+</div>
+<p>This first mode, with ~22% of the variance, is associated with a nearly pure sinusoid with a period near 48 months. The two peaks near 0.2 years are strange, and in need of an explanation.  Now mode 2:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x500 with 3 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;RC Spectrum (mtm)&#39;}, xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/b40131eb80dfdf67ca19ee6dd538e6f882f24f611f868e660a096f76af27f9b6.png" src="../_images/b40131eb80dfdf67ca19ee6dd538e6f882f24f611f868e660a096f76af27f9b6.png" />
+</div>
+</div>
+<p>Mode 2 has a nearly equal variance and similar spectral signature as mode 1, consistent with those two modes being part of a pair. Its T-EOF is (by construction) orthogonal to that of mode 1, and one may think of them as a sine/cosine pair for this particular oscillation around 4 years. Together, they account for about 2/3 of the total variance.  What about modes 6 to 9?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x500 with 3 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;RC Spectrum (mtm)&#39;}, xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/80227a57b299c30e748acb35414856d87649745db6f0c17326b4fc2965c62e94.png" src="../_images/80227a57b299c30e748acb35414856d87649745db6f0c17326b4fc2965c62e94.png" />
+<img alt="../_images/924fd6d2bb71a8bb5ab9b46e0dc3d6c6109b0ff9bf3d4a50b960bf165033342c.png" src="../_images/924fd6d2bb71a8bb5ab9b46e0dc3d6c6109b0ff9bf3d4a50b960bf165033342c.png" />
+</div>
+</div>
+<p>Modes 6 and 7 are associated with oscillations around 2 years, though the peaks are again fairly broad, indicative of low-frequency modulation (as evidenced in the envelope of these ~2y cycles). To refine the spectral estimate for these features, one could:</p>
+<ol class="arabic simple">
+<li><p>play with the time-bandwidth product (<span class="math notranslate nohighlight">\(N_W\)</span>) of MTM.</p></li>
+<li><p>apply other techniques better suited to detecting narrow-band peaks (e.g. Burg’s method).</p></li>
+<li><p>apply yet other methods suited for nonlinear and non-stationary signals, like the Hilbert-Huang Transform.</p></li>
+</ol>
+<p>Such is not our purpose, so we move instead to prefiltering using the modes identified above.</p>
+<p>Finally, modes 8 and 9:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x500 with 3 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;RC Spectrum (mtm)&#39;}, xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/186e40cc0cec5c0a14ab9166270bbb8f0b57deeb38a6e7232e60219a22fdabcd.png" src="../_images/186e40cc0cec5c0a14ab9166270bbb8f0b57deeb38a6e7232e60219a22fdabcd.png" />
+<img alt="../_images/1b2857d964cc194b38d16c8a88c29422ab57871d5891c93c043cb559f0e6db92.png" src="../_images/1b2857d964cc194b38d16c8a88c29422ab57871d5891c93c043cb559f0e6db92.png" />
+</div>
+</div>
+<p>Those also have a nearly harmonic (sinusoidal) structure, with a shorter period between 1 and 2 years. Again, they seem to form a pair.  Overall, we see that, as we go up the ranks, the period of oscillation diminishes, as does the variance (by construction). That is again a common property of geophysical timeseries, which tend to be “warm colored” (more spectral energy at lower frequencies).</p>
+<p>Now let’s plot the reconstructed series (<code class="docutils literal notranslate"><span class="pre">RCseries</span></code>), which gathers all the retained modes. It is a Pyleoclim <code class="docutils literal notranslate"><span class="pre">Series</span></code>, which makes it easy to plot and manipulate:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">RCseries</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pyleoclim.core.series.Series
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;MC-SSA reconstruction&#39;</span><span class="p">)</span> <span class="c1"># we mute the first call to only get the plot with 2 lines</span>
+<span class="n">nino_mcssa</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;MC-SSA modes &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">mode_idx</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x175815ba0&gt;
+</pre></div>
+</div>
+<img alt="../_images/f28d55690386dc9c39689a7ed3d31d1bcf4d840f678211008f0f3978bdb478de.png" src="../_images/f28d55690386dc9c39689a7ed3d31d1bcf4d840f678211008f0f3978bdb478de.png" />
+</div>
+</div>
+<p>What was in the modes excluded by MC-SSA, you ask? Let’s have a look.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">nino_mcssa</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x500 with 3 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;RC Spectrum (mtm)&#39;}, xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/b40131eb80dfdf67ca19ee6dd538e6f882f24f611f868e660a096f76af27f9b6.png" src="../_images/b40131eb80dfdf67ca19ee6dd538e6f882f24f611f868e660a096f76af27f9b6.png" />
+<img alt="../_images/71d57df29414fdd332b0bbdb7d295192ac72d0287b7d07823828665bdf8789e8.png" src="../_images/71d57df29414fdd332b0bbdb7d295192ac72d0287b7d07823828665bdf8789e8.png" />
+<img alt="../_images/4e7ad5432d09795335cc32e5ea9d5500f2d54405bbdb16fbc01e77347748f2ab.png" src="../_images/4e7ad5432d09795335cc32e5ea9d5500f2d54405bbdb16fbc01e77347748f2ab.png" />
+</div>
+</div>
+<p>Those modes contained a lot of low-frequency signals (compare their spectra to those of the other modes), some associated with trends in variance. However, MC-SSA found that these signals do not stand out compared to red noise, so it left them out. Note that with different choices of embedding dimension (<span class="math notranslate nohighlight">\(M\)</span>), different modes will capture different features.</p>
+<p>However, it is generally true over a broad range of choices that the MC-SSA modes capture most of the features of interest, including the various ENSO events. Let us now perform spectral analysis on a version of the timeseries that includes only those modes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">psd_mtm</span> <span class="o">=</span> <span class="n">nino_mcssa</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">interp</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NW&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span> <span class="c1"># apply MTM spectral analysis</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">psd_mtm</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;SSA-filtered NINO3&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span> <span class="c1"># plot it</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/31d539f90476c1c14655bd20dfd6ef7dd2af303600d530ef863c82aa79fbb71b.png" src="../_images/31d539f90476c1c14655bd20dfd6ef7dd2af303600d530ef863c82aa79fbb71b.png" />
+</div>
+</div>
+<p>We see indeed the variance concentrated in the interannual range, 1 to 8 years. The signal is overall much cleaner than before, illustrating the beneficial effects of SSA to filter signals of interest prior to applying spectral analysis.</p>
+</section>
+<section id="ssa-with-missing-values">
+<h3>SSA with missing values<a class="headerlink" href="#ssa-with-missing-values" title="Link to this heading">#</a></h3>
+<p>A useful feature of the <code class="docutils literal notranslate"><span class="pre">pyleoclim</span></code> implementation of SSA is the ability to deal with missing values, which is particularly critical in the paleosciences, where data are seldom sampled at regular time intervals.
+It turns out that SSA can also be applied on timeseries that contain a reasonable amount of missing data, thanks to the work of <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2000GL012698">Schoellhamer (2001)</a>. To illustrate this, we simply dig some holes in the NINO3 series, apply SSA, and compare the results for various fractions of missing values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">time</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">fm</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1">#fraction of missing values</span>
+<span class="n">missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">fm</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">),</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;NINO3 SST Anomalies&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">missing</span><span class="p">],</span><span class="n">ts_n</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">missing</span><span class="p">],</span><span class="s1">&#39;rx&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;deleted&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x177f49c90&gt;
+</pre></div>
+</div>
+<img alt="../_images/5a1e3455c9a9a2d53f4223529fef6f3093e2062df36b39c5ef934fbb4f850c55.png" src="../_images/5a1e3455c9a9a2d53f4223529fef6f3093e2062df36b39c5ef934fbb4f850c55.png" />
+</div>
+</div>
+<p>Now let’s apply SSA to the incomplete data (blue minus red)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_miss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">ts_n</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">nino_miss</span><span class="p">[</span><span class="n">missing</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># put NaNs at the randomly chosen locations</span>
+<span class="n">ts_miss</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">nino_miss</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">miss_ssa</span> <span class="o">=</span> <span class="n">ts_miss</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">trunc</span><span class="o">=</span><span class="s1">&#39;var&#39;</span><span class="p">,</span><span class="n">var_thresh</span><span class="o">=</span><span class="mi">95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time axis values sorted in ascending order
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RCmiss</span> <span class="o">=</span> <span class="n">miss_ssa</span><span class="o">.</span><span class="n">RCmat</span><span class="p">[:,:</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">RCmiss_series</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">RCmiss</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;NINO3 index&#39;</span><span class="p">)</span> <span class="c1"># we mute the first call to only get the plot with 2 lines</span>
+<span class="n">RCmiss_series</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;gappy SSA reconstruction, $k=10$&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time axis values sorted in ascending order
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;NINO3 index&#39;}, xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;value&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/11a95cd51f4d9b8b3363440de3e6eb95a226a90ef1fbd37238f28ebc51abe23e.png" src="../_images/11a95cd51f4d9b8b3363440de3e6eb95a226a90ef1fbd37238f28ebc51abe23e.png" />
+</div>
+</div>
+<p>We see that, despite missing 10% of the values, a low-order (20 mode) SSA synthesis is able to successfully capture the behavior of the original timeseries, much as it did before. Two questions: what happens if we use more or fewer modes? And what would happen with larger fractions of missing values? Let’s find out.</p>
+<p>First, we truncate the SSA expansion so it includes only modes that include 95% of the variance. This is set with <code class="docutils literal notranslate"><span class="pre">trunc='var',var_thresh=95</span></code> above, and the result is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;NINO3 index&#39;</span><span class="p">)</span> <span class="c1"># we mute the first call to only get the plot with 2 lines</span>
+<span class="n">miss_ssa</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;gappy SSA reconstruction, 95% variance&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;NINO3 index&#39;}, xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;value&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/8ea9cc769cdc5d94fd1bc1f8e8de17bcc2df4047fc7a074f71887431d3e0ed10.png" src="../_images/8ea9cc769cdc5d94fd1bc1f8e8de17bcc2df4047fc7a074f71887431d3e0ed10.png" />
+</div>
+</div>
+<p>The series is quite noisy, which is a sign that we might have retained too many modes. Let’s instead use another method (see below), that finds the “knee” of the scree plot:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">knee_ssa</span> <span class="o">=</span> <span class="n">ts_miss</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">trunc</span><span class="o">=</span><span class="s1">&#39;knee&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;NINO3 index&#39;</span><span class="p">)</span>
+<span class="n">knee_ssa</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;gappy SSA reconstruction, knee-finding method&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;NINO3 index&#39;}, xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;value&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/b359cc00eeef22e12a69b3e2d3b2806d56e9b63f9acbf453c27ffc78d4956d68.png" src="../_images/b359cc00eeef22e12a69b3e2d3b2806d56e9b63f9acbf453c27ffc78d4956d68.png" />
+</div>
+</div>
+<p>This is OK, but as we apply this to increasingly sparse versions of the series, it may still retain too much information. Let’s use a conservartive approach that retains only 60% of the total variance:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmiss</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.2</span><span class="p">,</span> <span class="mf">.3</span><span class="p">,</span> <span class="mf">.4</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mf">.6</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">fm</span> <span class="ow">in</span> <span class="n">fmiss</span><span class="p">:</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">fm</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">),</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">nino_miss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">ts_n</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">nino_miss</span><span class="p">[</span><span class="n">missing</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">ts_miss</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">nino_miss</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">miss_ssa</span> <span class="o">=</span> <span class="n">ts_miss</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">trunc</span><span class="o">=</span><span class="s1">&#39;var&#39;</span><span class="p">,</span><span class="n">var_thresh</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;SSA reconstruction with &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fm</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39;% missing values&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+    <span class="n">miss_ssa</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;SSA recon, 60% var&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f3971d0895b8fb44548880aa5996f43a61e528a13fa906850174a575d64ec2b9.png" src="../_images/f3971d0895b8fb44548880aa5996f43a61e528a13fa906850174a575d64ec2b9.png" />
+<img alt="../_images/f706bd82dca91b73ba5db4c581c12cbfde2c360eb9e0cc3ff900752e5f687de3.png" src="../_images/f706bd82dca91b73ba5db4c581c12cbfde2c360eb9e0cc3ff900752e5f687de3.png" />
+<img alt="../_images/8290ae0764da819bde050af1339bc74bec87edb6ceb4067b66312ccd8210c2b7.png" src="../_images/8290ae0764da819bde050af1339bc74bec87edb6ceb4067b66312ccd8210c2b7.png" />
+<img alt="../_images/98f40e98d5b3cb3fcdf5a7bdb83c56260bc9f020b416a7f356b6df4af071929a.png" src="../_images/98f40e98d5b3cb3fcdf5a7bdb83c56260bc9f020b416a7f356b6df4af071929a.png" />
+<img alt="../_images/24ff467bb608ac0f6594e84f45fc68f580d5476a4437ecd7556a0cd376c319de.png" src="../_images/24ff467bb608ac0f6594e84f45fc68f580d5476a4437ecd7556a0cd376c319de.png" />
+</div>
+</div>
+<p>We see that SSA still does a respectable job with only half the points (<span class="math notranslate nohighlight">\(f = .50\)</span>), however the reconstruction breaks down for <span class="math notranslate nohighlight">\(f = 0.6\)</span>. Using different truncation methods might mitigate this, but we can’t expect miracles: trying to reconstruct such a complex signal based on fewer samples than that is asking for trouble. In fact, it’s already rather impressive that SSA can extract so much information from so little data. That is a testimony to the idea that most communication is <a class="reference external" href="https://en.wikipedia.org/wiki/Information_theory">redundant</a>, which is the basis of compression, used so ubiquitously in the digital world (think mp3 audio files, jpeg photographs, etc). You may in fact think of this SSA reconstruction as a form of data compression.</p>
+<p>Now, this data compression is a lot easier when the data are missing at random, as was the case here. If we were to take out a contiguous chunk of the data , things would go sour very fast. Let’s see that by taking out the second quarter of the series:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+<span class="n">nino_miss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">ts_n</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">nino_miss</span><span class="p">[</span><span class="n">missing</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">ts_miss</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">nino_miss</span><span class="p">,</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">miss_ssa</span> <span class="o">=</span> <span class="n">ts_miss</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">trunc</span><span class="o">=</span><span class="s1">&#39;knee&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;SSA reconstruction with missing second quarter&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;monthly NINO3&#39;</span><span class="p">)</span>
+<span class="n">miss_ssa</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;SSA recon, knee&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x1c96cace0&gt;
+</pre></div>
+</div>
+<img alt="../_images/8444535d4e974d929107b5afe538c6d17f809da60f813e52641ad087234379d4.png" src="../_images/8444535d4e974d929107b5afe538c6d17f809da60f813e52641ad087234379d4.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">miss_ssa</span><span class="o">.</span><span class="n">RCseries</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;label&#39;: &#39;SSA reconstruction (knee)&#39;}
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>None
+Time [years CE]
+1871.000000   NaN
+1871.083333   NaN
+1871.166667   NaN
+1871.250000   NaN
+1871.333333   NaN
+               ..
+2003.583333   NaN
+2003.666667   NaN
+2003.750000   NaN
+2003.833333   NaN
+2003.916667   NaN
+Name: value, Length: 1596, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, the missing 25% could not be inferred, so SSA simply it left it out, and the reconstructed series is full of NaNs.</p>
+<p>In summary, SSA may be used for <strong>interpolation</strong> (that is, the <strong>imputation of missing values</strong>): instead of traditional methods like polynomial interpolation, it provides an alternative that leverages the underlying oscillatory components of the timeseries. However, the method cannot perform miracles, and works best when data are missing in non-contiguous blocks. At present, it does not provide error estimates around interpolated values, though one could imagine generalizations that do. Methods such as <a class="reference external" href="https://onlinelibrary.wiley.com/doi/full/10.1002/cmm4.1080">these</a> might be helpful.</p>
+</section>
+<section id="ssa-approximation">
+<h3>SSA approximation<a class="headerlink" href="#ssa-approximation" title="Link to this heading">#</a></h3>
+<p>Like all decomposition methods, SSA may be used to obtain approximations to the original data, often with the idea of filtering out noise. We’ve already seen how Monte Carlo SSA can be used for selecting modes that stand out against an AR(1) null. <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> also implements three simpler (and computationally lighter) options: the Kaiser rule, a criterion on retained variance (which we used just above; the amount of variance retained is dictated by the parameter <code class="docutils literal notranslate"><span class="pre">var_thresh</span></code>), and a knee finding method.  The Kaiser rule (sometimes called Kaiser-Guttman rule) asserts that the modes that matter are those whose eigenvalue is above the mean (or median) of the eigenvalues. The knee finding method asserts that modes above the “knee” in the screeplot are significant. Let us compare these three criteria:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kaiser</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="s1">&#39;kaiser&#39;</span><span class="p">)</span>
+<span class="n">mc_ssa</span> <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="s1">&#39;mcssa&#39;</span><span class="p">,</span><span class="n">nMC</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">var</span>    <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="s1">&#39;var&#39;</span><span class="p">,</span> <span class="n">var_thresh</span><span class="o">=</span><span class="mi">95</span><span class="p">)</span>
+<span class="n">knee</span>   <span class="o">=</span> <span class="n">ts_n</span><span class="o">.</span><span class="n">ssa</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="s1">&#39;knee&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The reconstructed series is stashed away into the <code class="docutils literal notranslate"><span class="pre">RCseries</span></code> variable; let us look at the retained modes and what that yields for us in the RCseries with each of these truncation methods:</p>
+<section id="kaiser-method">
+<h4>Kaiser method<a class="headerlink" href="#kaiser-method" title="Link to this heading">#</a></h4>
+<p>Kaiser’s criterion retains 50% of the modes, regardless of their importance:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kaiser</span><span class="o">.</span><span class="n">screeplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 600x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;SSA scree plot&#39;}, xlabel=&#39;Mode index $i$&#39;, ylabel=&#39;$\\lambda_i$&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/8df83dbb90dda381558a521c4667677226185503e3b139477601bb2e4fae49d0.png" src="../_images/8df83dbb90dda381558a521c4667677226185503e3b139477601bb2e4fae49d0.png" />
+</div>
+</div>
+<p>We’ll look at a slice of the NINO record in order to get a sense as to what this means for our reconstructed series.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ts_n</span><span class="o">.</span><span class="n">slice</span><span class="p">((</span><span class="mi">1900</span><span class="p">,</span><span class="mi">1920</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">kaiser</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">slice</span><span class="p">((</span><span class="mi">1900</span><span class="p">,</span><span class="mi">1920</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;SSA, Kaiser truncation&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;SSA reconstruction using Kaiser truncation method&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;SSA reconstruction using Kaiser truncation method&#39;)
+</pre></div>
+</div>
+<img alt="../_images/2547d51718c23fcbd2a733ef8c60ac742e5fe085102baaeacf73d3aa46099ed9.png" src="../_images/2547d51718c23fcbd2a733ef8c60ac742e5fe085102baaeacf73d3aa46099ed9.png" />
+</div>
+</div>
+<p>We can see the effect of retaining too many modes, we’ve essentially just returned the original series. Some smoothing has occurred, but a fair amount of high frequency, low variance behavior is retained. Sometimes this is desirable, sometimes not.</p>
+</section>
+<section id="variance-thresholding-method">
+<h4>Variance thresholding method<a class="headerlink" href="#variance-thresholding-method" title="Link to this heading">#</a></h4>
+<p>As seen before, this method retains the first <span class="math notranslate nohighlight">\(k\)</span> modes that account for a specified fraction of variance (here, 95%, adjustable through the <code class="docutils literal notranslate"><span class="pre">var_thresh</span></code> parameter).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span><span class="o">.</span><span class="n">screeplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 600x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;SSA scree plot&#39;}, xlabel=&#39;Mode index $i$&#39;, ylabel=&#39;$\\lambda_i$&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/1c9abb8e932924a755ecbf1c8f718ab30e2113cdc496b3cdcfc728fb512f9046.png" src="../_images/1c9abb8e932924a755ecbf1c8f718ab30e2113cdc496b3cdcfc728fb512f9046.png" />
+</div>
+</div>
+<p>If we want to hone in on a “reasonable” number of modes, we’ll need to use trial and error. We’ll humour the var method defaults here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ts_n</span><span class="o">.</span><span class="n">slice</span><span class="p">((</span><span class="mi">1900</span><span class="p">,</span><span class="mi">1920</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">var</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">slice</span><span class="p">((</span><span class="mi">1900</span><span class="p">,</span><span class="mi">1920</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;SSA, var thresh = 95%&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;SSA reconstruction using variance threshold truncation method&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;SSA reconstruction using variance threshold truncation method&#39;)
+</pre></div>
+</div>
+<img alt="../_images/f460844d5cf321d343c5ca075597d1cde4be1e42301269c433b438d3b4bb539a.png" src="../_images/f460844d5cf321d343c5ca075597d1cde4be1e42301269c433b438d3b4bb539a.png" />
+</div>
+</div>
+<p>This is a bit smoother than Kaiser, because we retained quite a bit fewer modes.</p>
+</section>
+<section id="knee-finding-method">
+<h4>Knee finding method<a class="headerlink" href="#knee-finding-method" title="Link to this heading">#</a></h4>
+<p>As mentioned above, one can also pick the knee of the scree plot:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">knee</span><span class="o">.</span><span class="n">screeplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 600x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;SSA scree plot&#39;}, xlabel=&#39;Mode index $i$&#39;, ylabel=&#39;$\\lambda_i$&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/f1f1e2d95a4775d05fd9968f63de5e80eae395921b6f02124ea86c952602a40f.png" src="../_images/f1f1e2d95a4775d05fd9968f63de5e80eae395921b6f02124ea86c952602a40f.png" />
+</div>
+</div>
+<p>Of the three methods described above, this is certainly the closest we’ve gotten to identifying what we might consider to be significant SSA modes on the first run around. Let’s see what the series looks like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ts_n</span><span class="o">.</span><span class="n">slice</span><span class="p">((</span><span class="mi">1900</span><span class="p">,</span><span class="mi">1920</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">knee</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">slice</span><span class="p">((</span><span class="mi">1900</span><span class="p">,</span><span class="mi">1920</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;SSA, knee&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;SSA reconstruction using knee finding truncation method&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;SSA reconstruction using knee finding truncation method&#39;)
+</pre></div>
+</div>
+<img alt="../_images/49f3370db1f87666cfd0555286df4b089c1e91314c6ec9c703171e714e06af9d.png" src="../_images/49f3370db1f87666cfd0555286df4b089c1e91314c6ec9c703171e714e06af9d.png" />
+</div>
+</div>
+<p>This is a nice result. It straddles the boundary between the Kaiser method’s adherence to the original record and the variance thresholding method’s smoothing of the original time series. If the goal is to enhance the S/N ratio and reconstruct a smooth version of the attractor’s skeleton, then the knee-finding method is a good compromise between objectivity and efficiency.</p>
+<p>Let’s compare those three truncation criteria on the same plot, together with MC-SSA:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;SSA approximations&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">alp</span><span class="o">=</span><span class="mf">.5</span>
+<span class="n">kaiser</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Kaiser rule&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="n">alp</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mc_ssa</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;MC SSA&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="n">alp</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">var</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;95% variance&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="n">alp</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">knee</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Knee finding&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="n">alp</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x1c8ee6c80&gt;
+</pre></div>
+</div>
+<img alt="../_images/b9e575957a036d76f3e9625b9605b567a274afa792e9a461b1b166bf864ce00f.png" src="../_images/b9e575957a036d76f3e9625b9605b567a274afa792e9a461b1b166bf864ce00f.png" />
+</div>
+</div>
+<p>One can see that the various methods come out with comparable approximations to the original series, all tending to smooth out high-frequency oscillations. One caveat is that such approximations do not preserve  variance, so this should be kept in mind in case variance matters to your analysis. The variance threshold is arbitrary, making it hard to justify, and the Kaiser-Guttman rule is not rooted in much theory, though it can work reasonably well in practice. The knee-finding method seems to be the most robust so far, though it also has little theory backing it up. However, if we were to impose a default truncation method, it would likely be this one.</p>
+<p>There would be other truncation criteria, like Equation 26 in <a class="reference external" href="https://doi.org/10.1109/TSP.2008.917356">Nadakuditi &amp; Edelman (2008)</a>, which have yet to be implemented.
+Lastly, if you wanted to be quantitative about those differences, you could evaluate RMS residuals:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;kaiser&#39;</span><span class="p">,</span><span class="s1">&#39;mc_ssa&#39;</span><span class="p">,</span><span class="s1">&#39;var&#39;</span><span class="p">,</span><span class="s1">&#39;knee&#39;</span><span class="p">]:</span>
+    <span class="n">res_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">method</span><span class="p">)</span><span class="o">.</span><span class="n">RCseries</span><span class="o">.</span><span class="n">value</span><span class="o">-</span><span class="n">ts_nino</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the residual between </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1"> and NINO3 is </span><span class="si">{</span><span class="n">res_norm</span><span class="si">:</span><span class="s1">3.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>the residual between kaiser and NINO3 is 8.53
+the residual between mc_ssa and NINO3 is 16.82
+the residual between var and NINO3 is 10.22
+the residual between knee and NINO3 is 10.67
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
+<p>SSA can do a lot for you. Give it a try!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Mar 04 2024
+
+Python implementation: CPython
+Python version       : 3.11.7
+IPython version      : 8.20.0
+
+matplotlib: 3.8.2
+pandas    : 2.1.4
+numpy     : 1.26.3
+pyleoclim : 0.13.1b0
+
+Watermark: 2.4.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L2_principal_component_analysis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Principal Component Analysis with Pyleoclim</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L2_spectral_analysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Spectral Analysis with Pyleoclim</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-ssa">Monte-Carlo SSA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssa-pre-filtering">SSA pre-filtering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssa-with-missing-values">SSA with missing values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssa-approximation">SSA approximation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kaiser-method">Kaiser method</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-thresholding-method">Variance thresholding method</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#knee-finding-method">Knee finding method</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

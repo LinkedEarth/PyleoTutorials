@@ -1,0 +1,2574 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Working with Age Ensembles &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L1_working_with_age_ensembles';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Correlation Analysis in Pyleoclim" href="L2_correlations.html" />
+    <link rel="prev" title="Uniform time sampling with Pyleoclim" href="L1_uniform_time_sampling.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L1_working_with_age_ensembles.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L1_working_with_age_ensembles.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L1_working_with_age_ensembles.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Working with Age Ensembles</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensemble-series-from-chron-ensemble">Ensemble series from chron ensemble</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-lipd">Example from LiPD</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-ensemble-information-to-numpy-arrays-and-pandas-dataframe">Exporting ensemble information to <code class="docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">Arrays</span></code> and <code class="docutils literal notranslate"><span class="pre">Pandas</span> <span class="pre">DataFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-noaa">Example from NOAA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ensemble-series-from-paleo-ensemble">Ensemble series from paleo ensemble</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="working-with-age-ensembles">
+<h1>Working with Age Ensembles<a class="headerlink" href="#working-with-age-ensembles" title="Link to this heading">#</a></h1>
+<p>by  <a class="reference external" href="https://github.com/alexkjames">Alexander James</a> and <a class="reference external" href="https://orcid.org/0000-0001-7501-8430">Deborah Khider</a></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p>Quantifying chronological uncertainties, and how they influence the understanding of past changes in Earth systems, is a unique and fundamental challenge of the paleogeosciences. Without robust error determination, it is impossible to properly assess the extent to which past changes occurred simultaneously across regions, accurately estimate rates of change or the duration of abrupt events, or attribute causality – all of which limit our capacity to apply paleogeoscientific understanding to modern and future processes. With regards to the construction of an age-depth model, studies typically calculate a single “best” estimate (often the posterior median or mean), use this model to place measured paleoclimatic or paleoenvironmental data on a timescale, and then proceed to analyze the record with little to no reference to the uncertainties generated as part of the age-modeling exercise, however rigorous in its own right.</p>
+<p>Luckily, the vast majority of modern age-uncertainty quantification techniques estimate uncertainties by generating an “ensemble” of plausible age models: hundreds or thousands of plausible alternate age–depth relationships that are consistent with radiometric age estimates, the depositional or accumulation processes of the archive, and the associated uncertainties. By taking advantage of these ensembles to evaluate how the results of an analysis vary across the ensemble members, age-based uncertainty can be more robustly accounted for. A rising number of paleoclimate records now incorporate such age ensembles, which the <a class="reference internal" href="#L1_working_with_LiPD.md"><span class="xref myst">LiPD format</span></a> was designed to store. However, properly leveraging these often unwieldy ensemble objects for analysis can be cumbersome. In this notebook we:</p>
+<ul class="simple">
+<li><p>Show how translate ensemble age-depth relationships to ensemble age-paleovariable relationships</p></li>
+<li><p>Show how to apply this transformatuon in two different data contexts.</p></li>
+</ul>
+<p>The goal is to provide boilerplate code for specific solutions as well as a launching point for researchers to craft custom solutions as necessary. Further reading on age models (as well as an R implemenation for their generation) can be found in <a class="reference external" href="https://doi.org/10.5194/gchron-3-149-2021">Mckay et al. (2021)</a> (the paper from which much of this preamble was lifted).</p>
+<section id="goals">
+<h3>Goals<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Create an <code class="docutils literal notranslate"><span class="pre">ensemble_series</span></code> object from two different file types:</p>
+<ul>
+<li><p>A LiPD file</p></li>
+<li><p>A NOAA file plus a CSV</p></li>
+</ul>
+</li>
+<li><p>Create an <code class="docutils literal notranslate"><span class="pre">ensemble_series</span></code> object using ensembles based on ChronData tables and ensembles based on PaleoData tables.</p></li>
+</ul>
+<p><strong>Reading time:</strong></p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>LiPD; Age ensembles</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>This tutorial assumes basic knowledge of Python. If you are not familiar with this coding language, check out <a class="reference external" href="http://linked.earth/LeapFROGS/">this  tutorial</a>.</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>PyLiPD; Pandas</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<p>This tutorial makes use of the following datasets:</p>
+<ul class="simple">
+<li><p><strong>Crystal cave</strong>: McCabe-Glynn, S., Johnson, K., Strong, C. et al. Variable North Pacific influence on drought in southwestern North America since AD 854. Nature Geosci 6, 617–621 (2013). <a class="reference external" href="https://doi.org/10.1038/ngeo1862">https://doi.org/10.1038/ngeo1862</a></p></li>
+<li><p><strong>MD98-2181</strong>: Khider, D., Jackson, C. S., and Stott, L. D., Assessing millennial-scale variability during the Holocene: A perspective from the western tropical Pacific, Paleoceanography, 29, 143– 159 (2014). https://doi:10.1002/2013PA002534.</p></li>
+</ul>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<p>Let’s import the necessary packages:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pylipd.lipd</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiPD</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="ensemble-series-from-chron-ensemble">
+<h3>Ensemble series from chron ensemble<a class="headerlink" href="#ensemble-series-from-chron-ensemble" title="Link to this heading">#</a></h3>
+<p>In the following two examples we will create <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code> objects from ensembles where uncertainty is represented by variations in the time axis. This structure is typically used to represent dating uncertainty.</p>
+<section id="example-from-lipd">
+<h4>Example from LiPD<a class="headerlink" href="#example-from-lipd" title="Link to this heading">#</a></h4>
+<p>For this example we’ll use the <a class="reference external" href="https://doi.org/10.1038/ngeo1862">Crystal Cave</a> record.</p>
+<p>The easiest way to load data from a LiPD file in Python is to use the <a class="reference external" href="https://github.com/LinkedEarth/pylipd">PyLiPD</a> package. Tutorials on basic usage of the PyLiPD package can be found in the <a class="reference external" href="https://github.com/LinkedEarth/pylipdTutorials">PyLiPD Tutorials</a> GitHub repository.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Create a path to the data</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../data/Crystal.McCabe-Glynn.2013.lpd&#39;</span>
+
+<span class="c1">#Initialize the lipd object</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">LiPD</span><span class="p">()</span>
+
+<span class="c1">#Load the data</span>
+<span class="n">D</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading 1 LiPD files
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  4.62it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded..
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can create a DataFrame containing relevant information about the ensembles:
+(1) ensembleTable : the full name of the table (relevant if one exists)
+(2) EnsembleVariableValues: Each column represents a member of the ensemble.
+(3) information about depth</p>
+<p>Note that the DataFrame includes information about units, which may be needed to convert the age-depth found in the ensemble table vs the other found with the data.</p>
+<div class="alert alert-warning">
+Check the units!!!!!
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Pull the ensemble tables into a dataframe</span>
+<span class="n">ensemble_df</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_ensemble_tables</span><span class="p">()</span>
+<span class="n">ensemble_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>datasetName</th>
+      <th>ensembleTable</th>
+      <th>ensembleVariableName</th>
+      <th>ensembleVariableValues</th>
+      <th>ensembleVariableUnits</th>
+      <th>ensembleDepthName</th>
+      <th>ensembleDepthValues</th>
+      <th>ensembleDepthUnits</th>
+      <th>notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Crystal.McCabe-Glynn.2013</td>
+      <td>http://linked.earth/lipd/Crystal.McCabe-Glynn....</td>
+      <td>Year</td>
+      <td>[[2007.0, 2007.0, 2008.0, 2007.0, 2007.0, 2007...</td>
+      <td>yr AD</td>
+      <td>depth</td>
+      <td>[0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0...</td>
+      <td>mm</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can flatten the information contained in a LiPD file into a DataFrame that can be used for further querying. The columns correspond to metadata properties while each row corresponds to a specific variable (a column in the csv file).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Pull the paleo data into a list. We use all the available data set names because our file only contains one dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_timeseries_essentials</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">get_all_dataset_names</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;paleo&#39;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dataSetName</th>
+      <th>archiveType</th>
+      <th>geo_meanLat</th>
+      <th>geo_meanLon</th>
+      <th>geo_meanElev</th>
+      <th>paleoData_variableName</th>
+      <th>paleoData_values</th>
+      <th>paleoData_units</th>
+      <th>paleoData_proxy</th>
+      <th>paleoData_proxyGeneral</th>
+      <th>time_variableName</th>
+      <th>time_values</th>
+      <th>time_units</th>
+      <th>depth_variableName</th>
+      <th>depth_values</th>
+      <th>depth_units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Crystal.McCabe-Glynn.2013</td>
+      <td>Speleothem</td>
+      <td>36.59</td>
+      <td>-118.82</td>
+      <td>1386.0</td>
+      <td>d18o</td>
+      <td>[-8.01, -8.23, -8.61, -8.54, -8.6, -9.08, -8.9...</td>
+      <td>permil</td>
+      <td>None</td>
+      <td>None</td>
+      <td>age</td>
+      <td>[2007.7, 2007.0, 2006.3, 2005.6, 2004.9, 2004....</td>
+      <td>yr AD</td>
+      <td>depth</td>
+      <td>[0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0...</td>
+      <td>mm</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Let’s grab some information that we will need at a later time:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paleoDepth</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;depth_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">paleoValues</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">paleoTime</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1">#It&#39;s wise to make sure our units all make sense so we&#39;ll pull these as well</span>
+<span class="n">paleo_depth_units</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;depth_units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1">#The stored value name and value unit are horrendously formatted, so we&#39;ll hard code them using info from the dataframe</span>
+<span class="n">value_name</span> <span class="o">=</span> <span class="s1">&#39;d18O&#39;</span>
+<span class="n">value_unit</span> <span class="o">=</span> <span class="s1">&#39;permil VPDB&#39;</span>
+
+<span class="c1">#We can access the row of interest in our ensemble table via indexing by 0 (because there&#39;s just the one row anyway)</span>
+<span class="n">chronDepth</span> <span class="o">=</span> <span class="n">ensemble_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ensembleDepthValues&#39;</span><span class="p">]</span>
+<span class="n">chronValues</span> <span class="o">=</span> <span class="n">ensemble_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ensembleVariableValues&#39;</span><span class="p">]</span>
+
+<span class="c1">#Getting depth units, time name, and time units from our ensemble table</span>
+<span class="n">ensemble_depth_units</span> <span class="o">=</span> <span class="n">ensemble_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ensembleDepthUnits&#39;</span><span class="p">]</span>
+
+<span class="c1">#The way time name and units are stored in our ensemble dataframe are a bit wonky, so we&#39;ll do some organization of our own</span>
+<span class="n">time_name</span> <span class="o">=</span> <span class="s1">&#39;Time&#39;</span>
+<span class="n">time_unit</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ensemble_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;ensembleVariableName&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">ensemble_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;ensembleVariableUnits&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Num rows in chronValues: </span><span class="si">{</span><span class="n">chronValues</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">, Length of chronDepth: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">chronDepth</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Num rows in chronValues: 1053, Length of chronDepth: 1053
+</pre></div>
+</div>
+</div>
+</div>
+<p>[All looks well. Let’s make a <code class="docutils literal notranslate"><span class="pre">EnseembleSeries</span></code> object using the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.ensembleseries.EnsembleSeries.from_AgeEnsembleArray"><code class="docutils literal notranslate"><span class="pre">from_AgeEnsembleArray</span></code></a> method. To use this functionality, it’s often easier to create a general <code class="docutils literal notranslate"><span class="pre">Series</span></code> object first so some of the meatadata (e.g., name and units) can be reused when the <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code> is created.</p>
+<p>The function takes the following argument:</p>
+<ul class="simple">
+<li><p>series – A Series object with the values to be mapped and needed metadata;</p></li>
+<li><p>age_array (np.array) – An array of ages to map the values to; in our example, this is the <code class="docutils literal notranslate"><span class="pre">ChronValues</span></code> variable.</p></li>
+<li><p>value_depth (vector) – An array of depths corresponding to the series values; in our example, this is the <code class="docutils literal notranslate"><span class="pre">paleoDepth</span></code> variable.</p></li>
+<li><p>age_depth (vector) – An array of depths corresponding to the age array; in our example, this is the <code class="docutils literal notranslate"><span class="pre">chronDepth</span></code> variable.</p></li>
+<li><p>extrapolate (bool) – Whether to extrapolate the age array to the value depth. By default, this is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+<div class="alert alert-block alert-info">
+<b>Note:</b> This function also work similarly with `EnsembleGeoseries`. If `depth` is a vector in the `GeoSeries` object, then `value_depth` does not need to be specified. 
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span> <span class="o">=</span> <span class="n">paleoTime</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">paleoValues</span><span class="p">,</span> <span class="n">time_name</span> <span class="o">=</span> <span class="n">time_name</span><span class="p">,</span>
+                 <span class="n">value_name</span> <span class="o">=</span> <span class="n">value_name</span><span class="p">,</span> <span class="n">time_unit</span> <span class="o">=</span> <span class="n">time_unit</span><span class="p">,</span>
+                 <span class="n">value_unit</span> <span class="o">=</span> <span class="n">value_unit</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dataSetName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleSeries</span><span class="o">.</span><span class="n">from_AgeEnsembleArray</span><span class="p">(</span><span class="n">series</span> <span class="o">=</span> <span class="n">ts</span><span class="p">,</span> <span class="n">age_array</span> <span class="o">=</span> <span class="n">chronValues</span><span class="p">,</span> <span class="n">value_depth</span> <span class="o">=</span> <span class="n">paleoDepth</span><span class="p">,</span>
+                                                     <span class="n">age_depth</span> <span class="o">=</span> <span class="n">chronDepth</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And voila! We can leverage all of pyleoclim’s wonderful ensemble functionalities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ensemble</span><span class="o">.</span><span class="n">common_time</span><span class="p">()</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1600x1000 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Time [Year yr AD]&#39;, ylabel=&#39;d18O [permil VPDB]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/7001904596068dc18a93c9050285a5131a39ca9239d59bdec3a76623933bff25.png" src="../_images/7001904596068dc18a93c9050285a5131a39ca9239d59bdec3a76623933bff25.png" />
+</div>
+</div>
+<section id="exporting-ensemble-information-to-numpy-arrays-and-pandas-dataframe">
+<h5>Exporting ensemble information to <code class="docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">Arrays</span></code> and <code class="docutils literal notranslate"><span class="pre">Pandas</span> <span class="pre">DataFrame</span></code><a class="headerlink" href="#exporting-ensemble-information-to-numpy-arrays-and-pandas-dataframe" title="Link to this heading">#</a></h5>
+<p>In some instances, it may be useful to return the age information stored in a LiPD file directly into a <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html"><code class="docutils literal notranslate"><span class="pre">numpy.array</span></code></a> or a <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> for use outside of Pyleoclim. You can do this using the <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.ensembleseries.EnsembleSeries.to_array"><code class="docutils literal notranslate"><span class="pre">to_array</span></code></a> and <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.ensembleseries.EnsembleSeries.to_dataframe"><code class="docutils literal notranslate"><span class="pre">to_dataframe</span></code></a>.</p>
+<p>Let’s recover the age ensemble and store them it into a <code class="docutils literal notranslate"><span class="pre">numpy.array</span></code>. The <code class="docutils literal notranslate"><span class="pre">to_array</span></code> function takes the following arguments:</p>
+<ul class="simple">
+<li><p>axis (str, [‘time’, ‘value’], optional) – Whether the return the ensemble from value or time. The default is ‘value’.</p></li>
+<li><p>labels (bool, [True,False], optional) – Whether to retrun a separate list with the timseries labels. The default is True.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vals</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">to_array</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+<span class="n">vals</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[2007., 2007., 2008., ..., 2007., 2007., 2007.],
+       [2007., 2007., 2008., ..., 2007., 2007., 2007.],
+       [2006., 2006., 2008., ..., 2006., 2006., 2006.],
+       ...,
+       [ 985.,  957.,  896., ..., 1000., 1005.,  655.],
+       [ 985.,  957.,  895., ..., 1000., 1004.,  655.],
+       [ 985.,  957.,  894., ..., 1000., 1004.,  654.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Another option is to return to a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> using the <code class="docutils literal notranslate"><span class="pre">to_dataframe</span></code> method.</p>
+</section>
+</section>
+<section id="example-from-noaa">
+<h4>Example from NOAA<a class="headerlink" href="#example-from-noaa" title="Link to this heading">#</a></h4>
+<p>For this example we’ll use the <a class="reference external" href="https://www.ncei.noaa.gov/access/paleo-search/study/2634">MD982181</a> record from <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2013PA002534">Khider et al. (2014)</a>. We will source the CSV file containing the age ensemble for the SST values from this record from the <a class="reference external" href="https://wiki.linked.earth/File:MD982181.Khider.2014.chron1model1ensemble.csv">Linked Earth wiki page</a>, though a local CSV file could also be used here with minimal changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Loading the ensemble tables. Note that column 0 corresponds to depth</span>
+
+<span class="n">ensemble_url</span> <span class="o">=</span> <span class="s1">&#39;https://wiki.linked.earth/wiki/images/7/79/MD982181.Khider.2014.chron1model1ensemble.csv&#39;</span>
+
+<span class="n">ensemble_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">ensemble_url</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">ensemble_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>991</th>
+      <th>992</th>
+      <th>993</th>
+      <th>994</th>
+      <th>995</th>
+      <th>996</th>
+      <th>997</th>
+      <th>998</th>
+      <th>999</th>
+      <th>1000</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>207.301109</td>
+      <td>-21.273103</td>
+      <td>359.894201</td>
+      <td>3.950743</td>
+      <td>69.791337</td>
+      <td>195.918556</td>
+      <td>477.506539</td>
+      <td>254.071725</td>
+      <td>18.043039</td>
+      <td>...</td>
+      <td>200.832011</td>
+      <td>29.981959</td>
+      <td>159.156188</td>
+      <td>-30.030879</td>
+      <td>10.998169</td>
+      <td>256.535747</td>
+      <td>232.055674</td>
+      <td>61.422668</td>
+      <td>-24.770834</td>
+      <td>475.549540</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.5</td>
+      <td>210.598385</td>
+      <td>-6.095219</td>
+      <td>363.537231</td>
+      <td>19.011842</td>
+      <td>79.372074</td>
+      <td>202.387822</td>
+      <td>478.016110</td>
+      <td>257.074060</td>
+      <td>29.545646</td>
+      <td>...</td>
+      <td>207.932983</td>
+      <td>38.840758</td>
+      <td>167.586782</td>
+      <td>-18.344618</td>
+      <td>17.123170</td>
+      <td>262.956721</td>
+      <td>235.486451</td>
+      <td>71.243925</td>
+      <td>-18.329537</td>
+      <td>475.748343</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>216.040623</td>
+      <td>19.369267</td>
+      <td>369.630612</td>
+      <td>44.252513</td>
+      <td>95.396047</td>
+      <td>213.157541</td>
+      <td>478.839723</td>
+      <td>262.061321</td>
+      <td>48.814435</td>
+      <td>...</td>
+      <td>219.792022</td>
+      <td>53.661308</td>
+      <td>181.704918</td>
+      <td>1.189714</td>
+      <td>27.295888</td>
+      <td>273.711759</td>
+      <td>241.180553</td>
+      <td>87.665771</td>
+      <td>-7.626766</td>
+      <td>476.046104</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6.5</td>
+      <td>219.280420</td>
+      <td>34.728605</td>
+      <td>373.297041</td>
+      <td>59.463559</td>
+      <td>105.037349</td>
+      <td>219.613424</td>
+      <td>479.321568</td>
+      <td>265.045696</td>
+      <td>60.422642</td>
+      <td>...</td>
+      <td>226.919006</td>
+      <td>62.580463</td>
+      <td>190.208029</td>
+      <td>12.937785</td>
+      <td>33.382424</td>
+      <td>280.190421</td>
+      <td>244.585561</td>
+      <td>97.544358</td>
+      <td>-1.220809</td>
+      <td>476.208644</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7.0</td>
+      <td>220.356966</td>
+      <td>39.859076</td>
+      <td>374.520562</td>
+      <td>64.542743</td>
+      <td>108.254684</td>
+      <td>221.764597</td>
+      <td>479.480550</td>
+      <td>266.039429</td>
+      <td>64.298267</td>
+      <td>...</td>
+      <td>229.296199</td>
+      <td>65.557071</td>
+      <td>193.046673</td>
+      <td>16.857451</td>
+      <td>35.409002</td>
+      <td>282.353374</td>
+      <td>245.719046</td>
+      <td>100.840599</td>
+      <td>0.912427</td>
+      <td>476.260687</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>332</th>
+      <td>827.0</td>
+      <td>9434.248215</td>
+      <td>9545.771005</td>
+      <td>9596.976203</td>
+      <td>9588.136195</td>
+      <td>9438.630060</td>
+      <td>9611.671864</td>
+      <td>9514.355046</td>
+      <td>9613.503470</td>
+      <td>9515.947093</td>
+      <td>...</td>
+      <td>9441.197068</td>
+      <td>9509.291601</td>
+      <td>9584.105141</td>
+      <td>9487.163021</td>
+      <td>9432.573204</td>
+      <td>9528.250540</td>
+      <td>9577.714737</td>
+      <td>9442.864368</td>
+      <td>9570.410846</td>
+      <td>9500.091340</td>
+    </tr>
+    <tr>
+      <th>333</th>
+      <td>836.0</td>
+      <td>9662.543323</td>
+      <td>9749.147272</td>
+      <td>9818.449843</td>
+      <td>9818.782493</td>
+      <td>9638.010047</td>
+      <td>9835.377593</td>
+      <td>9714.793979</td>
+      <td>9837.351019</td>
+      <td>9721.120860</td>
+      <td>...</td>
+      <td>9644.065902</td>
+      <td>9728.433304</td>
+      <td>9795.061924</td>
+      <td>9676.390919</td>
+      <td>9623.447075</td>
+      <td>9734.211473</td>
+      <td>9803.351304</td>
+      <td>9649.143650</td>
+      <td>9780.641448</td>
+      <td>9718.151948</td>
+    </tr>
+    <tr>
+      <th>334</th>
+      <td>839.0</td>
+      <td>9739.420208</td>
+      <td>9817.390937</td>
+      <td>9892.732202</td>
+      <td>9896.475674</td>
+      <td>9705.027332</td>
+      <td>9910.431322</td>
+      <td>9781.949176</td>
+      <td>9912.636525</td>
+      <td>9790.081021</td>
+      <td>...</td>
+      <td>9712.162198</td>
+      <td>9802.252278</td>
+      <td>9865.803631</td>
+      <td>9739.802457</td>
+      <td>9687.383488</td>
+      <td>9803.283922</td>
+      <td>9879.292011</td>
+      <td>9718.456343</td>
+      <td>9851.235118</td>
+      <td>9791.439448</td>
+    </tr>
+    <tr>
+      <th>335</th>
+      <td>843.0</td>
+      <td>9842.408624</td>
+      <td>9908.664339</td>
+      <td>9992.061086</td>
+      <td>10000.572811</td>
+      <td>9794.731539</td>
+      <td>10010.805766</td>
+      <td>9871.703033</td>
+      <td>10013.435160</td>
+      <td>9882.382981</td>
+      <td>...</td>
+      <td>9803.252697</td>
+      <td>9901.159253</td>
+      <td>9960.389782</td>
+      <td>9824.560618</td>
+      <td>9772.826640</td>
+      <td>9895.641914</td>
+      <td>9981.000988</td>
+      <td>9811.218375</td>
+      <td>9945.682572</td>
+      <td>9889.530993</td>
+    </tr>
+    <tr>
+      <th>336</th>
+      <td>846.0</td>
+      <td>9919.958299</td>
+      <td>9977.298254</td>
+      <td>10066.739084</td>
+      <td>10078.966925</td>
+      <td>9862.230432</td>
+      <td>10086.278763</td>
+      <td>9939.153975</td>
+      <td>10089.299381</td>
+      <td>9951.834789</td>
+      <td>...</td>
+      <td>9871.758062</td>
+      <td>9975.645163</td>
+      <td>10031.496854</td>
+      <td>9888.262156</td>
+      <td>9837.032501</td>
+      <td>9965.076292</td>
+      <td>10057.571280</td>
+      <td>9881.008911</td>
+      <td>10016.722863</td>
+      <td>9963.337556</td>
+    </tr>
+  </tbody>
+</table>
+<p>337 rows × 1001 columns</p>
+</div></div></div>
+</div>
+<p>The format here is different from the one we encountered from the LiPD file, so we’ll do things a bit differently. Outside of LiPD (and sometimes within it), the format of age ensemble tables can vary considerably. We’ll show how to approach formatting this table in a minute. First, let’s look at the paleo data we’re working with.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://www.ncei.noaa.gov/pub/data/paleo/contributions_by_author/khider2014/khider2014-sst.txt&#39;</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">137</span><span class="p">)</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>depth_cm</th>
+      <th>Mg/Ca-g.rub-w</th>
+      <th>d18Og.rub-w</th>
+      <th>age_calyrBP</th>
+      <th>age-2.5%</th>
+      <th>age-34%</th>
+      <th>age-68%</th>
+      <th>age-97.5%</th>
+      <th>SST</th>
+      <th>SST-2.5%</th>
+      <th>SST-34%</th>
+      <th>SST-68%</th>
+      <th>SST-97.5%</th>
+      <th>δ18Osw</th>
+      <th>δ18Osw 2.5%</th>
+      <th>δ18Osw 34%</th>
+      <th>δ18Osw 68%</th>
+      <th>δ18Osw 97.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>5.21</td>
+      <td>-999.990</td>
+      <td>199</td>
+      <td>-63</td>
+      <td>96</td>
+      <td>237</td>
+      <td>428</td>
+      <td>27.80</td>
+      <td>26.88</td>
+      <td>27.63</td>
+      <td>28.04</td>
+      <td>28.74</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.5</td>
+      <td>5.04</td>
+      <td>-2.830</td>
+      <td>205</td>
+      <td>-53</td>
+      <td>104</td>
+      <td>242</td>
+      <td>429</td>
+      <td>27.41</td>
+      <td>26.47</td>
+      <td>27.23</td>
+      <td>27.65</td>
+      <td>28.35</td>
+      <td>0.02</td>
+      <td>-0.32</td>
+      <td>-0.05</td>
+      <td>0.10</td>
+      <td>0.35</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.0</td>
+      <td>-999.99</td>
+      <td>-2.810</td>
+      <td>207</td>
+      <td>-50</td>
+      <td>107</td>
+      <td>244</td>
+      <td>430</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4.0</td>
+      <td>-999.99</td>
+      <td>-2.780</td>
+      <td>211</td>
+      <td>-44</td>
+      <td>112</td>
+      <td>248</td>
+      <td>432</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>5.10</td>
+      <td>-2.788</td>
+      <td>216</td>
+      <td>-38</td>
+      <td>117</td>
+      <td>252</td>
+      <td>433</td>
+      <td>27.55</td>
+      <td>26.58</td>
+      <td>27.36</td>
+      <td>27.79</td>
+      <td>28.49</td>
+      <td>0.09</td>
+      <td>-0.25</td>
+      <td>0.01</td>
+      <td>0.17</td>
+      <td>0.43</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>450</th>
+      <td>831.0</td>
+      <td>-999.99</td>
+      <td>-2.580</td>
+      <td>9604</td>
+      <td>9450</td>
+      <td>9563</td>
+      <td>9649</td>
+      <td>9764</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+      <td>-999.99</td>
+    </tr>
+    <tr>
+      <th>451</th>
+      <td>836.0</td>
+      <td>5.14</td>
+      <td>-2.650</td>
+      <td>9722</td>
+      <td>9565</td>
+      <td>9677</td>
+      <td>9770</td>
+      <td>9886</td>
+      <td>27.64</td>
+      <td>26.67</td>
+      <td>27.46</td>
+      <td>27.87</td>
+      <td>28.59</td>
+      <td>0.01</td>
+      <td>-0.33</td>
+      <td>-0.06</td>
+      <td>0.09</td>
+      <td>0.34</td>
+    </tr>
+    <tr>
+      <th>452</th>
+      <td>839.0</td>
+      <td>5.77</td>
+      <td>-2.620</td>
+      <td>9793</td>
+      <td>9634</td>
+      <td>9747</td>
+      <td>9844</td>
+      <td>9960</td>
+      <td>28.95</td>
+      <td>28.08</td>
+      <td>28.77</td>
+      <td>29.17</td>
+      <td>29.88</td>
+      <td>0.30</td>
+      <td>-0.04</td>
+      <td>0.23</td>
+      <td>0.38</td>
+      <td>0.63</td>
+    </tr>
+    <tr>
+      <th>453</th>
+      <td>843.0</td>
+      <td>5.45</td>
+      <td>-2.640</td>
+      <td>9888</td>
+      <td>9726</td>
+      <td>9839</td>
+      <td>9942</td>
+      <td>10059</td>
+      <td>28.30</td>
+      <td>27.42</td>
+      <td>28.14</td>
+      <td>28.53</td>
+      <td>29.19</td>
+      <td>0.13</td>
+      <td>-0.20</td>
+      <td>0.07</td>
+      <td>0.22</td>
+      <td>0.47</td>
+    </tr>
+    <tr>
+      <th>454</th>
+      <td>846.0</td>
+      <td>5.42</td>
+      <td>-2.530</td>
+      <td>9960</td>
+      <td>9794</td>
+      <td>9909</td>
+      <td>10015</td>
+      <td>10134</td>
+      <td>28.24</td>
+      <td>27.33</td>
+      <td>28.06</td>
+      <td>28.47</td>
+      <td>29.16</td>
+      <td>0.22</td>
+      <td>-0.10</td>
+      <td>0.15</td>
+      <td>0.31</td>
+      <td>0.56</td>
+    </tr>
+  </tbody>
+</table>
+<p>455 rows × 18 columns</p>
+</div></div></div>
+</div>
+<p>The missing value field was <code class="docutils literal notranslate"><span class="pre">-999</span></code>, let’s change it to NaN.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="o">-</span><span class="mf">999.99</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>depth_cm</th>
+      <th>Mg/Ca-g.rub-w</th>
+      <th>d18Og.rub-w</th>
+      <th>age_calyrBP</th>
+      <th>age-2.5%</th>
+      <th>age-34%</th>
+      <th>age-68%</th>
+      <th>age-97.5%</th>
+      <th>SST</th>
+      <th>SST-2.5%</th>
+      <th>SST-34%</th>
+      <th>SST-68%</th>
+      <th>SST-97.5%</th>
+      <th>δ18Osw</th>
+      <th>δ18Osw 2.5%</th>
+      <th>δ18Osw 34%</th>
+      <th>δ18Osw 68%</th>
+      <th>δ18Osw 97.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>5.21</td>
+      <td>NaN</td>
+      <td>199</td>
+      <td>-63</td>
+      <td>96</td>
+      <td>237</td>
+      <td>428</td>
+      <td>27.80</td>
+      <td>26.88</td>
+      <td>27.63</td>
+      <td>28.04</td>
+      <td>28.74</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.5</td>
+      <td>5.04</td>
+      <td>-2.830</td>
+      <td>205</td>
+      <td>-53</td>
+      <td>104</td>
+      <td>242</td>
+      <td>429</td>
+      <td>27.41</td>
+      <td>26.47</td>
+      <td>27.23</td>
+      <td>27.65</td>
+      <td>28.35</td>
+      <td>0.02</td>
+      <td>-0.32</td>
+      <td>-0.05</td>
+      <td>0.10</td>
+      <td>0.35</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>-2.810</td>
+      <td>207</td>
+      <td>-50</td>
+      <td>107</td>
+      <td>244</td>
+      <td>430</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>-2.780</td>
+      <td>211</td>
+      <td>-44</td>
+      <td>112</td>
+      <td>248</td>
+      <td>432</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>5.10</td>
+      <td>-2.788</td>
+      <td>216</td>
+      <td>-38</td>
+      <td>117</td>
+      <td>252</td>
+      <td>433</td>
+      <td>27.55</td>
+      <td>26.58</td>
+      <td>27.36</td>
+      <td>27.79</td>
+      <td>28.49</td>
+      <td>0.09</td>
+      <td>-0.25</td>
+      <td>0.01</td>
+      <td>0.17</td>
+      <td>0.43</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>450</th>
+      <td>831.0</td>
+      <td>NaN</td>
+      <td>-2.580</td>
+      <td>9604</td>
+      <td>9450</td>
+      <td>9563</td>
+      <td>9649</td>
+      <td>9764</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>451</th>
+      <td>836.0</td>
+      <td>5.14</td>
+      <td>-2.650</td>
+      <td>9722</td>
+      <td>9565</td>
+      <td>9677</td>
+      <td>9770</td>
+      <td>9886</td>
+      <td>27.64</td>
+      <td>26.67</td>
+      <td>27.46</td>
+      <td>27.87</td>
+      <td>28.59</td>
+      <td>0.01</td>
+      <td>-0.33</td>
+      <td>-0.06</td>
+      <td>0.09</td>
+      <td>0.34</td>
+    </tr>
+    <tr>
+      <th>452</th>
+      <td>839.0</td>
+      <td>5.77</td>
+      <td>-2.620</td>
+      <td>9793</td>
+      <td>9634</td>
+      <td>9747</td>
+      <td>9844</td>
+      <td>9960</td>
+      <td>28.95</td>
+      <td>28.08</td>
+      <td>28.77</td>
+      <td>29.17</td>
+      <td>29.88</td>
+      <td>0.30</td>
+      <td>-0.04</td>
+      <td>0.23</td>
+      <td>0.38</td>
+      <td>0.63</td>
+    </tr>
+    <tr>
+      <th>453</th>
+      <td>843.0</td>
+      <td>5.45</td>
+      <td>-2.640</td>
+      <td>9888</td>
+      <td>9726</td>
+      <td>9839</td>
+      <td>9942</td>
+      <td>10059</td>
+      <td>28.30</td>
+      <td>27.42</td>
+      <td>28.14</td>
+      <td>28.53</td>
+      <td>29.19</td>
+      <td>0.13</td>
+      <td>-0.20</td>
+      <td>0.07</td>
+      <td>0.22</td>
+      <td>0.47</td>
+    </tr>
+    <tr>
+      <th>454</th>
+      <td>846.0</td>
+      <td>5.42</td>
+      <td>-2.530</td>
+      <td>9960</td>
+      <td>9794</td>
+      <td>9909</td>
+      <td>10015</td>
+      <td>10134</td>
+      <td>28.24</td>
+      <td>27.33</td>
+      <td>28.06</td>
+      <td>28.47</td>
+      <td>29.16</td>
+      <td>0.22</td>
+      <td>-0.10</td>
+      <td>0.15</td>
+      <td>0.31</td>
+      <td>0.56</td>
+    </tr>
+  </tbody>
+</table>
+<p>455 rows × 18 columns</p>
+</div></div></div>
+</div>
+<p>As in the crystal cave example, loading the data is fairly simple. Most of the legwork is getting our data into the appropriate format. We can pull the necessary paleo data from the NOAA dataframe. Note that we need to check the column names as sometimes unusual syntax will throw a wrench in the works. In this example the <code class="docutils literal notranslate"><span class="pre">Depth</span></code> column is in fact <code class="docutils literal notranslate"><span class="pre">depth_cm</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;depth_cm&#39;, &#39;Mg/Ca-g.rub-w&#39;, &#39;d18Og.rub-w&#39;, &#39;age_calyrBP&#39;, &#39;age-2.5%&#39;,
+       &#39;age-34%&#39;, &#39;age-68%&#39;, &#39;age-97.5%&#39;, &#39;SST &#39;, &#39;SST-2.5%&#39;, &#39;SST-34%&#39;,
+       &#39;SST-68%&#39;, &#39;SST-97.5%&#39;, &#39;δ18Osw&#39;, &#39;δ18Osw 2.5%&#39;, &#39;δ18Osw 34%&#39;,
+       &#39;δ18Osw 68%&#39;, &#39;δ18Osw 97.5%&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s create a <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> instead of a <code class="docutils literal notranslate"><span class="pre">Series</span></code> object to start the <code class="docutils literal notranslate"><span class="pre">EnsembleGeoSeries</span></code> to illustrate the functionality that takes depth from the <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> object directly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paleoValues</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;SST &#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">paleoDepth</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;depth_cm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">age</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age_calyrBP&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> 
+
+<span class="n">value_name</span> <span class="o">=</span> <span class="s1">&#39;SST&#39;</span>
+<span class="n">value_unit</span> <span class="o">=</span> <span class="s1">&#39;deg C&#39;</span>
+
+<span class="n">time_name</span> <span class="o">=</span> <span class="s1">&#39;Age&#39;</span>
+<span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;Year BP&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now for the ensemble values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ensemble_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>991</th>
+      <th>992</th>
+      <th>993</th>
+      <th>994</th>
+      <th>995</th>
+      <th>996</th>
+      <th>997</th>
+      <th>998</th>
+      <th>999</th>
+      <th>1000</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>207.301109</td>
+      <td>-21.273103</td>
+      <td>359.894201</td>
+      <td>3.950743</td>
+      <td>69.791337</td>
+      <td>195.918556</td>
+      <td>477.506539</td>
+      <td>254.071725</td>
+      <td>18.043039</td>
+      <td>...</td>
+      <td>200.832011</td>
+      <td>29.981959</td>
+      <td>159.156188</td>
+      <td>-30.030879</td>
+      <td>10.998169</td>
+      <td>256.535747</td>
+      <td>232.055674</td>
+      <td>61.422668</td>
+      <td>-24.770834</td>
+      <td>475.549540</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.5</td>
+      <td>210.598385</td>
+      <td>-6.095219</td>
+      <td>363.537231</td>
+      <td>19.011842</td>
+      <td>79.372074</td>
+      <td>202.387822</td>
+      <td>478.016110</td>
+      <td>257.074060</td>
+      <td>29.545646</td>
+      <td>...</td>
+      <td>207.932983</td>
+      <td>38.840758</td>
+      <td>167.586782</td>
+      <td>-18.344618</td>
+      <td>17.123170</td>
+      <td>262.956721</td>
+      <td>235.486451</td>
+      <td>71.243925</td>
+      <td>-18.329537</td>
+      <td>475.748343</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>216.040623</td>
+      <td>19.369267</td>
+      <td>369.630612</td>
+      <td>44.252513</td>
+      <td>95.396047</td>
+      <td>213.157541</td>
+      <td>478.839723</td>
+      <td>262.061321</td>
+      <td>48.814435</td>
+      <td>...</td>
+      <td>219.792022</td>
+      <td>53.661308</td>
+      <td>181.704918</td>
+      <td>1.189714</td>
+      <td>27.295888</td>
+      <td>273.711759</td>
+      <td>241.180553</td>
+      <td>87.665771</td>
+      <td>-7.626766</td>
+      <td>476.046104</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6.5</td>
+      <td>219.280420</td>
+      <td>34.728605</td>
+      <td>373.297041</td>
+      <td>59.463559</td>
+      <td>105.037349</td>
+      <td>219.613424</td>
+      <td>479.321568</td>
+      <td>265.045696</td>
+      <td>60.422642</td>
+      <td>...</td>
+      <td>226.919006</td>
+      <td>62.580463</td>
+      <td>190.208029</td>
+      <td>12.937785</td>
+      <td>33.382424</td>
+      <td>280.190421</td>
+      <td>244.585561</td>
+      <td>97.544358</td>
+      <td>-1.220809</td>
+      <td>476.208644</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7.0</td>
+      <td>220.356966</td>
+      <td>39.859076</td>
+      <td>374.520562</td>
+      <td>64.542743</td>
+      <td>108.254684</td>
+      <td>221.764597</td>
+      <td>479.480550</td>
+      <td>266.039429</td>
+      <td>64.298267</td>
+      <td>...</td>
+      <td>229.296199</td>
+      <td>65.557071</td>
+      <td>193.046673</td>
+      <td>16.857451</td>
+      <td>35.409002</td>
+      <td>282.353374</td>
+      <td>245.719046</td>
+      <td>100.840599</td>
+      <td>0.912427</td>
+      <td>476.260687</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>332</th>
+      <td>827.0</td>
+      <td>9434.248215</td>
+      <td>9545.771005</td>
+      <td>9596.976203</td>
+      <td>9588.136195</td>
+      <td>9438.630060</td>
+      <td>9611.671864</td>
+      <td>9514.355046</td>
+      <td>9613.503470</td>
+      <td>9515.947093</td>
+      <td>...</td>
+      <td>9441.197068</td>
+      <td>9509.291601</td>
+      <td>9584.105141</td>
+      <td>9487.163021</td>
+      <td>9432.573204</td>
+      <td>9528.250540</td>
+      <td>9577.714737</td>
+      <td>9442.864368</td>
+      <td>9570.410846</td>
+      <td>9500.091340</td>
+    </tr>
+    <tr>
+      <th>333</th>
+      <td>836.0</td>
+      <td>9662.543323</td>
+      <td>9749.147272</td>
+      <td>9818.449843</td>
+      <td>9818.782493</td>
+      <td>9638.010047</td>
+      <td>9835.377593</td>
+      <td>9714.793979</td>
+      <td>9837.351019</td>
+      <td>9721.120860</td>
+      <td>...</td>
+      <td>9644.065902</td>
+      <td>9728.433304</td>
+      <td>9795.061924</td>
+      <td>9676.390919</td>
+      <td>9623.447075</td>
+      <td>9734.211473</td>
+      <td>9803.351304</td>
+      <td>9649.143650</td>
+      <td>9780.641448</td>
+      <td>9718.151948</td>
+    </tr>
+    <tr>
+      <th>334</th>
+      <td>839.0</td>
+      <td>9739.420208</td>
+      <td>9817.390937</td>
+      <td>9892.732202</td>
+      <td>9896.475674</td>
+      <td>9705.027332</td>
+      <td>9910.431322</td>
+      <td>9781.949176</td>
+      <td>9912.636525</td>
+      <td>9790.081021</td>
+      <td>...</td>
+      <td>9712.162198</td>
+      <td>9802.252278</td>
+      <td>9865.803631</td>
+      <td>9739.802457</td>
+      <td>9687.383488</td>
+      <td>9803.283922</td>
+      <td>9879.292011</td>
+      <td>9718.456343</td>
+      <td>9851.235118</td>
+      <td>9791.439448</td>
+    </tr>
+    <tr>
+      <th>335</th>
+      <td>843.0</td>
+      <td>9842.408624</td>
+      <td>9908.664339</td>
+      <td>9992.061086</td>
+      <td>10000.572811</td>
+      <td>9794.731539</td>
+      <td>10010.805766</td>
+      <td>9871.703033</td>
+      <td>10013.435160</td>
+      <td>9882.382981</td>
+      <td>...</td>
+      <td>9803.252697</td>
+      <td>9901.159253</td>
+      <td>9960.389782</td>
+      <td>9824.560618</td>
+      <td>9772.826640</td>
+      <td>9895.641914</td>
+      <td>9981.000988</td>
+      <td>9811.218375</td>
+      <td>9945.682572</td>
+      <td>9889.530993</td>
+    </tr>
+    <tr>
+      <th>336</th>
+      <td>846.0</td>
+      <td>9919.958299</td>
+      <td>9977.298254</td>
+      <td>10066.739084</td>
+      <td>10078.966925</td>
+      <td>9862.230432</td>
+      <td>10086.278763</td>
+      <td>9939.153975</td>
+      <td>10089.299381</td>
+      <td>9951.834789</td>
+      <td>...</td>
+      <td>9871.758062</td>
+      <td>9975.645163</td>
+      <td>10031.496854</td>
+      <td>9888.262156</td>
+      <td>9837.032501</td>
+      <td>9965.076292</td>
+      <td>10057.571280</td>
+      <td>9881.008911</td>
+      <td>10016.722863</td>
+      <td>9963.337556</td>
+    </tr>
+  </tbody>
+</table>
+<p>337 rows × 1001 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chronDepth</span> <span class="o">=</span> <span class="n">ensemble_df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="c1">#The depth values in this case are stored in column 0</span>
+
+<span class="n">chronValues</span> <span class="o">=</span> <span class="n">ensemble_df</span><span class="p">[</span><span class="n">ensemble_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Checking that our dimensions are as we expect:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Num rows in chronValues: </span><span class="si">{</span><span class="n">chronValues</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">, Length of chronDepth: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">chronDepth</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Num rows in chronValues: 337, Length of chronDepth: 337
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s create an <code class="docutils literal notranslate"><span class="pre">EnsembleGeoSeries</span></code> object for a <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> object. The main advantage of doing so is to deal with NaNs in the timeseries. Upon creation of the <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> object the time, depth, and value axes are aligned without missing values; ensuring consistency among these vectors for the creation of the <code class="docutils literal notranslate"><span class="pre">EnsembleGeoSeries</span></code> object:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span><span class="n">time</span> <span class="o">=</span> <span class="n">age</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">paleoValues</span><span class="p">,</span> <span class="n">value_name</span> <span class="o">=</span> <span class="n">value_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                  <span class="n">time_name</span> <span class="o">=</span> <span class="n">time_name</span><span class="p">,</span> <span class="n">value_unit</span> <span class="o">=</span> <span class="n">value_unit</span><span class="p">,</span> <span class="n">time_unit</span> <span class="o">=</span> <span class="n">time_unit</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="n">paleoDepth</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="mf">6.45</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="mf">125.83</span><span class="p">)</span>
+
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleGeoSeries</span><span class="o">.</span><span class="n">from_AgeEnsembleArray</span><span class="p">(</span><span class="n">geo_series</span> <span class="o">=</span> <span class="n">ts</span><span class="p">,</span> <span class="n">age_array</span> <span class="o">=</span> <span class="n">chronValues</span><span class="p">,</span>
+                                                     <span class="n">age_depth</span> <span class="o">=</span> <span class="n">chronDepth</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And again we can leverage Pyleoclim’s ensemble capabilities!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ensemble</span><span class="o">.</span><span class="n">common_time</span><span class="p">()</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1600x1000 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [Year BP]&#39;, ylabel=&#39;SST [deg C]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/ad8d5897bd3d7e20c51f2fb18060a72f836ca54162e768710f55b1edce7ed652.png" src="../_images/ad8d5897bd3d7e20c51f2fb18060a72f836ca54162e768710f55b1edce7ed652.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="ensemble-series-from-paleo-ensemble">
+<h2>Ensemble series from paleo ensemble<a class="headerlink" href="#ensemble-series-from-paleo-ensemble" title="Link to this heading">#</a></h2>
+<p>In the following example we’ll create an <code class="docutils literal notranslate"><span class="pre">EnsembleGeoSeries</span></code> object where uncertainty is represented by variations in the value axis. This structure is more typically used to represent measurement uncertainty, though depending on the age modeling method used it can also be used to represent dating uncertainty.</p>
+<p>In order to do this we will use the <code class="docutils literal notranslate"><span class="pre">from_PaleoEnsembleArray</span></code> method attached to the <code class="docutils literal notranslate"><span class="pre">EnsembleGeoSeries</span></code> class. Note that this method is also available from the <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code> class.</p>
+<p>In order to get at a paleo based ensemble table we’ll create a custom PyLiPD query. If you want to learn more about how to construct these queries for yourself, we recommend checking out the <a class="reference external" href="http://linked.earth/pylipdTutorials/notebooks/L2_custom_queries.html">PyLiPD Tutorials</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">LiPD</span><span class="p">()</span>
+
+<span class="n">D</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;../data/MD982181.Khider.2014.lpd&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading 1 LiPD files
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  1.30it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded..
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    PREFIX le: &lt;http://linked.earth/ontology#&gt;</span>
+<span class="s2">    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span>
+
+<span class="s2">    SELECT ?datasetName ?ensembleTable ?ensembleVariableName ?ensembleVariableValues ?ensembleVariableUnits ?ensembleDepthName ?ensembleDepthValues ?ensembleDepthUnits ?notes ?methodobj ?methods</span>
+<span class="s2">    WHERE {</span>
+<span class="s2">        ?ds a le:Dataset .</span>
+<span class="s2">        ?ds le:hasName ?datasetName .</span>
+<span class="s2">            FILTER regex(?datasetName, &quot;[dsname].*&quot;, &quot;i&quot;).</span>
+
+<span class="s2">        ?ds le:hasPaleoData ?paleo .</span>
+<span class="s2">        ?paleo le:modeledBy ?model .</span>
+<span class="s2">        ?model le:hasEnsembleTable ?ensembleTable .</span>
+<span class="s2">            OPTIONAL{?ensembleTable le:notes ?notes .}</span>
+
+<span class="s2">        ?ensembleTable le:hasVariable ?ensvar .</span>
+<span class="s2">        ?ensvar le:hasName ?ensembleVariableName .</span>
+<span class="s2">            FILTER regex(lcase(?ensembleVariableName), &quot;[ensembleVarName].*&quot;, &quot;i&quot;).</span>
+<span class="s2">        ?ensvar le:hasValues ?ensembleVariableValues .</span>
+<span class="s2">        OPTIONAL{?ensvar le:hasUnits ?ensembleVariableUnitsObj .</span>
+<span class="s2">                ?ensembleVariableUnitsObj rdfs:label ?ensembleVariableUnits .</span>
+<span class="s2">                VALUES ?ensembleVariableUnits {&quot;deg C&quot;} .}</span>
+
+<span class="s2">        ?ensembleTable le:hasVariable ?ensdepthvar .</span>
+<span class="s2">        ?ensdepthvar le:hasName ?ensembleDepthName .</span>
+<span class="s2">            FILTER regex(lcase(?ensembleDepthName), &quot;[ensembleDepthVarName].*&quot;, &quot;i&quot;).</span>
+<span class="s2">            FILTER (?ensembleDepthName = &#39;depth&#39;)</span>
+<span class="s2">        ?ensdepthvar le:hasValues ?ensembleDepthValues .</span>
+<span class="s2">            OPTIONAL{?ensdepthvar le:hasUnits ?ensembleDepthUnitsObj .</span>
+<span class="s2">                    ?ensembleDepthUnitsObj rdfs:label ?ensembleDepthUnits.}</span>
+<span class="s2">    </span>
+<span class="s2">       }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">_</span><span class="p">,</span><span class="n">ens_df</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="n">ens_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>datasetName</th>
+      <th>ensembleTable</th>
+      <th>ensembleVariableName</th>
+      <th>ensembleVariableValues</th>
+      <th>ensembleVariableUnits</th>
+      <th>ensembleDepthName</th>
+      <th>ensembleDepthValues</th>
+      <th>ensembleDepthUnits</th>
+      <th>notes</th>
+      <th>methodobj</th>
+      <th>methods</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MD982181.Khider.2014</td>
+      <td>http://linked.earth/lipd/paleo0model0ensemble0</td>
+      <td>realization 1</td>
+      <td>[[1.0, 28.2528873873423, 27.6829378220138, 28....</td>
+      <td>deg C</td>
+      <td>depth</td>
+      <td>[1.0, 2.5, 5.0, 6.5, 7.0, 8.0, 11.5, 13.0, 15....</td>
+      <td>cm</td>
+      <td>SST ensemble from the Bayesian calibration des...</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MD982181.Khider.2014</td>
+      <td>http://linked.earth/lipd/paleo0model0ensemble0</td>
+      <td>depth</td>
+      <td>[1.0, 2.5, 5.0, 6.5, 7.0, 8.0, 11.5, 13.0, 15....</td>
+      <td>None</td>
+      <td>depth</td>
+      <td>[1.0, 2.5, 5.0, 6.5, 7.0, 8.0, 11.5, 13.0, 15....</td>
+      <td>cm</td>
+      <td>SST ensemble from the Bayesian calibration des...</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MD982181.Khider.2014</td>
+      <td>http://linked.earth/lipd/paleo0model1ensemble0</td>
+      <td>realization 1</td>
+      <td>[[2.5, -0.1929763844799, -0.266404906905685, 0...</td>
+      <td>None</td>
+      <td>depth</td>
+      <td>[2.5, 5.0, 6.5, 7.0, 8.0, 11.5, 13.0, 15.0, 16...</td>
+      <td>cm</td>
+      <td>d18Osw ensemble from the Bayesian calibration ...</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MD982181.Khider.2014</td>
+      <td>http://linked.earth/lipd/paleo0model1ensemble0</td>
+      <td>depth</td>
+      <td>[2.5, 5.0, 6.5, 7.0, 8.0, 11.5, 13.0, 15.0, 16...</td>
+      <td>None</td>
+      <td>depth</td>
+      <td>[2.5, 5.0, 6.5, 7.0, 8.0, 11.5, 13.0, 15.0, 16...</td>
+      <td>cm</td>
+      <td>d18Osw ensemble from the Bayesian calibration ...</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Having returned a reasonable looking dataframe, we’ll pull the data we need. We have to apply some transformations to the data in order to get them into proper array format since LiPD stores data as strings. Built in PyLiPD functions take care of this for you, we only have to worry about it because we’re using a custom query.</p>
+<p>Everything else we do after this is almost identical to our other examples, the only difference being that <code class="docutils literal notranslate"><span class="pre">paleoValues</span></code> is now a matrix and <code class="docutils literal notranslate"><span class="pre">chronValues</span></code> is a vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ens_df</span><span class="p">[</span><span class="s1">&#39;ensembleVariableValues&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ens_df</span><span class="p">[</span><span class="s1">&#39;ensembleVariableValues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">row</span><span class="p">)))</span>
+<span class="n">ens_df</span><span class="p">[</span><span class="s1">&#39;ensembleDepthValues&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ens_df</span><span class="p">[</span><span class="s1">&#39;ensembleDepthValues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">row</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paleo_df</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_timeseries_essentials</span><span class="p">()</span>
+<span class="n">paleo_row</span> <span class="o">=</span> <span class="n">paleo_df</span><span class="p">[</span><span class="n">paleo_df</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;sst&#39;</span><span class="p">]</span>
+<span class="n">paleo_row</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dataSetName</th>
+      <th>archiveType</th>
+      <th>geo_meanLat</th>
+      <th>geo_meanLon</th>
+      <th>geo_meanElev</th>
+      <th>paleoData_variableName</th>
+      <th>paleoData_values</th>
+      <th>paleoData_units</th>
+      <th>paleoData_proxy</th>
+      <th>paleoData_proxyGeneral</th>
+      <th>time_variableName</th>
+      <th>time_values</th>
+      <th>time_units</th>
+      <th>depth_variableName</th>
+      <th>depth_values</th>
+      <th>depth_units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>MD982181.Khider.2014</td>
+      <td>Marine sediment</td>
+      <td>6.45</td>
+      <td>125.83</td>
+      <td>-2114.0</td>
+      <td>sst</td>
+      <td>[27.8, 27.41, nan, nan, 27.55, 27.16, 27.35, 2...</td>
+      <td>deg C</td>
+      <td>None</td>
+      <td>None</td>
+      <td>age_calyrbp</td>
+      <td>[199.0, 205.0, 207.0, 211.0, 216.0, 222.0, 224...</td>
+      <td>yr BP</td>
+      <td>depth_cm</td>
+      <td>[1.0, 2.5, 3.0, 4.0, 5.0, 6.5, 7.0, 8.0, 9.0, ...</td>
+      <td>cm</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paleoValues</span> <span class="o">=</span> <span class="n">ens_df</span><span class="p">[</span><span class="n">ens_df</span><span class="p">[</span><span class="s1">&#39;ensembleVariableUnits&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;deg C&#39;</span><span class="p">][</span><span class="s1">&#39;ensembleVariableValues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#Drop the column that contains depth</span>
+<span class="n">paleoDepth</span> <span class="o">=</span> <span class="n">ens_df</span><span class="p">[</span><span class="n">ens_df</span><span class="p">[</span><span class="s1">&#39;ensembleVariableUnits&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;deg C&#39;</span><span class="p">][</span><span class="s1">&#39;ensembleDepthValues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">value_name</span> <span class="o">=</span> <span class="s2">&quot;SST&quot;</span>
+<span class="n">value_unit</span> <span class="o">=</span> <span class="s2">&quot;deg C&quot;</span>
+
+<span class="n">chronValues</span> <span class="o">=</span> <span class="n">paleo_row</span><span class="p">[</span><span class="s1">&#39;time_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">chronDepth</span> <span class="o">=</span> <span class="n">paleo_row</span><span class="p">[</span><span class="s1">&#39;depth_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">time_name</span> <span class="o">=</span> <span class="s1">&#39;Time&#39;</span>
+<span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;Years BP&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s create a <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> object as the basis for our <code class="docutils literal notranslate"><span class="pre">EnsembleGeoSeries</span></code> object:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span><span class="n">time</span> <span class="o">=</span> <span class="n">chronValues</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">paleo_row</span><span class="p">[</span><span class="s1">&#39;paleoData_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                     <span class="n">time_name</span> <span class="o">=</span>  <span class="n">time_name</span><span class="p">,</span> <span class="n">time_unit</span> <span class="o">=</span> <span class="n">time_unit</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                     <span class="n">value_name</span> <span class="o">=</span> <span class="n">value_name</span><span class="p">,</span> <span class="n">value_unit</span> <span class="o">=</span> <span class="n">value_unit</span><span class="p">,</span>
+                     <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;MD98-2181&#39;</span><span class="p">,</span> <span class="n">archiveType</span> <span class="o">=</span> <span class="s1">&#39;Marine sediment&#39;</span><span class="p">,</span>
+                     <span class="n">depth</span> <span class="o">=</span> <span class="n">chronDepth</span><span class="p">,</span> <span class="n">depth_name</span> <span class="o">=</span> <span class="s1">&#39;Depth&#39;</span><span class="p">,</span> <span class="n">depth_unit</span> <span class="o">=</span> <span class="s1">&#39;cm&#39;</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">paleo_df</span><span class="p">[</span><span class="s1">&#39;geo_meanLat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">lon</span> <span class="o">=</span> <span class="n">paleo_df</span><span class="p">[</span><span class="s1">&#39;geo_meanLon&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleGeoSeries</span><span class="o">.</span><span class="n">from_PaleoEnsembleArray</span><span class="p">(</span><span class="n">geo_series</span> <span class="o">=</span> <span class="n">ts</span><span class="p">,</span> <span class="n">paleo_array</span> <span class="o">=</span> <span class="n">paleoValues</span><span class="p">,</span> <span class="n">age_depth</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">paleo_depth</span> <span class="o">=</span> <span class="n">paleoDepth</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can then apply ensemble methods, per usual.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ensemble</span><span class="o">.</span><span class="n">common_time</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">()</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 1000/1000 [00:05&lt;00:00, 178.28it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1600x1000 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Period [Years BP]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/5e1442dac23784315970b0d5bc9b02c7dd338112be16679e0e61b5bfb3a91ba5.png" src="../_images/5e1442dac23784315970b0d5bc9b02c7dd338112be16679e0e61b5bfb3a91ba5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -wpy
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Aug 26 2024
+
+Python implementation: CPython
+Python version       : 3.10.14
+IPython version      : 8.24.0
+
+y: not installed
+
+pyleoclim: 1.0.0b0
+numpy    : 1.26.4
+pandas   : 2.1.4
+
+Watermark: 2.4.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L1_uniform_time_sampling.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Uniform time sampling with Pyleoclim</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L2_correlations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Correlation Analysis in Pyleoclim</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensemble-series-from-chron-ensemble">Ensemble series from chron ensemble</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-lipd">Example from LiPD</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-ensemble-information-to-numpy-arrays-and-pandas-dataframe">Exporting ensemble information to <code class="docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">Arrays</span></code> and <code class="docutils literal notranslate"><span class="pre">Pandas</span> <span class="pre">DataFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-noaa">Example from NOAA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ensemble-series-from-paleo-ensemble">Ensemble series from paleo ensemble</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

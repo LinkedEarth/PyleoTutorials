@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L0_a_quickstart';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working with multiple records: MultipleSeries and EnsembleSeries" href="L0_basic_MSES_manipulation.html" />
+    <link rel="prev" title="PyleoTutorials: A Gentle Introduction to the Pyleoclim Package." href="../intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L0_a_quickstart.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L0_a_quickstart.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L0_a_quickstart.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Overview of Pyleoclim: Efficient & Flexible Timeseries Analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-series-object-from-a-csv-file">Step 1: Create a <code class="docutils literal notranslate"><span class="pre">Series</span></code> object from a csv file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-pre-processing">Step 2: Pre-processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-spectral-analysis">Step 3: Spectral Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-wavelet-analysis">Step 4: Wavelet Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-more-thing-method-cascading">One more thing: method cascading</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="overview-of-pyleoclim-efficient-flexible-timeseries-analysis">
+<h1>Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis<a class="headerlink" href="#overview-of-pyleoclim-efficient-flexible-timeseries-analysis" title="Link to this heading">#</a></h1>
+<p>by <a class="reference external" href="https://orcid.org/0000-0001-7501-8430">Deborah Khider</a>, <a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a>, <a class="reference external" href="https://orcid.org/0000-0001-8561-3188">Alexander James</a>, <a class="reference external" href="https://orcid.org/0000-0002-9969-2953">Feng Zhu</a>, <a class="reference external" href="https://orcid.org/0000-0001-9772-7617">Jordan Landers</a></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<section id="goals">
+<h3>Goals:<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Get acquainted with the Pyleoclim package, namely the objects and their associated methods</p></li>
+<li><p>Learn to create a Series object from a csv file</p></li>
+<li><p>Call the default methods for plotting, spectral and wavelet analysis</p></li>
+<li><p>Construct workflows with Pyleoclim</p></li>
+</ul>
+<p><strong>Reading Time:</strong></p>
+<p>10 minutes</p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>Visualization; Signal Processing; Spectral Analysis; Wavelet Analysis; Method Cascading</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>None. This tutorial assumes basic knowledge of Python. If you are not familiar with this coding language, check out this tutorial: <a class="reference external" href="http://linked.earth/LeapFROGS/">http://linked.earth/LeapFROGS/</a></p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>Pandas; Matplotlib</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<p>Sea-surface temperature from <a class="reference external" href="https://psl.noaa.gov/data/gridded/data.kaplan_sst.html">Kaplan (1998)</a> averaged over the NINO3 (5N-5S, 150W-190E)) region.</p>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<p>Let us import the packages needed for this tutorial:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/julieneg/opt/miniconda3/envs/pyleo/lib/python3.11/site-packages/pyproj/__init__.py:89: UserWarning: pyproj unable to set database path.
+  _pyproj_global_context_initialize()
+</pre></div>
+</div>
+</div>
+</div>
+<section id="step-1-create-a-series-object-from-a-csv-file">
+<h3>Step 1: Create a <code class="docutils literal notranslate"><span class="pre">Series</span></code> object from a csv file<a class="headerlink" href="#step-1-create-a-series-object-from-a-csv-file" title="Link to this heading">#</a></h3>
+<p>To do so, we will first read the data from a csv file and load into a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">Pandas DataFrame</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/wtc_test_data_nino_even.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>t</th>
+      <th>air</th>
+      <th>nino</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1871.000000</td>
+      <td>87.36090</td>
+      <td>-0.358250</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1871.083333</td>
+      <td>-21.83460</td>
+      <td>-0.292458</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1871.166667</td>
+      <td>-5.52632</td>
+      <td>-0.143583</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1871.250000</td>
+      <td>75.73680</td>
+      <td>-0.149625</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1871.333333</td>
+      <td>105.82000</td>
+      <td>-0.274250</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Next we create a <code class="docutils literal notranslate"><span class="pre">Series</span></code> object from the columns of the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_nino</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time</span> <span class="o">=</span>  <span class="n">df</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span> <span class="n">value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;nino&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Kaplan Niño3 SST&#39;</span><span class="p">,</span>
+                  <span class="n">time_name</span> <span class="o">=</span> <span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">value_name</span> <span class="o">=</span> <span class="s1">&#39;NINO3 index&#39;</span><span class="p">,</span>
+                  <span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span><span class="p">,</span>   <span class="n">value_unit</span> <span class="o">=</span> <span class="s1">&#39;$^{\circ}$C&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>            
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s make a simple plot:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b68df32a2470c5b541d50930059838d8ce9d17cf5aec0d1a8964eea0757112fc.png" src="../_images/b68df32a2470c5b541d50930059838d8ce9d17cf5aec0d1a8964eea0757112fc.png" />
+</div>
+</div>
+<p>You can also make a warming stripe for this <code class="docutils literal notranslate"><span class="pre">Series</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">stripes</span><span class="p">(</span><span class="n">ref_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1961</span><span class="p">,</span><span class="mi">1990</span><span class="p">),</span> <span class="n">show_xaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a1fd8b779de3568d29e2831f5dbd3a2f66594f9ce1319916ad0730f74937c209.png" src="../_images/a1fd8b779de3568d29e2831f5dbd3a2f66594f9ce1319916ad0730f74937c209.png" />
+</div>
+</div>
+</section>
+<section id="step-2-pre-processing">
+<h3>Step 2: Pre-processing<a class="headerlink" href="#step-2-pre-processing" title="Link to this heading">#</a></h3>
+<p>Pyleoclim has multiple functionalities to pre-process a timeseries, including standardizing, detrending, interpolation, and much more. You can learn about the various pre-processing steps in the <a class="reference internal" href="#L0_basic_ts_manipulation.md"><span class="xref myst">basic Series manipulations</span></a>, <a class="reference internal" href="#L1_filtering_and_detrending.md"><span class="xref myst">filtering and detrending</span></a>,  and <a class="reference internal" href="#L1_uniform_time_sampling.md"><span class="xref myst">uniform time sampling</span></a> tutorials. As an example of one treatment, let’s standardize the data and plot it against the original values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_nino_std</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span> <span class="c1"># a high zorder ensures this is plotted on top</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino_std</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;standardized&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ncol&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/acc3d89e0bdfae2cc0d9b8790e1113ffcfef25ad388d3008d3adfe0fd93c3e44.png" src="../_images/acc3d89e0bdfae2cc0d9b8790e1113ffcfef25ad388d3008d3adfe0fd93c3e44.png" />
+</div>
+</div>
+<p>For more on graphics customizations,  see <a class="reference internal" href="#L1_figures_with_multiple_panels.md"><span class="xref myst">figures with multiple panels</span></a>.</p>
+</section>
+<section id="step-3-spectral-analysis">
+<h3>Step 3: Spectral Analysis<a class="headerlink" href="#step-3-spectral-analysis" title="Link to this heading">#</a></h3>
+<p>Pyleoclim makes it simple to perform spectral analysis. Calling the <code class="docutils literal notranslate"><span class="pre">.spectral()</span></code> method will yield a <code class="docutils literal notranslate"><span class="pre">PSD</span></code> (power spectral density) object of the corresponding series. Unless specified otherwise, <code class="docutils literal notranslate"><span class="pre">.spectral()</span></code> uses the Lomb-Scargle periodogram (<code class="docutils literal notranslate"><span class="pre">method='lomb_scargle</span></code>), which can handle both evenly-spaced data and unevenly-spaced data with great speed. However, it has known biases,  so it may be appropriate to specify an alternative method, like the Multi-Taper Method, which can only handle evenly-spaced data.  For our example data, both methods apply.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">psd_wwz</span> <span class="o">=</span> <span class="n">ts_nino_std</span><span class="o">.</span><span class="n">spectral</span><span class="p">()</span>  <span class="c1"># method=&#39;lomb-scargle&#39; by default </span>
+<span class="n">psd_mtm</span> <span class="o">=</span> <span class="n">ts_nino_std</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span>  <span class="c1"># method=&#39;mtm&#39; </span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can then plot the results of our analyses on the same figure:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">psd_wwz</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lomb-Scargle&#39;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">psd_mtm</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;MTM&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7533bb2e9fabea86a88791622f49a921e555ecf889c39e39c362d07284e24150.png" src="../_images/7533bb2e9fabea86a88791622f49a921e555ecf889c39e39c362d07284e24150.png" />
+</div>
+</div>
+<p>To identify notable periodicities, we need to perform some significance test.
+Currently, <em>Pyleoclim</em> supports the test against an AR(1) benchmark, which can be performed by simply calling the <code class="docutils literal notranslate"><span class="pre">signif_test()</span></code> method, which uses 200 surrogate series by default:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">psd_mtm_signif</span> <span class="o">=</span> <span class="n">ts_nino_std</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">signif_test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 200/200 [00:10&lt;00:00, 20.00it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Calling the <code class="docutils literal notranslate"><span class="pre">plot()</span></code> method on our <code class="docutils literal notranslate"><span class="pre">psd_mtm_signif</span></code> object will return a plot of the PSD along with the AR(1) threshold curve, which we can use to identify the significant cycles.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">psd_mtm_signif</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6f9022629497caea45f2cbaaf38135ccccd79ca0dfe60bb4e3a924f48c546f10.png" src="../_images/6f9022629497caea45f2cbaaf38135ccccd79ca0dfe60bb4e3a924f48c546f10.png" />
+</div>
+</div>
+<p>For more details, see the <a class="reference internal" href="#L2_spectral_analysis.md"><span class="xref myst">spectral analysis</span></a> notebook.</p>
+</section>
+<section id="step-4-wavelet-analysis">
+<h3>Step 4: Wavelet Analysis<a class="headerlink" href="#step-4-wavelet-analysis" title="Link to this heading">#</a></h3>
+<p>The current version of <em>Pyleoclim</em> supports the <code class="docutils literal notranslate"><span class="pre">wwz</span></code> method for wavelet analysis on unevenly-spaced records and the <code class="docutils literal notranslate"><span class="pre">cwt</span></code> method for evenly-spaced records. <code class="docutils literal notranslate"><span class="pre">wwz</span></code> is more flexible than <code class="docutils literal notranslate"><span class="pre">cwt</span></code> in the sense that it can be used on any record, but is much slower (no free lunch!). To perform wavelet analysis we simply call the <code class="docutils literal notranslate"><span class="pre">wavelet()</span></code> method, which will in turn create a <code class="docutils literal notranslate"><span class="pre">Scalogram</span></code> object. Since our data is evenly spaced, we’ll use <code class="docutils literal notranslate"><span class="pre">cwt</span></code>, which is the default:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scal</span> <span class="o">=</span> <span class="n">ts_nino_std</span><span class="o">.</span><span class="n">wavelet</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">scal</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/969b655d4ee0e5b0ecc1b5a60a5f5511d4ecc1627cbbc961586d9a383a9d163a.png" src="../_images/969b655d4ee0e5b0ecc1b5a60a5f5511d4ecc1627cbbc961586d9a383a9d163a.png" />
+</div>
+</div>
+<p>Notice how the title got built automatically from the figure metadata.  We can also perform significance analysis the same way we did when conducting spectral analysis:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scal_signif</span> <span class="o">=</span> <span class="n">ts_nino_std</span><span class="o">.</span><span class="n">wavelet</span><span class="p">()</span><span class="o">.</span><span class="n">signif_test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing wavelet analysis on individual series: 100%|██████████| 200/200 [00:03&lt;00:00, 57.90it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this case, regions of significance (those that exceed the 95% confidence threshold found using AR1 surrogates) will be outlined in white.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">scal_signif</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dcc7ba82dc6a0669c503a441b64821acac1e77ecbc6011884d8a7706186b3230.png" src="../_images/dcc7ba82dc6a0669c503a441b64821acac1e77ecbc6011884d8a7706186b3230.png" />
+</div>
+</div>
+<p>For more details, see the <a class="reference internal" href="#L2_wavelet_analysis.md"><span class="xref myst">wavelet analysis</span></a> notebook.</p>
+</section>
+<section id="one-more-thing-method-cascading">
+<h3>One more thing: method cascading<a class="headerlink" href="#one-more-thing-method-cascading" title="Link to this heading">#</a></h3>
+<p>Life is short. <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> provides a very cool feature to make life a little bit easier: “method cascading”. This feature allows us to string together the steps of a multi-step workflow in just one line.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">anti_alias</span><span class="p">()</span><span class="o">.</span><span class="n">signif_test</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 200/200 [00:10&lt;00:00, 19.86it/s]
+</pre></div>
+</div>
+<img alt="../_images/f552e6ca1b7e3b9a7f1aa10a05723ed76f749dafb39a63c75363092da0afcc56.png" src="../_images/f552e6ca1b7e3b9a7f1aa10a05723ed76f749dafb39a63c75363092da0afcc56.png" />
+</div>
+</div>
+<p>Same thing with wavelet analysis:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ts_nino</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span><span class="o">.</span><span class="n">wavelet</span><span class="p">()</span><span class="o">.</span><span class="n">signif_test</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing wavelet analysis on individual series: 100%|██████████| 200/200 [00:03&lt;00:00, 61.45it/s]
+</pre></div>
+</div>
+<img alt="../_images/b380742abac81ca590b5f3ce406d6cf9f45d25f6a0e414a51bf0c524696db467.png" src="../_images/b380742abac81ca590b5f3ce406d6cf9f45d25f6a0e414a51bf0c524696db467.png" />
+</div>
+</div>
+<p>If you think some of this could serve your goals, try the other notebooks in this repository.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Mar 01 2024
+
+Python implementation: CPython
+Python version       : 3.11.7
+IPython version      : 8.20.0
+
+pandas   : 2.1.4
+pyleoclim: 0.13.1b0
+
+Watermark: 2.4.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L0_basic_MSES_manipulation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-series-object-from-a-csv-file">Step 1: Create a <code class="docutils literal notranslate"><span class="pre">Series</span></code> object from a csv file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-pre-processing">Step 2: Pre-processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-spectral-analysis">Step 3: Spectral Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-wavelet-analysis">Step 4: Wavelet Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-more-thing-method-cascading">One more thing: method cascading</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

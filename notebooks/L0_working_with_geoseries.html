@@ -1,0 +1,1321 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Working with GeoSeries &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L0_working_with_geoseries';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pyleoclim figures with multiple panels" href="L1_figures_with_multiple_panels.html" />
+    <link rel="prev" title="Working with Pandas" href="L0_paleopandas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L0_working_with_geoseries.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L0_working_with_geoseries.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L0_working_with_geoseries.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Working with GeoSeries</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lipd">LiPD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-single-file">Loading a single file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiplegeoseries">MultipleGeoSeries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-collections">Mapping collections</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-neighbors">Mapping Neighbors</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="working-with-geoseries">
+<h1>Working with GeoSeries<a class="headerlink" href="#working-with-geoseries" title="Link to this heading">#</a></h1>
+<section id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Link to this heading">#</a></h2>
+<p>by <a class="reference external" href="https://orcid.org/0000-0001-7501-8430">Deborah Khider</a>, <a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a>.</p>
+</section>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Series</span></code> object, introduced <a class="reference internal" href="#L0_a_quickstart.md"><span class="xref myst">here</span></a>, is the entry point into the Pyleoclim universe, with very few metadata and a low bar to entry. However, geoscientific series, including paleoclimate timeseries, are often richer in information (particularly geolocation) that can be leveraged for further analysis. Therefore, we created a class called <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code>, which is a child of the <code class="docutils literal notranslate"><span class="pre">Series</span></code> object. As a child, <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> inherits all the methods of its parent class as well as new methods that take advantage of the richer information.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Series</span></code> properties that also apply to <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> are as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code>: Time values for the time series</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code>: Paleo values for the time series</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time_name</span></code> (optional): Name of the time vector, (e.g., ‘Time’, ‘Age’). This is used to label the x-axis on plots</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time_unit</span></code> (optional): The units of the time axis (e.g., ‘years’)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value_name</span></code> (optional): The name of the paleo variable (e.g., ‘Temperature’)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value_unit</span></code> (optional): The units of the paleo variable (e.g., ‘deg C’)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">label</span></code> (optional): Name of the time series (e.g., ‘Nino 3.4’)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log</span></code> (dict) – Dictionary of tuples documentating the various transformations applied to the object</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keep_log</span></code> (bool) – Whether to keep a log of applied transformations. False by default</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">importedFrom</span></code> (string) – source of the dataset. If it came from a LiPD file, this could be the datasetID property</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">archiveType</span></code> (string) – climate archive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dropna</span></code> (bool) – Whether to drop NaNs from the series to prevent downstream functions from choking on them defaults to True</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sort_ts</span></code> (str) – Direction of sorting over the time coordinate; ‘ascending’ or ‘descending’ Defaults to ‘ascending’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code> (bool) – If True, will print warning messages if there is any</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clean_ts</span></code> (optional): set to True to remove the NaNs and make time axis strictly prograde with duplicated timestamps reduced by averaging the values Default is None.</p></li>
+</ul>
+<p>In addition, <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> includes the following properties:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lat</span></code> (float): latitude (<strong>mandatory</strong>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lon</span></code> (float): longitude (<strong>mandatory</strong>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (float): elevation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">depth</span></code> (list): The values for the depth vector</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">depth_name</span></code> (str): Name of the depth (e.g., top depth, mid-depth)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">depth_unit</span></code> (str): The units for the depth</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sensorType</span></code> (str): The type of sensor (e.g., foraminifera, buoys)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">observationType</span></code> (str): The type of observations made (e.g., Mg/Ca, tree-ring width, )</p></li>
+</ul>
+<p>As with the case with <code class="docutils literal notranslate"><span class="pre">Series</span></code>, the data can be ingested in different ways.</p>
+<section id="goals">
+<h3>Goals:<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<p>Create Pyleoclim <code class="docutils literal notranslate"><span class="pre">Series</span></code> objects from datasets stored as LiPD, NOAA txt files, and from PANGAEA.</p>
+<p><strong>Reading Time:</strong> 5 minutes</p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>CSV; NetCDF; LiPD, Series; EnsembleSeries; MultipleSeries</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>None. This tutorial assumes basic knowledge of Python. If you are not familiar with this coding language, check out this tutorial: <a class="reference external" href="http://linked.earth/LeapFROGS/">http://linked.earth/LeapFROGS/</a>.</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>Pandas; Xarray; Pandas; Xarray; pylipd; pangaeapy</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>McCabe-Glynn, S., Johnson, K., Strong, C. et al. Variable
+North Pacific influence on drought in southwestern North America since AD 854. Nature Geosci 6, 617–621 (2013).
+<a class="reference external" href="https://doi.org/10.1038/ngeo1862">doi:10.1038/ngeo1862</a></p></li>
+<li><p>PAGES2k Consortium (Emile-Geay, J., McKay, N. et al): A global multiproxy database for temperature
+reconstructions of the Common Era. Sci Data 4, 170088 (2017). <a class="reference external" href="https://doi.org/10.1038/sdata.2017.88">doi:10.1038/sdata.2017.88</a></p></li>
+</ul>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<p>First we import our favorite packages:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pylipd.lipd</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiPD</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="lipd">
+<h3>LiPD<a class="headerlink" href="#lipd" title="Link to this heading">#</a></h3>
+<p>For this demonstration, we will be reusing the same datasets and workflows as described <a class="reference external" href="http://linked.earth/PyleoTutorials/notebooks/L0_loading_to_series.html">here</a>. But we will be instantiating <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Series</span></code> and looking at the extra functionalities that come with this new class.</p>
+<section id="loading-a-single-file">
+<h4>Loading a single file<a class="headerlink" href="#loading-a-single-file" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_path</span> <span class="o">=</span> <span class="s1">&#39;../data/Crystal.McCabe-Glynn.2013.lpd&#39;</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">LiPD</span><span class="p">()</span>
+<span class="n">D</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading 1 LiPD files
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  2.22it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded..
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_timeseries_essentials</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">get_all_dataset_names</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dataSetName</th>
+      <th>archiveType</th>
+      <th>geo_meanLat</th>
+      <th>geo_meanLon</th>
+      <th>geo_meanElev</th>
+      <th>paleoData_variableName</th>
+      <th>paleoData_values</th>
+      <th>paleoData_units</th>
+      <th>paleoData_proxy</th>
+      <th>paleoData_proxyGeneral</th>
+      <th>time_variableName</th>
+      <th>time_values</th>
+      <th>time_units</th>
+      <th>depth_variableName</th>
+      <th>depth_values</th>
+      <th>depth_units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Crystal.McCabe-Glynn.2013</td>
+      <td>Speleothem</td>
+      <td>36.59</td>
+      <td>-118.82</td>
+      <td>1386.0</td>
+      <td>d18o</td>
+      <td>[-8.01, -8.23, -8.61, -8.54, -8.6, -9.08, -8.9...</td>
+      <td>permil</td>
+      <td>None</td>
+      <td>None</td>
+      <td>age</td>
+      <td>[2007.7, 2007.0, 2006.3, 2005.6, 2004.9, 2004....</td>
+      <td>yr AD</td>
+      <td>depth</td>
+      <td>[0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0...</td>
+      <td>mm</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Let’s have a look at the available metadata (column headers in the DataFrame):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;dataSetName&#39;, &#39;archiveType&#39;, &#39;geo_meanLat&#39;, &#39;geo_meanLon&#39;,
+       &#39;geo_meanElev&#39;, &#39;paleoData_variableName&#39;, &#39;paleoData_values&#39;,
+       &#39;paleoData_units&#39;, &#39;paleoData_proxy&#39;, &#39;paleoData_proxyGeneral&#39;,
+       &#39;time_variableName&#39;, &#39;time_values&#39;, &#39;time_units&#39;, &#39;depth_variableName&#39;,
+       &#39;depth_values&#39;, &#39;depth_units&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>From this, we can create a GeoSeries as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+              <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+              <span class="s1">&#39;time_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dataSetName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+              <span class="s1">&#39;time_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;year CE&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;value_name&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+              <span class="s1">&#39;value_unit&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+              <span class="s1">&#39;lat&#39;</span><span class="p">:</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;geo_meanLat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+              <span class="s1">&#39;lon&#39;</span><span class="p">:</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;geo_meanLon&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+              <span class="s1">&#39;elevation&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;geo_meanElev&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>    
+               <span class="s1">&#39;archiveType&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;archiveType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="s1">&#39;observationType&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_proxy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="s1">&#39;auto_time_params&#39;</span><span class="p">:</span><span class="kc">False</span>
+              <span class="p">}</span>
+
+<span class="n">ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span><span class="o">**</span><span class="n">metadata_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time axis values sorted in ascending order
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/julieneg/Documents/GitHub/Pyleoclim_util/pyleoclim/core/geoseries.py:236: UserWarning: auto_time_params is not specified. Currently default behavior sets this to True, which might modify your supplied time metadata.  Please set to False if you want a different behavior.
+  super().__init__(time, value, time_unit, time_name, value_name,
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s give this series better labels for better plots:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">value_name</span> <span class="o">=</span> <span class="s1">&#39;$\delta^</span><span class="si">{18}</span><span class="s1">$O&#39;</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">value_unit</span> <span class="o">=</span> <span class="s2">&quot;‰ VPDB&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Time [year CE]&#39;, ylabel=&#39;$\\delta^{18}$O [‰ VPDB]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/2dd3ca41c80791b3ea87fdf0655b4c8e87e8401bf690640e0c80a5e286db3a9a.png" src="../_images/2dd3ca41c80791b3ea87fdf0655b4c8e87e8401bf690640e0c80a5e286db3a9a.png" />
+</div>
+</div>
+<p>Additional methods enabled by <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> currently involve mapping. For instance, let’s map the location of this record:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x700 with 1 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/bce1ab526f0b879b76fdd0fddd0aca77e00003048bc42354e4cca88d11edf0a3.png" src="../_images/bce1ab526f0b879b76fdd0fddd0aca77e00003048bc42354e4cca88d11edf0a3.png" />
+</div>
+</div>
+<p>Let’s draw a thicker black edge around the symbol:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">scatter_kwargs</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;linewidth&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x700 with 1 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/487d6d32896fdf5e9b76dd9b069e0cefc0a540a0e7872b6300acbb640456d793.png" src="../_images/487d6d32896fdf5e9b76dd9b069e0cefc0a540a0e7872b6300acbb640456d793.png" />
+</div>
+</div>
+<p>You can also create a dashboard summarizing the location of the record, plots the timeseries and runs spectral analysis to generate a periodogram:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">dashboard</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 200/200 [00:20&lt;00:00,  9.72it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1100x800 with 4 Axes&gt;,
+ {&#39;ts&#39;: &lt;Axes: xlabel=&#39;Time [year CE]&#39;, ylabel=&#39;$\\delta^{18}$O [‰ VPDB]&#39;&gt;,
+  &#39;dts&#39;: &lt;Axes: xlabel=&#39;Counts&#39;&gt;,
+  &#39;map&#39;: {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;},
+  &#39;spec&#39;: &lt;Axes: xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/9182ec40339b456a7a1a78c17f1a943181ac30217b7b8aa99d337c026a0c0829.png" src="../_images/9182ec40339b456a7a1a78c17f1a943181ac30217b7b8aa99d337c026a0c0829.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="multiplegeoseries">
+<h2>MultipleGeoSeries<a class="headerlink" href="#multiplegeoseries" title="Link to this heading">#</a></h2>
+<p>Just like its parent class <code class="docutils literal notranslate"><span class="pre">Series</span></code>, <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> can be bundled as well: <code class="docutils literal notranslate"><span class="pre">MultipleGeoSeries</span></code> has all the methods of <code class="docutils literal notranslate"><span class="pre">MultipleGeoSeries</span></code> plus some that are enabled by the additional metadata, particularly geolocation.
+One can easily generate such objects by joining <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> one by one, using the “&amp;” method, as done in <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.multipleseries.MultipleSeries.increments">this example</a>.</p>
+<p>Here we show how to generate such an object by querying the <a class="reference external" href="https://linkedearth.graphdb.mint.isi.edu">LiPDGraph</a> to obtain datasets from the PAGES2k database that are within the 20-60<span class="math notranslate nohighlight">\(^{\circ}\)</span> N band. In this we make use of the <a class="reference external" href="https://pylipd.readthedocs.io/en/latest/">pylipd</a> package, which will return everything in a <a class="reference external" href="https://pandas.pydata.org/docs/reference/frame.html">pandas DataFrame</a>. Note that this query is pointing towards an archive version of the database. To learn how to do queries to newer version of the database, see the <a class="reference external" href="http://linked.earth/pylipdTutorials/notebooks/L2_using_graphdb.html#">pylipd tutorials</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+
+
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://linkedearth.graphdb.mint.isi.edu/repositories/LiPDVerse3&#39;</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">PREFIX le: &lt;http://linked.earth/ontology#&gt;</span>
+<span class="s2">PREFIX wgs: &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;</span>
+
+<span class="s2">select ?val ?timeval ?varunits ?timeunits ?varname ?timevarname ?dsname ?lat ?lon ?alt ?archive ?proxy where { </span>
+<span class="s2">    </span>
+<span class="s2">    ?ds le:name ?dsname .</span>
+<span class="s2">        OPTIONAL {?ds le:proxyArchiveType ?archive .} </span>
+<span class="s2">    ?ds le:includesPaleoData ?data .</span>
+<span class="s2">    </span>
+<span class="s2">    ?ds le:collectedFrom ?loc . </span>
+<span class="s2">    ?loc wgs:lat ?lat .</span>
+<span class="s2">        FILTER(?lat&lt;60 &amp;&amp; ?lat&gt;20) </span>
+<span class="s2">    ?loc wgs:long ?lon .</span>
+<span class="s2">    ?loc wgs:alt ?alt .</span>
+<span class="s2">    </span>
+<span class="s2">    ?data le:foundInMeasurementTable ?table .</span>
+<span class="s2">    ?table le:includesVariable ?var .</span>
+<span class="s2">    ?var le:name ?varname .</span>
+<span class="s2">        FILTER regex(?varname, &quot;temperature.*&quot;) .</span>
+<span class="s2">    ?var le:hasValues ?val .</span>
+<span class="s2">    ?var le:hasUnits ?varunits .</span>
+<span class="s2">        VALUES ?varunits {&quot;degC&quot;} .</span>
+<span class="s2">    ?var le:proxy ?proxy .</span>
+<span class="s2">    ?var le:partOfCompilation ?comp .</span>
+<span class="s2">    ?comp le:name &quot;Pages2kTemperature&quot; .</span>
+<span class="s2">            </span>
+<span class="s2">    </span>
+<span class="s2">    ?table le:includesVariable ?timevar .</span>
+<span class="s2">    ?timevar le:name ?timevarname .</span>
+<span class="s2">        VALUES ?timevarname {&quot;year&quot;} .</span>
+<span class="s2">    ?timevar le:hasValues ?timeval .</span>
+<span class="s2">        OPTIONAL{?timevar le:hasUnits ?timeunits .}       </span>
+<span class="s2">}</span>
+
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+<span class="c1"># Make list from the values string</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;timeval&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;timeval&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">))</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>val</th>
+      <th>timeval</th>
+      <th>varunits</th>
+      <th>timeunits</th>
+      <th>varname</th>
+      <th>timevarname</th>
+      <th>dsname</th>
+      <th>lat</th>
+      <th>lon</th>
+      <th>alt</th>
+      <th>archive</th>
+      <th>proxy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>[27.54, 26.67, 25.87, 27.78, 27.39, 26.98, 26....</td>
+      <td>[1925.2, 1875.6, 1826.0, 1776.0, 1727.0, 1677....</td>
+      <td>degC</td>
+      <td>AD</td>
+      <td>temperature</td>
+      <td>year</td>
+      <td>Ocn-DryTortugasA.Lund.2006</td>
+      <td>24.33</td>
+      <td>-83.26</td>
+      <td>-547.0</td>
+      <td>marine sediment</td>
+      <td>foram Mg/Ca</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>[8.62, 8.41, 8.721341659, 8.800163059, 8.87029...</td>
+      <td>[1950.0, 1820.0, 1570.0, 1510.0, 1440.0, 1360....</td>
+      <td>degC</td>
+      <td>AD</td>
+      <td>temperature</td>
+      <td>year</td>
+      <td>Ocn-EmeraldBasin.Keigwin.2007</td>
+      <td>43.53</td>
+      <td>-62.48</td>
+      <td>-250.0</td>
+      <td>marine sediment</td>
+      <td>alkenone</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>[20.4, 20.4, 20.7, 20.6, 20.5, 20.2, 19.3, 19....</td>
+      <td>[1950.0, 1937.0, 1924.0, 1911.0, 1898.0, 1886....</td>
+      <td>degC</td>
+      <td>AD</td>
+      <td>temperature</td>
+      <td>year</td>
+      <td>NAm-DarkLake.Gajewski.1988</td>
+      <td>45.30</td>
+      <td>-91.50</td>
+      <td>334.0</td>
+      <td>lake sediment</td>
+      <td>pollen</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>[-7.1, nan, -6.3, -4.5, -6.4, -7.8, -5.7, -5.3...</td>
+      <td>[1500.0, 1501.0, 1502.0, 1503.0, 1504.0, 1505....</td>
+      <td>degC</td>
+      <td>AD</td>
+      <td>temperature</td>
+      <td>year</td>
+      <td>Eur-Tallinn.Tarand.2001</td>
+      <td>59.40</td>
+      <td>24.75</td>
+      <td>10.0</td>
+      <td>documents</td>
+      <td>historic</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>[8.84, 8.6, 9.32, 9.99, 9.78, 9.88, 10.06, 9.7...</td>
+      <td>[1950.0, 1942.06, 1934.12, 1926.19, 1918.25, 1...</td>
+      <td>degC</td>
+      <td>AD</td>
+      <td>temperature</td>
+      <td>year</td>
+      <td>Ocn-EmeraldBasin.Keigwin.2003</td>
+      <td>45.89</td>
+      <td>-62.80</td>
+      <td>-250.0</td>
+      <td>marine sediment</td>
+      <td>alkenone</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Next, we iterate over the rows, put the relevant information into the right place of a list  <code class="docutils literal notranslate"><span class="pre">GeoSeries</span></code> objects:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">ts_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyleo</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;timeval&#39;</span><span class="p">],</span><span class="n">value</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">],</span>
+                            <span class="n">time_name</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="n">value_name</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;varname&#39;</span><span class="p">],</span>
+                            <span class="n">time_unit</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;timeunits&#39;</span><span class="p">],</span> <span class="n">value_unit</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;varunits&#39;</span><span class="p">],</span>
+                            <span class="n">lat</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">],</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">],</span> 
+                            <span class="n">elevation</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;alt&#39;</span><span class="p">],</span>   
+                            <span class="n">archiveType</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">],</span>
+                            <span class="n">observationType</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;proxy&#39;</span><span class="p">],</span>       
+                            <span class="n">label</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;dsname&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;proxy&#39;</span><span class="p">],</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we instantiate a <code class="docutils literal notranslate"><span class="pre">MultipleGeoSeries</span></code> out of this, and make sure to harmonize all the time units for ease of plotting:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pages2k</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">MultipleGeoSeries</span><span class="p">(</span><span class="n">ts_list</span><span class="p">,</span><span class="n">time_unit</span><span class="o">=</span><span class="s1">&#39;year CE&#39;</span><span class="p">)</span>    
+<span class="n">pages2k</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">ylabel_fontsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2000</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 640x480 with 51 Axes&gt;,
+ {0: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  1: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  2: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  3: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  4: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  5: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  6: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  7: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  8: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  9: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  10: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  11: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  12: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  13: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  14: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  15: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  16: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  17: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  18: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  19: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  20: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  21: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  22: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  23: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  24: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  25: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  26: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  27: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  28: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  29: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  30: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  31: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  32: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  33: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  34: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  35: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  36: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  37: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  38: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  39: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  40: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  41: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  42: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  43: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  44: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  45: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  46: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  47: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  48: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  49: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  &#39;x_axis&#39;: &lt;Axes: xlabel=&#39;Time [year CE]&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/6a9daa8dc0b41f47d3a6bad2397f8971a99e254b09a3e4ceb3e236890a7f66b1.png" src="../_images/6a9daa8dc0b41f47d3a6bad2397f8971a99e254b09a3e4ceb3e236890a7f66b1.png" />
+</div>
+</div>
+<section id="mapping-collections">
+<h3>Mapping collections<a class="headerlink" href="#mapping-collections" title="Link to this heading">#</a></h3>
+<p>The first thing one might do is map those records:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pages2k</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x600 with 2 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;})
+</pre></div>
+</div>
+<img alt="../_images/5dff62dfc9de5439bbe429eb070b23a813fab53590bb6b54d225628c78d59944.png" src="../_images/5dff62dfc9de5439bbe429eb070b23a813fab53590bb6b54d225628c78d59944.png" />
+</div>
+</div>
+<p>Let’s say we wanted to focus on those parts of PAGES2k in North America; you could focus the map in this way, and use a more appropriate projection:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NA_coord</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;central_latitude&#39;</span><span class="p">:</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;central_longitude&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">50</span><span class="p">}</span>
+<span class="n">pages2k</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;Orthographic&#39;</span><span class="p">,</span><span class="n">proj_default</span><span class="o">=</span><span class="n">NA_coord</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x700 with 2 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;})
+</pre></div>
+</div>
+<img alt="../_images/5c63f07c9f0dc0e6ee5f9b022f6ee7929e21e95267fd7f15c0ada477e4225a72.png" src="../_images/5c63f07c9f0dc0e6ee5f9b022f6ee7929e21e95267fd7f15c0ada477e4225a72.png" />
+</div>
+</div>
+<p>By default, the shape and colors of symbols denote proxy archives; however, one can use either graphical device to convey other information. For instance, if elevation is available, it may be displayed by size, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pages2k</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;Orthographic&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;elevation&#39;</span><span class="p">,</span> <span class="n">proj_default</span><span class="o">=</span><span class="n">NA_coord</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x700 with 2 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;})
+</pre></div>
+</div>
+<img alt="../_images/22f1ceed4bd8ece7b5d845321f452b750fb375ed6872921adf35c4139eef5074.png" src="../_images/22f1ceed4bd8ece7b5d845321f452b750fb375ed6872921adf35c4139eef5074.png" />
+</div>
+</div>
+<p>Same with observationType:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pages2k</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;Orthographic&#39;</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">&#39;observationType&#39;</span><span class="p">,</span> <span class="n">proj_default</span><span class="o">=</span><span class="n">NA_coord</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x700 with 2 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;})
+</pre></div>
+</div>
+<img alt="../_images/bb3e0f1fc8a914f913db2d229c36f86a085ffd374a682aa952440baf76de5da8.png" src="../_images/bb3e0f1fc8a914f913db2d229c36f86a085ffd374a682aa952440baf76de5da8.png" />
+</div>
+</div>
+<p>All three sources of information may be combined, but the figure height then needs to be enlarged manually to fit the legend. This is done via the <code class="docutils literal notranslate"><span class="pre">figsize</span></code> argument:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pages2k</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;Orthographic&#39;</span><span class="p">,</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;observationType&#39;</span><span class="p">,</span>
+                       <span class="n">size</span><span class="o">=</span><span class="s1">&#39;elevation&#39;</span><span class="p">,</span> <span class="n">proj_default</span><span class="o">=</span><span class="n">NA_coord</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x800 with 2 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;})
+</pre></div>
+</div>
+<img alt="../_images/b5b7b26db69edfa05d72b0f096c73eb06d0db40106d57e60e22f7c3df0942ce4.png" src="../_images/b5b7b26db69edfa05d72b0f096c73eb06d0db40106d57e60e22f7c3df0942ce4.png" />
+</div>
+</div>
+</section>
+<section id="mapping-neighbors">
+<h3>Mapping Neighbors<a class="headerlink" href="#mapping-neighbors" title="Link to this heading">#</a></h3>
+<p>Let’s return to our Crystal Cave example. How many PAGES2k records identified above lie within a certain radius of this cave? That is easy to map:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">map_neighbors</span><span class="p">(</span><span class="n">pages2k</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x700 with 2 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;})
+</pre></div>
+</div>
+<img alt="../_images/6819f9bdcb4b2df03f0530b702a93135f66c1e16ffc1afcb4e9a773af2168494.png" src="../_images/6819f9bdcb4b2df03f0530b702a93135f66c1e16ffc1afcb4e9a773af2168494.png" />
+</div>
+</div>
+<p>Note how the target record (here, Crystal Cave) is outlined in black, while all the other ones are outlined in white. It is easy to widen the search radius to include more records:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">map_neighbors</span><span class="p">(</span><span class="n">pages2k</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x700 with 2 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;})
+</pre></div>
+</div>
+<img alt="../_images/0d0fe0e925517eac8db77036cd9affc453bece4f26700b3d62990c86b144b3c2.png" src="../_images/0d0fe0e925517eac8db77036cd9affc453bece4f26700b3d62990c86b144b3c2.png" />
+</div>
+</div>
+<p>For examples of actual data analysis using <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#multiplegeoseries-pyleoclim-multiplegeoseries"><code class="docutils literal notranslate"><span class="pre">MultipleGeoSeries</span></code></a> and <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#mulensgeoseries-pyleoclim-mulensgeoseries"><code class="docutils literal notranslate"><span class="pre">MulEnsGeoSeries</span></code></a>, see the tutorial on <a class="reference internal" href="#L2_principal_component_analysis.md"><span class="xref myst">Principal Component Analysis</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Jun 27 2024
+
+Python implementation: CPython
+Python version       : 3.11.9
+IPython version      : 8.25.0
+
+pandas   : 2.1.4
+numpy    : 1.26.4
+pyleoclim: 1.0.0b0
+requests : 2.32.3
+json     : 2.0.9
+
+Watermark: 2.4.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L0_paleopandas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L1_figures_with_multiple_panels.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Pyleoclim figures with multiple panels</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lipd">LiPD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-single-file">Loading a single file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiplegeoseries">MultipleGeoSeries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-collections">Mapping collections</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-neighbors">Mapping Neighbors</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

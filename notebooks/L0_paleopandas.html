@@ -1,0 +1,1744 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Working with Pandas &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L0_paleopandas';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working with GeoSeries" href="L0_working_with_geoseries.html" />
+    <link rel="prev" title="Loading data into Pyleoclim" href="L0_loading_to_series.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L0_paleopandas.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L0_paleopandas.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L0_paleopandas.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Working with Pandas</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-time">Reading time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-Requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#to-pandas">.to_pandas()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-conversions">Unit conversions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selection">Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-import-export">CSV Import/Export</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-to-csv">Exporting to CSV</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-from-csv">Importing from CSV</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling">Resampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-operations-with-multipleseries-objects">Pandas operations with MultipleSeries objects</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-to-pandas">Exporting to pandas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aligning-to-a-common-axis">Aligning to a common axis</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="working-with-pandas">
+<h1>Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code><a class="headerlink" href="#working-with-pandas" title="Link to this heading">#</a></h1>
+<p>by <a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://pandas.pydata.org">Pandas</a> is part of nearly every data scientist’s toolkit, with robust support for spreadsheet-like data structures. Until 2023, however, this workhorse of time series analysis was unusable in the paleogeosciences, because Pandas long ago hardcoded nanoseconds as the base unit of time. This limited the timescales it can represent on a 64-bit machine to a relatively narrow timespan of 585 years, thus excluding many paleogeoscience applications (for more explanations, see <a class="reference external" href="https://medium.com/cyberpaleo/pandas-and-the-geosciences-a-4-5-billion-year-story-66af9f565a4b">this blog post</a>). In this notebook we explore the synergies between pandas and Pyleoclim.</p>
+<section id="goals">
+<h3>Goals:<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Learn to export Pyleclim <code class="docutils literal notranslate"><span class="pre">Series</span></code> to Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code>.</p></li>
+<li><p>Unit conversions</p></li>
+<li><p>Select portions of a time series based on time or value criteria</p></li>
+<li><p>Export/Import to csv file</p></li>
+<li><p>Resampling in time</p></li>
+<li><p>Handling <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> with Pandas</p></li>
+</ul>
+</section>
+<section id="reading-time">
+<h3>Reading time<a class="headerlink" href="#reading-time" title="Link to this heading">#</a></h3>
+<p>10 minutes</p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>Pandas; Time Units; Resampling in time; Selection</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-Requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>Knoweldge of Pyleoclim <code class="docutils literal notranslate"><span class="pre">Series</span></code> and <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> objects. Familiarity with Pandas.</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>Pandas</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Sea-surface temperature from Kaplan (1998) averaged over the NINO3 (5N-5S, 150W-190E)) region.</p></li>
+<li><p>Bereiter, B., Eggleston, S., Schmitt, J., Nehrbass-Ahles, C., Stocker, T. F., Fischer, H., … Chappellaz, J. (2015). Revision of the EPICA Dome C CO2 record from 800 to 600 kyr before present. Geophysical Research Letters, 42(2), 542–549. doi:10.1002/2014gl061957</p></li>
+</ul>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2.1.4&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s load the SOI timeseries:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;SOI&#39;</span><span class="p">)</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># invert y axis so El Niño events plot upward</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Time [year C.E.]&#39;, ylabel=&#39;SOI [mb]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/39035d0d74625148c4fbd52515e09e1c7b16cef2a9f4fcbce902e3acdc319171.png" src="../_images/39035d0d74625148c4fbd52515e09e1c7b16cef2a9f4fcbce902e3acdc319171.png" />
+</div>
+</div>
+<p>There are two properties attached to <code class="docutils literal notranslate"><span class="pre">pyleo.Series</span></code> objects:</p>
+<ol class="arabic simple">
+<li><p>a Pandas <a class="reference external" href="https://pandas.pydata.org/docs/dev/reference/api/pandas.DatetimeIndex.html">datetime_index</a>:</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">datetime_index</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DatetimeIndex([&#39;1950-12-31 12:42:56&#39;, &#39;1951-01-30 23:11:49&#39;,
+               &#39;1951-03-02 09:41:14&#39;, &#39;1951-04-01 20:10:07&#39;,
+               &#39;1951-05-02 06:39:01&#39;, &#39;1951-06-01 17:08:26&#39;,
+               &#39;1951-07-02 03:37:19&#39;, &#39;1951-08-01 14:06:12&#39;,
+               &#39;1951-09-01 00:35:37&#39;, &#39;1951-10-01 11:04:30&#39;,
+               ...
+               &#39;2019-03-01 20:57:20&#39;, &#39;2019-04-01 07:26:14&#39;,
+               &#39;2019-05-01 17:55:07&#39;, &#39;2019-06-01 04:24:32&#39;,
+               &#39;2019-07-01 14:53:25&#39;, &#39;2019-08-01 01:22:19&#39;,
+               &#39;2019-08-31 11:51:43&#39;, &#39;2019-09-30 22:20:37&#39;,
+               &#39;2019-10-31 08:49:30&#39;, &#39;2019-11-30 19:18:55&#39;],
+              dtype=&#39;datetime64[s]&#39;, name=&#39;datetime&#39;, length=828, freq=None)
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>a dictionary bundling all the metadata:</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">metadata</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;time_unit&#39;: &#39;year C.E.&#39;,
+ &#39;time_name&#39;: &#39;Time&#39;,
+ &#39;value_unit&#39;: &#39;mb&#39;,
+ &#39;value_name&#39;: &#39;SOI&#39;,
+ &#39;label&#39;: &#39;Southern Oscillation Index&#39;,
+ &#39;archiveType&#39;: &#39;Instrumental&#39;,
+ &#39;importedFrom&#39;: None,
+ &#39;log&#39;: None}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Invoking the object itself returns some essential metadata and a compressed view of the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;archiveType&#39;: &#39;Instrumental&#39;, &#39;label&#39;: &#39;Southern Oscillation Index&#39;}
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>None
+Time [year C.E.]
+1951.000000    1.5
+1951.083333    0.9
+1951.166667   -0.1
+1951.250000   -0.3
+1951.333333   -0.7
+              ... 
+2019.583333   -0.1
+2019.666667   -1.2
+2019.750000   -0.4
+2019.833333   -0.8
+2019.916667   -0.6
+Name: SOI [mb], Length: 828, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>For a prettier display (in Jupyter notebook only):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SOI [mb]</th>
+    </tr>
+    <tr>
+      <th>Time [year C.E.]</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1951.000000</th>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <th>1951.083333</th>
+      <td>0.9</td>
+    </tr>
+    <tr>
+      <th>1951.166667</th>
+      <td>-0.1</td>
+    </tr>
+    <tr>
+      <th>1951.250000</th>
+      <td>-0.3</td>
+    </tr>
+    <tr>
+      <th>1951.333333</th>
+      <td>-0.7</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2019.583333</th>
+      <td>-0.1</td>
+    </tr>
+    <tr>
+      <th>2019.666667</th>
+      <td>-1.2</td>
+    </tr>
+    <tr>
+      <th>2019.750000</th>
+      <td>-0.4</td>
+    </tr>
+    <tr>
+      <th>2019.833333</th>
+      <td>-0.8</td>
+    </tr>
+    <tr>
+      <th>2019.916667</th>
+      <td>-0.6</td>
+    </tr>
+  </tbody>
+</table>
+<p>828 rows × 1 columns</p>
+</div></div></div>
+</div>
+<section id="to-pandas">
+<h3>.to_pandas()<a class="headerlink" href="#to-pandas" title="Link to this heading">#</a></h3>
+<p>It is easy to export a Pyleoclim Series to a Pandas Series:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdts</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span> <span class="c1">#  returns just the Series ; metadata are available at ts.metadata</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">pdts</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pandas.core.series.Series
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is now a bona fide Pandas Series, and we can do with it everything we might do with Pandas. For example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdts</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>datetime
+1950-12-31 12:42:56    1.5
+1951-01-30 23:11:49    0.9
+1951-03-02 09:41:14   -0.1
+1951-04-01 20:10:07   -0.3
+1951-05-02 06:39:01   -0.7
+Name: SOI, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdts</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    828.000000
+mean       0.119928
+std        0.938586
+min       -3.600000
+25%       -0.500000
+50%        0.100000
+75%        0.800000
+max        2.900000
+Name: SOI, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Because Pyleoclim now has Pandas under the hood, one can now apply any Pandas method to a Pyleoclim Series, via a <a class="reference external" href="https://www.freecodecamp.org/news/python-lambda-function-explained/">lambda function</a>. For instance, applying an exponential transform to the data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">pandas_method</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;archiveType&#39;: &#39;Instrumental&#39;, &#39;label&#39;: &#39;Southern Oscillation Index&#39;}
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>None
+Time [year C.E.]
+1951.000000    4.481689
+1951.083333    2.459603
+1951.166667    0.904837
+1951.250000    0.740818
+1951.333333    0.496585
+                 ...   
+2019.583333    0.904837
+2019.666667    0.301194
+2019.750000    0.670320
+2019.833333    0.449329
+2019.916667    0.548812
+Name: SOI [mb], Length: 828, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>For more examples, see <a class="reference external" href="https://sparkbyexamples.com/pandas/pandas-apply-with-lambda-examples/?utm_content=expand_article">this page</a></p>
+</section>
+<section id="unit-conversions">
+<h3>Unit conversions<a class="headerlink" href="#unit-conversions" title="Link to this heading">#</a></h3>
+<p>Pyleoclim now comprehends datestring semantics, which enable enhanced conversions betwen time representations. For instance, converting the SOI series to years before 1950 (“BP”):</p>
+</section>
+<section id="selection">
+<h3>Selection<a class="headerlink" href="#selection" title="Link to this heading">#</a></h3>
+<p>Let’s load a true paleoclimate example, the Dome C <span class="math notranslate nohighlight">\(CO_2\)</span> <a class="reference external" href="https://www.ncei.noaa.gov/pub/data/paleo/icecore/antarctica/antarctica2015co2composite.txt">composite</a>, and use Pandas semantics to select particular values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsBP</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">convert_time_unit</span><span class="p">(</span><span class="s1">&#39;yrs BP&#39;</span><span class="p">)</span>  
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">tsBP</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># by default, plots represent values in increasing order, so we reverse the x-axis</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1eff2c3c92ed46e64d65934b2e7ef0ebd694c777879c303e84ba1cec6d5ebdb9.png" src="../_images/1eff2c3c92ed46e64d65934b2e7ef0ebd694c777879c303e84ba1cec6d5ebdb9.png" />
+</div>
+</div>
+<p>The Series plots from recent to old, because the Matplotlib <code class="docutils literal notranslate"><span class="pre">plot()</span></code> function always works with increasing values. However, it is easy to check that it was indeed flipped:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsBP</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SOI [mb]</th>
+    </tr>
+    <tr>
+      <th>Age [yrs BP]</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>-69.914717</th>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <th>-69.831383</th>
+      <td>0.9</td>
+    </tr>
+    <tr>
+      <th>-69.748050</th>
+      <td>-0.1</td>
+    </tr>
+    <tr>
+      <th>-69.664717</th>
+      <td>-0.3</td>
+    </tr>
+    <tr>
+      <th>-69.581383</th>
+      <td>-0.7</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>-1.331383</th>
+      <td>-0.1</td>
+    </tr>
+    <tr>
+      <th>-1.248050</th>
+      <td>-1.2</td>
+    </tr>
+    <tr>
+      <th>-1.164717</th>
+      <td>-0.4</td>
+    </tr>
+    <tr>
+      <th>-1.081383</th>
+      <td>-0.8</td>
+    </tr>
+    <tr>
+      <th>-0.998050</th>
+      <td>-0.6</td>
+    </tr>
+  </tbody>
+</table>
+<p>828 rows × 1 columns</p>
+</div></div></div>
+</div>
+<p>The index has been flipped as well:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsBP</span><span class="o">.</span><span class="n">datetime_index</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DatetimeIndex([&#39;2019-11-30 19:18:55&#39;, &#39;2019-10-31 08:49:30&#39;,
+               &#39;2019-09-30 22:20:37&#39;, &#39;2019-08-31 11:51:43&#39;,
+               &#39;2019-08-01 01:22:19&#39;, &#39;2019-07-01 14:53:25&#39;,
+               &#39;2019-06-01 04:24:32&#39;, &#39;2019-05-01 17:55:07&#39;,
+               &#39;2019-04-01 07:26:14&#39;, &#39;2019-03-01 20:57:20&#39;,
+               ...
+               &#39;1951-10-01 11:04:30&#39;, &#39;1951-09-01 00:35:37&#39;,
+               &#39;1951-08-01 14:06:12&#39;, &#39;1951-07-02 03:37:19&#39;,
+               &#39;1951-06-01 17:08:26&#39;, &#39;1951-05-02 06:39:01&#39;,
+               &#39;1951-04-01 20:10:07&#39;, &#39;1951-03-02 09:41:14&#39;,
+               &#39;1951-01-30 23:11:49&#39;, &#39;1950-12-31 12:42:56&#39;],
+              dtype=&#39;datetime64[s]&#39;, name=&#39;datetime&#39;, length=828, freq=None)
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we wanted to preserve the original time flow (old to recent) in a plot, all you’d have to do is use the <code class="docutils literal notranslate"><span class="pre">invert_xaxis</span></code> parameter:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsBP</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">invert_yaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">invert_xaxis</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;SOI, years BP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [yrs BP]&#39;, ylabel=&#39;SOI [mb]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/3e6db6b73bf86e46c3c43aa87717bab9690fb2bb3d06c168a1f106e6d111a42b.png" src="../_images/3e6db6b73bf86e46c3c43aa87717bab9690fb2bb3d06c168a1f106e6d111a42b.png" />
+</div>
+</div>
+<p>(this is an admittedly contrived example, as no one in their right mind would cast instrumental series in years BP).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2ts</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;AACO2&#39;</span><span class="p">)</span>
+<span class="n">co2ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [ky BP]&#39;, ylabel=&#39;$CO_2$ [ppm]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/7c1d476e4f9d5f20e94d155a0c9a5bec1ade3af56a7dcb8f24cee9bdb1805ab9.png" src="../_images/7c1d476e4f9d5f20e94d155a0c9a5bec1ade3af56a7dcb8f24cee9bdb1805ab9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2ts</span><span class="o">.</span><span class="n">metadata</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;time_unit&#39;: &#39;ky BP&#39;,
+ &#39;time_name&#39;: &#39;Age&#39;,
+ &#39;value_unit&#39;: &#39;ppm&#39;,
+ &#39;value_name&#39;: &#39;$CO_2$&#39;,
+ &#39;label&#39;: &#39;EPICA Dome C CO2&#39;,
+ &#39;archiveType&#39;: &#39;GlacierIce&#39;,
+ &#39;importedFrom&#39;: &#39;https://www.ncei.noaa.gov/pub/data/paleo/icecore/antarctica/antarctica2015co2composite.txt&#39;,
+ &#39;log&#39;: None}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2ts</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>$CO_2$ [ppm]</th>
+    </tr>
+    <tr>
+      <th>Age [ky BP]</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>-0.05103</th>
+      <td>368.02</td>
+    </tr>
+    <tr>
+      <th>-0.04800</th>
+      <td>361.78</td>
+    </tr>
+    <tr>
+      <th>-0.04628</th>
+      <td>359.65</td>
+    </tr>
+    <tr>
+      <th>-0.04441</th>
+      <td>357.11</td>
+    </tr>
+    <tr>
+      <th>-0.04308</th>
+      <td>353.95</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>803.92528</th>
+      <td>202.92</td>
+    </tr>
+    <tr>
+      <th>804.00987</th>
+      <td>207.50</td>
+    </tr>
+    <tr>
+      <th>804.52267</th>
+      <td>204.86</td>
+    </tr>
+    <tr>
+      <th>805.13244</th>
+      <td>202.23</td>
+    </tr>
+    <tr>
+      <th>805.66887</th>
+      <td>207.29</td>
+    </tr>
+  </tbody>
+</table>
+<p>1901 rows × 1 columns</p>
+</div></div></div>
+</div>
+<p>To select a particular interval, (say the <a class="reference external" href="https://en.wikipedia.org/wiki/Eemian">Eemian</a>, 115 to 130 ky BP), you can use <code class="docutils literal notranslate"><span class="pre">sel</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_ee</span> <span class="o">=</span> <span class="n">co2ts</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span><span class="mi">130</span><span class="p">))</span>
+<span class="n">co2_ee</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [ky BP]&#39;, ylabel=&#39;$CO_2$ [ppm]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/56e52e68278005df4b24353e8819942eefb4ec26a4ba0e0b4a81b2ce58160210.png" src="../_images/56e52e68278005df4b24353e8819942eefb4ec26a4ba0e0b4a81b2ce58160210.png" />
+</div>
+</div>
+<p>If you wanted to extract the time of the maximum value, an easy approach is to use <code class="docutils literal notranslate"><span class="pre">sel</span></code> again:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_ee</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">co2_ee</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>$CO_2$ [ppm]</th>
+    </tr>
+    <tr>
+      <th>Age [ky BP]</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>128.46673</th>
+      <td>285.76</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We zero-ed in on the value ~128.5 ky BP as the highest <span class="math notranslate nohighlight">\(CO_2\)</span> concentration in the Eemian. Note that the result is still a <code class="docutils literal notranslate"><span class="pre">Series</span></code> object (in this case, a very short one!).  Similarly, to identify the timing of glacial maxima by values below 200 ppm, one could select with an open interval:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_G</span> <span class="o">=</span> <span class="n">co2ts</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="mi">200</span><span class="p">))</span> <span class="c1"># returns a new Series object</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">co2ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">co2_G</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$CO_2\leq200$&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Age [ky BP]&#39;, ylabel=&#39;$CO_2$ [ppm]&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/e18b90de1f6c372d6ecd5f930315ab1fb1669af399dbd41b71a412a61c052a62.png" src="../_images/e18b90de1f6c372d6ecd5f930315ab1fb1669af399dbd41b71a412a61c052a62.png" />
+</div>
+</div>
+<p>For interglacials, select half-open intervals the other way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_IG</span> <span class="o">=</span> <span class="n">co2ts</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">270</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span> <span class="c1"># returns a new Series object</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">co2ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">co2_G</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$CO_2\leq200$&quot;</span><span class="p">)</span> 
+<span class="n">co2_IG</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$CO_2\geq270$&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Age [ky BP]&#39;, ylabel=&#39;$CO_2$ [ppm]&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/b06542e81cd6dcea42bd751ce64a9afd3c4e932377c412ec5f213998888760d4.png" src="../_images/b06542e81cd6dcea42bd751ce64a9afd3c4e932377c412ec5f213998888760d4.png" />
+</div>
+</div>
+<p>Again, both of these are <code class="docutils literal notranslate"><span class="pre">Series</span></code> objects, albeit highly discontinuous ones.</p>
+<p>Science Remark: admittedly, an absolute threshold for defining interglacials makes little sense. A smarter way would be to use <a class="reference external" href="https://en.wikipedia.org/wiki/Cluster_analysis">clustering</a>, as implemented in the <code class="docutils literal notranslate"><span class="pre">outliers()</span></code> method and a <a class="reference internal" href="#./L2_outlier_detection.md"><span class="xref myst">dedicated tutorial</span></a>.</p>
+</section>
+<section id="csv-import-export">
+<h3>CSV Import/Export<a class="headerlink" href="#csv-import-export" title="Link to this heading">#</a></h3>
+<p>Pandas integration allows a very easy round trip with CSV files:</p>
+<section id="exporting-to-csv">
+<h4>Exporting to CSV<a class="headerlink" href="#exporting-to-csv" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../data/EPICA_Dome_C_CO2.csv&#39;</span>
+<span class="n">co2ts</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Series exported to ../data/EPICA_Dome_C_CO2.csv
+</pre></div>
+</div>
+</div>
+</div>
+<p>The path name is optional; if no file name is provided (as is the case here), the file is named after the <code class="docutils literal notranslate"><span class="pre">Series</span></code> label. This is another reason to choose meaningful and relatively concise labels!</p>
+</section>
+<section id="importing-from-csv">
+<h4>Importing from CSV<a class="headerlink" href="#importing-from-csv" title="Link to this heading">#</a></h4>
+<p>Read the file back in and gives the same <code class="docutils literal notranslate"><span class="pre">Series</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2ts2</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;../data/EPICA_Dome_C_CO2.csv&#39;</span><span class="p">)</span>
+<span class="n">co2ts2</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">co2ts</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time axis values sorted in ascending order
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(True, True)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note the use of the <code class="docutils literal notranslate"><span class="pre">equals()</span></code> method, inspired the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.equals.html">eponymous method from Pandas</a>. The Pyleoclim implementation returns two boolean objects: the first says whether the two Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code> are the same; the second whether the metadata are the same. Fortunately, we landed back on our feet.</p>
+</section>
+</section>
+<section id="resampling">
+<h3>Resampling<a class="headerlink" href="#resampling" title="Link to this heading">#</a></h3>
+<p>One of Pandas’ most powerful capabilities is <a class="reference external" href="https://pandas.pydata.org/docs/user_guide/timeseries.html#resampling">resampling()</a> series to attain various temporal resolutions. Pyleoclim implements a function of the same name, but using normal “paleo-speak” to define resolution. For instance, let’s coarse-grain on 5,000 year intervals:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_5k</span> <span class="o">=</span> <span class="n">co2ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;5ka&#39;</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">co2_5k</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pyleoclim.core.series.SeriesResampler
+</pre></div>
+</div>
+</div>
+</div>
+<p>The output of this function is a variant on a Pandas <a class="reference external" href="https://pandas.pydata.org/docs/reference/resampling.html">resampler</a>; the values then need to be aggregated or transformed. For our purpose, let’s average them over those 5ky bins:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_5kavg</span> <span class="o">=</span> <span class="n">co2_5k</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="c1"># the aggregator here is simply the mean</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">co2ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">co2_5kavg</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>         
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Age [ky BP]&#39;, ylabel=&#39;$CO_2$ [ppm]&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/384ca9bd4c15cde393f4d345b8f9017d5604ddc0e0b136a78b34c92ad3016f65.png" src="../_images/384ca9bd4c15cde393f4d345b8f9017d5604ddc0e0b136a78b34c92ad3016f65.png" />
+</div>
+</div>
+<p>One notable distinction to standard Pandas resampling is that Pyleoclim aligns the resampled index to the <em>midpoint</em> of each interval, to minimize age offsets. In contrast, Pandas aligns to the beginning of an interval.</p>
+<p>In terms of nomenclature, <code class="docutils literal notranslate"><span class="pre">resample()</span></code> can understand several abbreviations for “kiloyear”, such as ‘ka’, ‘ky’, or ‘kyrs’. In fact, these would work:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">tsbase</span><span class="o">.</span><span class="n">MATCH_KA</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>frozenset({&#39;ka&#39;, &#39;kiloyear&#39;, &#39;kiloyr&#39;, &#39;kiloyrs&#39;, &#39;ky&#39;, &#39;kyr&#39;, &#39;kyrs&#39;})
+</pre></div>
+</div>
+</div>
+</div>
+<p>For millions of years, use:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">tsbase</span><span class="o">.</span><span class="n">MATCH_MA</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>frozenset({&#39;ma&#39;, &#39;my&#39;, &#39;myr&#39;, &#39;myrs&#39;})
+</pre></div>
+</div>
+</div>
+</div>
+<p>and so on for other multiples, like years (<code class="docutils literal notranslate"><span class="pre">pyleo.utils.tsbase.MATCH_A</span></code>) or billion years (<code class="docutils literal notranslate"><span class="pre">pyleo.utils.tsbase.MATCH_GA</span></code>)</p>
+<p>Further, the <code class="docutils literal notranslate"><span class="pre">Resampler</span></code> class allows one to choose statistics other than the mean, e.g., a running standard deviation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_5k</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>$CO_2$ [ppm]</th>
+    </tr>
+    <tr>
+      <th>Age [ky BP]</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>-1.831006</th>
+      <td>21.187646</td>
+    </tr>
+    <tr>
+      <th>3.169000</th>
+      <td>4.424875</td>
+    </tr>
+    <tr>
+      <th>8.169003</th>
+      <td>2.471905</td>
+    </tr>
+    <tr>
+      <th>13.169008</th>
+      <td>12.374541</td>
+    </tr>
+    <tr>
+      <th>18.169011</th>
+      <td>13.381836</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>783.169643</th>
+      <td>3.247548</td>
+    </tr>
+    <tr>
+      <th>788.169646</th>
+      <td>15.221735</td>
+    </tr>
+    <tr>
+      <th>793.169651</th>
+      <td>8.006723</td>
+    </tr>
+    <tr>
+      <th>798.169654</th>
+      <td>2.977565</td>
+    </tr>
+    <tr>
+      <th>803.169660</th>
+      <td>3.386011</td>
+    </tr>
+  </tbody>
+</table>
+<p>162 rows × 1 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="pandas-operations-with-multipleseries-objects">
+<h3>Pandas operations with MultipleSeries objects<a class="headerlink" href="#pandas-operations-with-multipleseries-objects" title="Link to this heading">#</a></h3>
+<p>Let’s load the Deuterium EPICA DOME C record:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edc</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;EDC-dD&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We then create a <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> object using the <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> shorthand:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span> <span class="o">=</span>  <span class="n">edc</span><span class="o">.</span><span class="n">convert_time_unit</span><span class="p">(</span><span class="s2">&quot;ky BP&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">co2ts</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pyleoclim.core.multipleseries.MultipleSeries
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span><span class="o">.</span><span class="n">stackplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 640x480 with 3 Axes&gt;,
+ {0: &lt;Axes: ylabel=&#39;$\\delta \\mathrm{D}$ [‰]&#39;&gt;,
+  1: &lt;Axes: ylabel=&#39;$CO_2$ [ppm]&#39;&gt;,
+  &#39;x_axis&#39;: &lt;Axes: xlabel=&#39;Age [ka]&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/48f480b6c3c751d92ed314680fec7e230111546131f0ebab0cb9ea6890d6d0fb.png" src="../_images/48f480b6c3c751d92ed314680fec7e230111546131f0ebab0cb9ea6890d6d0fb.png" />
+</div>
+</div>
+<section id="exporting-to-pandas">
+<h4>Exporting to pandas<a class="headerlink" href="#exporting-to-pandas" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> class also has a <code class="docutils literal notranslate"><span class="pre">to_pandas()</span></code> method; this one exports to a dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>EPICA Dome C dD</th>
+      <th>EPICA Dome C CO2</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>-803719-10-17 10:22:57</th>
+      <td>NaN</td>
+      <td>207.29</td>
+    </tr>
+    <tr>
+      <th>-803182-03-23 07:19:38</th>
+      <td>NaN</td>
+      <td>202.23</td>
+    </tr>
+    <tr>
+      <th>-802573-12-30 00:58:49</th>
+      <td>NaN</td>
+      <td>204.86</td>
+    </tr>
+    <tr>
+      <th>-802060-10-17 05:46:09</th>
+      <td>NaN</td>
+      <td>207.50</td>
+    </tr>
+    <tr>
+      <th>-801975-05-20 01:52:17</th>
+      <td>NaN</td>
+      <td>202.92</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">to_pandas()</span></code> exports the <code class="docutils literal notranslate"><span class="pre">Series</span></code> as they are, and one can see that the values are not aligned. Some plotting functions still work out of the proverbial box:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;Axes: title={&#39;center&#39;: &#39;EPICA Dome C dD&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;EPICA Dome C CO2&#39;}&gt;]], dtype=object)
+</pre></div>
+</div>
+<img alt="../_images/e500192305c7b4760b626c6e934699316d32c28680487522f4217ba2b581c56b.png" src="../_images/e500192305c7b4760b626c6e934699316d32c28680487522f4217ba2b581c56b.png" />
+</div>
+</div>
+<p>Alas, <code class="docutils literal notranslate"><span class="pre">df.plot()</span></code> wouldn’t work, as Matplotlib assumes dates must be between year 0001 and 9999.</p>
+<p>As with <code class="docutils literal notranslate"><span class="pre">Series</span></code>, <code class="docutils literal notranslate"><span class="pre">ms.to_csv()</span></code> will export the object to a CSV file. We skip this here, as the output is not very graphical.</p>
+</section>
+<section id="aligning-to-a-common-axis">
+<h4>Aligning to a common axis<a class="headerlink" href="#aligning-to-a-common-axis" title="Link to this heading">#</a></h4>
+<p>In many instances it is useful for the <code class="docutils literal notranslate"><span class="pre">Series</span></code> to share a common time axis. This can be done simply this way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(</span><span class="n">use_common_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>EPICA Dome C dD</th>
+      <th>EPICA Dome C CO2</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1911-08-18 06:32:30</th>
+      <td>-390.900000</td>
+      <td>299.817617</td>
+    </tr>
+    <tr>
+      <th>1630-04-19 08:12:23</th>
+      <td>-400.382865</td>
+      <td>274.220786</td>
+    </tr>
+    <tr>
+      <th>1348-12-20 09:52:15</th>
+      <td>-401.167982</td>
+      <td>278.367365</td>
+    </tr>
+    <tr>
+      <th>1067-08-23 11:32:07</th>
+      <td>-398.662864</td>
+      <td>282.612398</td>
+    </tr>
+    <tr>
+      <th>786-04-25 13:11:59</th>
+      <td>-396.520050</td>
+      <td>279.625252</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Seaborn is a plotting library designed to visualize DataFrames. With just one line, it is easy to get an overview of the data with a <a class="reference external" href="https://seaborn.pydata.org/generated/seaborn.pairplot.html"><code class="docutils literal notranslate"><span class="pre">pairplot</span></code></a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="s1">&#39;bmh&#39;</span><span class="p">):</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2be550e25611a25a0aa6db1f7940a79deae19605bae494b1c86e51598b411599.png" src="../_images/2be550e25611a25a0aa6db1f7940a79deae19605bae494b1c86e51598b411599.png" />
+</div>
+</div>
+<p>or a <a class="reference external" href="https://seaborn.pydata.org/generated/seaborn.jointplot.html?highlight=jointplot#seaborn.jointplot"><code class="docutils literal notranslate"><span class="pre">jointplot</span></code></a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="s1">&#39;bmh&#39;</span><span class="p">):</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;EPICA Dome C dD&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;EPICA Dome C CO2&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/27fc6346b9991cc3649320d558cede81a5c3c09fc9e8e0fe1f8280b8f87a929c.png" src="../_images/27fc6346b9991cc3649320d558cede81a5c3c09fc9e8e0fe1f8280b8f87a929c.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
+<p>The legendary pandas library is now fully integrated within Pyleoclim. This opens the door to many powerful, user-friendly functionatlities for data processing and visualization. For other examples of how pandas is making life easier in Pyleoclim, see <a class="reference internal" href="#L0_basic_ts_manipulation.md"><span class="xref myst">this notebook</span></a>; however, the real frontier is what you will decide to do with it. Possibilities abound!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Jun 24 2024
+
+Python implementation: CPython
+Python version       : 3.11.9
+IPython version      : 8.25.0
+
+pandas    : 2.1.4
+matplotlib: 3.8.4
+numpy     : 1.26.4
+seaborn   : 0.13.2
+pyleoclim : 1.0.0b0
+
+Watermark: 2.4.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L0_loading_to_series.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Loading data into Pyleoclim</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L0_working_with_geoseries.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Working with GeoSeries</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-time">Reading time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-Requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#to-pandas">.to_pandas()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-conversions">Unit conversions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selection">Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-import-export">CSV Import/Export</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-to-csv">Exporting to CSV</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-from-csv">Importing from CSV</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling">Resampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-operations-with-multipleseries-objects">Pandas operations with MultipleSeries objects</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-to-pandas">Exporting to pandas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aligning-to-a-common-axis">Aligning to a common axis</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

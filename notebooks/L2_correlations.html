@@ -1,0 +1,2438 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Correlation Analysis in Pyleoclim &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L2_correlations';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Outlier Detection with Pyleoclim" href="L2_outlier_detection.html" />
+    <link rel="prev" title="Working with Age Ensembles" href="L1_working_with_age_ensembles.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L2_correlations.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L2_correlations.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L2_correlations.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Correlation Analysis in Pyleoclim</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#age-uncertain-correlations">Age-uncertain Correlations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-age-ensemble">Create age ensemble</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correlating-the-medians">Correlating the medians</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-persistence">Effect of persistence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-nonlinearity">Effect of nonlinearity</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-comparison">Multiple Comparison</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#field-correlations">Field Correlations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#takeaways">Takeaways</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="correlation-analysis-in-pyleoclim">
+<h1>Correlation Analysis in Pyleoclim<a class="headerlink" href="#correlation-analysis-in-pyleoclim" title="Link to this heading">#</a></h1>
+<p>by  <a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p>This tutorial has two parts, highlighting two important applications of correlation analysis to paleoclimatology.</p>
+<ol class="arabic simple">
+<li><p>The first tackles the comparison of age-uncertain records, and is inspired by a similar one in Pyleoclim’s sister package, <a class="reference external" href="https://nickmckay.github.io/GeoChronR/articles/correlation.html">GeoChronR</a>.</p></li>
+<li><p>The second shows how to compute correlations between a record and a gridded field, illustrative of the <a class="reference external" href="https://en.wikipedia.org/wiki/Multiple_comparisons_problem">multiple comparisons (aka “Look Elsewhere”) effect</a>.</p></li>
+</ol>
+<p>We also show how the latest <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> version can apply different types of surrogates for significance testing, and compute different metrics of association, from the usual Pearson correlation to more exotic statistics like
+Spearman’s <span class="math notranslate nohighlight">\(\rho\)</span> or Kendall’s <span class="math notranslate nohighlight">\(\tau\)</span>, which sidestep the assumption of a linear relationship between series.</p>
+<section id="goals">
+<h3>Goals:<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>load and create age ensemble data</p></li>
+<li><p>run correlation workflow on those ensembles, using various statistics and surrogates</p></li>
+<li><p>interpret the results of these correlation tests, especially when <a class="reference external" href="https://en.wikipedia.org/wiki/Multiple_comparisons_problem">multiple tests are carried out at once</a></p></li>
+<li><p>go between <code class="docutils literal notranslate"><span class="pre">LiPD</span></code>-formatted paleo data and <code class="docutils literal notranslate"><span class="pre">Xarray</span></code> datasets, using <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> as go-betweens</p></li>
+</ul>
+<p><strong>Reading Time:</strong></p>
+<p>10 minutes</p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>Age ensembles, Surogates, multiple hypotheses, serial correlation, significance</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>None. This tutorial assumes basic knowledge of Python. If you are not familiar with this coding language, check out this tutorial: <a class="reference external" href="http://linked.earth/LeapFROGS/">http://linked.earth/LeapFROGS/</a>.</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>Pickle, Pyleoclim</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Hulu Cave record: <a class="reference external" href="https://www.science.org/doi/10.1126/science.1064618">https://www.science.org/doi/10.1126/science.1064618</a></p></li>
+<li><p>GISP2: <a class="reference external" href="https://icecores.org/inventory/gisp2">https://icecores.org/inventory/gisp2</a></p></li>
+<li><p>ERSSTv5: <a class="reference external" href="https://10.1175/JCLI-D-16-0836.1">Huang et al, (2017)</a></p></li>
+<li><p>Palmyra modern Sr/Ca data: <a class="reference external" href="https://doi.org/10.1175/2011JCLI3852.1">Nurhati et al (2011)</a></p></li>
+</ul>
+<p>Let’s import the packages needed for this tutorial:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="age-uncertain-correlations">
+<h3>Age-uncertain Correlations<a class="headerlink" href="#age-uncertain-correlations" title="Link to this heading">#</a></h3>
+<p>This example compares two high-resolution paleoclimate records with quantifiable age uncertainties: the Hulu Cave speleothem record of <a class="reference external" href="https://www.science.org/doi/10.1126/science.1064618">Wang et al. (2001)</a> and the <a class="reference external" href="https://icecores.org/inventory/gisp2">GISP2</a> ice core record. Both measure stable oxygen isotopes (<span class="math notranslate nohighlight">\(\delta^{18} \mathrm{O}\)</span>), though these proxy systems have radically different interpretations, which are not relevant here.</p>
+<p>On multi-millennial timescales, the two datasets display such similar features that the well-dated Hulu Cave record has been used to argue for atmospheric teleconnections between the regions and support the independent chronology of GISP2. In this example, we revisit this relation quantitatively and use their age models (one provided, one created using a built-in <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> function), to calculate the impact of age uncertainty on the correlation between these two iconic datasets.</p>
+<p>First, let’s look at the Hulu Cave dataset from <a class="reference external" href="https://www.science.org/doi/10.1126/science.1064618">Wang et al. (2001)</a>, with age ensemble generates using <a class="reference external" href="https://doi.org/10.1111/j.1467-9876.2008.00623.x">BChron</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../data/hulu_ensemble.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+    <span class="n">Hulu</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="n">Hulu</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Hulu Cave&#39;</span>
+<span class="n">Hulu</span><span class="o">.</span><span class="n">value_name</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\delta^</span><span class="si">{18}</span><span class="s1"> \mathrm</span><span class="si">{O}</span><span class="s1">$&#39;</span>
+<span class="n">Hulu</span><span class="o">.</span><span class="n">value_unit</span> <span class="o">=</span> <span class="s1">&#39;‰&#39;</span>
+<span class="n">Hulu</span> <span class="o">=</span> <span class="n">Hulu</span><span class="o">.</span><span class="n">convert_time_unit</span><span class="p">(</span><span class="s1">&#39;ky BP&#39;</span><span class="p">)</span>
+<span class="n">Hulu</span><span class="o">.</span><span class="n">common_time</span><span class="p">()</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [ka]&#39;, ylabel=&#39;d18O [permil]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/2702a530fb04064dfd4bcd8bd792be406fe107cec87b7e60217e309199433bb4.png" src="../_images/2702a530fb04064dfd4bcd8bd792be406fe107cec87b7e60217e309199433bb4.png" />
+</div>
+</div>
+<p>Next we load GISP2, which actually ships with <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> (see <a class="reference internal" href="#L0_loading_to_series.md"><span class="xref myst">this tutorial</span></a>). Its original time unit is “years BP”, which we convert to “ky BP” (thousands of years before present) to harmonize with Hulu:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GISP2</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;GISP2&#39;</span><span class="p">)</span>
+<span class="n">GISP2</span> <span class="o">=</span> <span class="n">GISP2</span><span class="o">.</span><span class="n">convert_time_unit</span><span class="p">(</span><span class="s1">&#39;ky BP&#39;</span><span class="p">)</span>
+<span class="n">GISP2</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [ka]&#39;, ylabel=&#39;$\\delta^{18} \\mathrm{O}$ [‰]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/69ab044ee6e68cc89a61768115bfc8a45a9b640b98be6c7f1c8d3940d4b4937a.png" src="../_images/69ab044ee6e68cc89a61768115bfc8a45a9b640b98be6c7f1c8d3940d4b4937a.png" />
+</div>
+</div>
+</section>
+<section id="create-age-ensemble">
+<h3>Create age ensemble<a class="headerlink" href="#create-age-ensemble" title="Link to this heading">#</a></h3>
+<p>Hulu already has an age ensemble, but GISP2 doesn’t. To generate a plausible one, we use a Pyleoclim function called <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.tsmodel.random_time_axis">random_time_axis</a> to create a 1000-member <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#ensembleseries-pyleoclim-ensembleseries">EnsembleSeries</a> object with time perturbations of <span class="math notranslate nohighlight">\(\pm100y\)</span> with a 2% probability:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nEns</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">GISP2</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<span class="n">slist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nEns</span><span class="p">):</span>
+    <span class="n">pert</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">tsmodel</span><span class="o">.</span><span class="n">random_time_axis</span><span class="p">(</span><span class="n">n</span><span class="p">,</span>
+                                         <span class="n">delta_t_dist</span><span class="o">=</span><span class="s1">&#39;random_choice&#39;</span><span class="p">,</span>
+                                         <span class="n">param</span> <span class="o">=</span><span class="p">[[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.96</span><span class="p">,</span><span class="mf">0.02</span><span class="p">]])</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">GISP2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">ts</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">GISP2</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="n">pert</span>
+    <span class="n">slist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<span class="n">GISP2e</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleSeries</span><span class="p">(</span><span class="n">slist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice how we specified parameters here: <code class="docutils literal notranslate"><span class="pre">param</span> <span class="pre">=[[-0.1,0,0.1],[0.02,0.96,0.02]]</span></code> means that the time increment perturbations (departures from 1), are rare and symmetric, being 0ky 96% of the time, and <span class="math notranslate nohighlight">\(\pm0.1\)</span>ky the remaining 4% of the time. Let us plot the result:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GISP2e</span><span class="o">.</span><span class="n">common_time</span><span class="p">()</span><span class="o">.</span><span class="n">plot_envelope</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Age [ka]&#39;, ylabel=&#39;$\\delta^{18} \\mathrm{O}$ [‰]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/a7b2edecb08ce19f94207adf357176602dea60d46a2d8fc1162a65a2fd251154.png" src="../_images/a7b2edecb08ce19f94207adf357176602dea60d46a2d8fc1162a65a2fd251154.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="correlating-the-medians">
+<h2>Correlating the medians<a class="headerlink" href="#correlating-the-medians" title="Link to this heading">#</a></h2>
+<p>Before delving into the ensembles, let’s extract their medians and explore their correlation, to showcase a few of <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>’s capabilities. The default measure of association is Pearson’s product-moment correlation, more commonly known as <a class="reference external" href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">Pearson’s R</a>. However, there are several ways of assessing the significance of the result. We use 3 here:</p>
+<ul class="simple">
+<li><p>the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.pearsonr.html">built-in test from SciPy</a></p></li>
+<li><p>a Monte Carlo simulation using <a class="reference internal" href="#L1_surrogates.md"><span class="xref myst">AR(1) surrogates</span></a>.</p></li>
+<li><p>a Monte Carlo simulation using <a class="reference internal" href="#L1_surrogates.md"><span class="xref myst">phase-randomized surrogates</span></a></p></li>
+</ul>
+<section id="effect-of-persistence">
+<h3>Effect of persistence<a class="headerlink" href="#effect-of-persistence" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Hulu_m</span> <span class="o">=</span> <span class="n">Hulu</span><span class="o">.</span><span class="n">common_time</span><span class="p">()</span><span class="o">.</span><span class="n">quantiles</span><span class="p">(</span><span class="n">qs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">])</span><span class="o">.</span><span class="n">series_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># this turns it into a Series</span>
+<span class="n">GISP2_m</span> <span class="o">=</span> <span class="n">GISP2e</span><span class="o">.</span><span class="n">common_time</span><span class="p">()</span><span class="o">.</span><span class="n">quantiles</span><span class="p">(</span><span class="n">qs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">])</span><span class="o">.</span><span class="n">series_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># this turns it into a Series</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;built-in&#39;</span><span class="p">,</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span><span class="s1">&#39;phaseran&#39;</span><span class="p">,]:</span>
+    <span class="n">corr_m</span> <span class="o">=</span> <span class="n">Hulu_m</span><span class="o">.</span><span class="n">correlation</span><span class="p">(</span><span class="n">GISP2_m</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">corr_m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value  p-value    signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.392012               nan  &lt; 1e-12    True
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Evaluating association on surrogate pairs: 100%|██████████| 1000/1000 [00:00&lt;00:00, 13037.81it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value    p-value  signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.392012         -0.586002       0.23  False
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Evaluating association on surrogate pairs: 100%|██████████| 1000/1000 [00:00&lt;00:00, 13605.41it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value    p-value  signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.392012         -0.423196       0.07  False
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">corr_m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pyleoclim.core.corr.Corr
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result of these calculations is stored in a <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#corr-pyleoclim-corr">Corr object</a>, which contains several things:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">r</span></code> (float), the statistic measuring association</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">r_crit</span></code> (float), the critical value of this statistic (i.e. the threshold value that must be exceeded (in absolute value) to call this “significant”). This is provided as a convenience for some applications, and cannot be computed in all cases (e.g. the <code class="docutils literal notranslate"><span class="pre">built-in</span></code> method)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p</span></code> (float),  the p-value, which is used to decide whether the correlation is in any way remarkable (“significant”)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signif</span></code>, a boolean indicating whether significance was reached, at the indicated level (0.05 by default)</p></li>
+</ul>
+<p>We see that the three methods return the same value <span class="math notranslate nohighlight">\(r \approx -0.4\)</span> but quite different assessments of the <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5187603/"><span class="math notranslate nohighlight">\(p\)</span>-value</a>:</p>
+<ul class="simple">
+<li><p>the <strong>built-in test</strong>, which assumes that the data are Gaussian and <a class="reference external" href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables">IID</a>, suggests a <em>highly</em> significant result, with a p-value less than <span class="math notranslate nohighlight">\(10^{-13}\)</span>.</p></li>
+<li><p>the test against both surrogates suggests the correlation is <em>not significant</em> at the 95% level.</p></li>
+</ul>
+<p>This is a reminder of the importance of judiciously applying statistical tests in the paleo context. As recounted by <a class="reference external" href="http://dx.doi.org/10.1016/j.epsl.2016.11.048">Hu et al (2017)</a>, there are 3 major pitfalls for paleo-correlations. The first, which is here on full display, is that <strong>serial correlation</strong> (persistence) undermines the assumption that consecutive samples are independent, thereby radically reducing the number of degrees of freedom available to the test. This can often invalidate such tests entirely. Accordingly, <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> implements a modified version of the built-in test, which estimates the effective degrees of freedom <span class="math notranslate nohighlight">\(n_\mathrm{eff}\)</span> lost to serial correlation. This method is available as <code class="docutils literal notranslate"><span class="pre">ttest</span></code>, but in this case it would not work because it results in <span class="math notranslate nohighlight">\(n_\mathrm{eff}&lt;10\)</span>, which is too small for this test to make any sense (try it!).</p>
+</section>
+<section id="effect-of-nonlinearity">
+<h3>Effect of nonlinearity<a class="headerlink" href="#effect-of-nonlinearity" title="Link to this heading">#</a></h3>
+<p>Now we showcase how to apply a different statistic, for example, Spearman’s <span class="math notranslate nohighlight">\(\rho\)</span> and Kendall’s <span class="math notranslate nohighlight">\(\tau\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;built-in&#39;</span><span class="p">,</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span><span class="s1">&#39;phaseran&#39;</span><span class="p">]:</span>
+    <span class="n">corr_s</span> <span class="o">=</span> <span class="n">Hulu_m</span><span class="o">.</span><span class="n">correlation</span><span class="p">(</span><span class="n">GISP2_m</span><span class="p">,</span><span class="n">statistic</span><span class="o">=</span><span class="s1">&#39;spearmanr&#39;</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">corr_s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value  p-value    signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.396296               nan  &lt; 1e-13    True
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Evaluating association on surrogate pairs: 100%|██████████| 1000/1000 [00:00&lt;00:00, 9482.27it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value    p-value  signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.396296         -0.594477       0.22  False
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Evaluating association on surrogate pairs: 100%|██████████| 1000/1000 [00:00&lt;00:00, 9596.08it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value    p-value  signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.396296         -0.409566       0.06  False
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Same for Kendall’s <span class="math notranslate nohighlight">\(\tau\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;built-in&#39;</span><span class="p">,</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span><span class="s1">&#39;phaseran&#39;</span><span class="p">]:</span>
+    <span class="n">corr_t</span> <span class="o">=</span> <span class="n">Hulu_m</span><span class="o">.</span><span class="n">correlation</span><span class="p">(</span><span class="n">GISP2_m</span><span class="p">,</span><span class="n">statistic</span><span class="o">=</span><span class="s1">&#39;kendalltau&#39;</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">corr_t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value  p-value    signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.264794               nan  &lt; 1e-12    True
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Evaluating association on surrogate pairs: 100%|██████████| 1000/1000 [00:00&lt;00:00, 13800.68it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value    p-value  signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.264794         -0.409203       0.21  False
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Evaluating association on surrogate pairs: 100%|██████████| 1000/1000 [00:00&lt;00:00, 13953.85it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value    p-value  signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.264794         -0.283566       0.07  False
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that Spearman’s <span class="math notranslate nohighlight">\(\rho\)</span> yields results very close to Pearson’s <span class="math notranslate nohighlight">\(r\)</span> (the phase randomization test is now at the edge of significance), so nonlinearity is probably not a main concern. Quantitatively, Kendall’s <span class="math notranslate nohighlight">\(\tau\)</span> estimates a lower absolute correlation, but assessments of significance are the same as before: the built-in test suggests a highly significant correlation, a result contradicted by the surrogates.  All in all, a reasonable investigator would dismiss this correlation between median age models as non significant.</p>
+<section id="multiple-comparison">
+<h4>Multiple Comparison<a class="headerlink" href="#multiple-comparison" title="Link to this heading">#</a></h4>
+<p>We now tackle the  <a class="reference external" href="https://en.wikipedia.org/wiki/Multiple_comparisons_problem">multiple comparisons problem</a>, which can create the appearance of significant results because, at the 5% level, 5% of tests will return a false positive, so if thousands of comparisons are carried out (as is the case here), then one expects that a few dozen of them will be identified as “significant” at that level (<span class="math notranslate nohighlight">\(\alpha=0.05\)</span>). A solution to this problem was worked out in 1995 as the <a class="reference external" href="https://en.wikipedia.org/wiki/False_discovery_rate">false-discovery rate</a> procedure (FDR), which is implemented in <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>.</p>
+<p>The latter can carry out correlations between <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code> objects, and here the result has more features. This calculation, using 1000 surrogates for each of the 1000 age models, computes a million correlations, and therefore takes a few minutes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corr_e</span> <span class="o">=</span> <span class="n">Hulu</span><span class="o">.</span><span class="n">correlation</span><span class="p">(</span><span class="n">GISP2e</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;phaseran&#39;</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Looping over 1000 Series in the ensemble
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1000/1000 [01:52&lt;00:00,  8.86it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corr_e</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 400x400 with 1 Axes&gt;, &lt;Axes: xlabel=&#39;$r$&#39;, ylabel=&#39;Count&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/0100535f1de3a66778a979d77eda9f5177630cb98d99a066b8b32ec5c91a38e2.png" src="../_images/0100535f1de3a66778a979d77eda9f5177630cb98d99a066b8b32ec5c91a38e2.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">corr_e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pyleoclim.core.correns.CorrEns
+</pre></div>
+</div>
+</div>
+</div>
+<p>Whereas the previous correlation results were stored in a <code class="docutils literal notranslate"><span class="pre">Corr</span></code> object, this one is stored in a <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#correns-pyleoclim-correns">CorrEns object</a>. It contains very similar information to <code class="docutils literal notranslate"><span class="pre">Corr</span></code>, but the lists can be tedious to inspect in print, so a visual inspection via its <code class="docutils literal notranslate"><span class="pre">plot()</span></code> method (see figure above) is far more useful.</p>
+<p>It shows that :</p>
+<ul class="simple">
+<li><p>the vast majority of correlations between individual ensemble members are judged non-significant.</p></li>
+<li><p>a subset of those (around 9%) are found significant. However, when accounting for the multiple comparisons problem via FDR, <strong>none of them are found significant</strong>.</p></li>
+</ul>
+<p>This confirms what was found earlier using median age models. This is not always the case, as <a class="reference external" href="http://salavon.com/work/specialmoments/">the median (or mean) is often a very poor summary of a dataset</a>. When ensembles are available, it is always preferable to look at them in their entirety, something <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> makes practical.</p>
+</section>
+</section>
+</section>
+<section id="field-correlations">
+<h2>Field Correlations<a class="headerlink" href="#field-correlations" title="Link to this heading">#</a></h2>
+<p>Another example of multiple comparison arises when assessing correlations between a single series (e.g. a paleoclimate record, or an instrumental station) and an instrumental climate <a class="reference external" href="https://glossary.ametsoc.org/wiki/Field">field</a>. Here, we use as our record the coral Sr/Ca series (a proxy for sea-surface temperature) from <a class="reference external" href="https://doi.org/10.1175/2011JCLI3852.1">Nurhati et al (2011)</a>. The data are from Palmyra Island in the tropical Pacific, at the edge of the NINO3.4 box (a popular measure of the state of El Niño Southern Oscillation). We compare it to the sea-surface temperature analysis of ERSSTv5 <a class="reference external" href="https://10.1175/JCLI-D-16-0836.1">(Huang et al, 2017)</a>.</p>
+<p>To do so we leverage the wonderful <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html">Xarray package</a> to load the data directly from NCEI’s servers so they never have to be explicitly downloaded (aka “lazy-loading”). We also make use of <a class="reference external" href="https://pylipd.readthedocs.io/en/latest/">pyLiPD</a> and a few other packages.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pylipd.lipd</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiPD</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">D</span> <span class="o">=</span> <span class="n">LiPD</span><span class="p">()</span>
+<span class="n">D</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../data/Ocn-Palmyra.Nurhati.2011.lpd&#39;</span><span class="p">)</span>
+<span class="n">timeseries</span><span class="p">,</span><span class="n">df</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_timeseries</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">get_all_dataset_names</span><span class="p">(),</span><span class="n">to_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading 1 LiPD files
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 57.23it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded..
+Extracting timeseries from dataset: Ocn-Palmyra.Nurhati.2011 ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mode</th>
+      <th>time_id</th>
+      <th>archiveType</th>
+      <th>dataContributor</th>
+      <th>pub1_author</th>
+      <th>pub1_citeKey</th>
+      <th>pub1_DOI</th>
+      <th>pub1_dataUrl</th>
+      <th>pub1_journal</th>
+      <th>pub1_year</th>
+      <th>...</th>
+      <th>paleoData_values</th>
+      <th>paleoData_description</th>
+      <th>paleoData_dataType</th>
+      <th>paleoData_inferredVariableType</th>
+      <th>paleoData_ocean2kID</th>
+      <th>paleoData_pages2kID</th>
+      <th>paleoData_qCCertification</th>
+      <th>paleoData_inCompilation</th>
+      <th>paleoData_iso2kUI</th>
+      <th>paleoData_interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Coral</td>
+      <td>{'name': 'HLF MNE'}</td>
+      <td>Kevin J. Anchukaitis;Cyril Giry;Michael N. Eva...</td>
+      <td>tierney2015tropicalseasurfacetempera</td>
+      <td>Unknown.68701046e0965</td>
+      <td>[doi.org]</td>
+      <td>Paleoceanography</td>
+      <td>2015</td>
+      <td>...</td>
+      <td>[0.39, 0.35, 0.35, 0.35, 0.36, 0.22, 0.33, 0.3...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Coral</td>
+      <td>{'name': 'HLF MNE'}</td>
+      <td>Kevin J. Anchukaitis;Cyril Giry;Michael N. Eva...</td>
+      <td>tierney2015tropicalseasurfacetempera</td>
+      <td>Unknown.68701046e0965</td>
+      <td>[doi.org]</td>
+      <td>Paleoceanography</td>
+      <td>2015</td>
+      <td>...</td>
+      <td>[1998.21, 1998.13, 1998.04, 1997.96, 1997.88, ...</td>
+      <td>Year AD</td>
+      <td>float</td>
+      <td>Year</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Coral</td>
+      <td>{'name': 'HLF MNE'}</td>
+      <td>Kevin J. Anchukaitis;Cyril Giry;Michael N. Eva...</td>
+      <td>tierney2015tropicalseasurfacetempera</td>
+      <td>Unknown.68701046e0965</td>
+      <td>[doi.org]</td>
+      <td>Paleoceanography</td>
+      <td>2015</td>
+      <td>...</td>
+      <td>[8.96, 8.9, 8.91, 8.94, 8.92, 8.89, 8.87, 8.81...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>PacificNurhati2011</td>
+      <td>Ocn_129</td>
+      <td>MNE, NJA</td>
+      <td>Ocean2k_v1.0.0</td>
+      <td>CO11NUPM01BT1</td>
+      <td>[{'variableDetail': 'sea@surface', 'direction'...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Coral</td>
+      <td>{'name': 'HLF MNE'}</td>
+      <td>Kevin J. Anchukaitis;Cyril Giry;Michael N. Eva...</td>
+      <td>tierney2015tropicalseasurfacetempera</td>
+      <td>Unknown.68701046e0965</td>
+      <td>[doi.org]</td>
+      <td>Paleoceanography</td>
+      <td>2015</td>
+      <td>...</td>
+      <td>[1998.29, 1998.21, 1998.13, 1998.04, 1997.96, ...</td>
+      <td>Year AD</td>
+      <td>float</td>
+      <td>Year</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>paleoData</td>
+      <td>age</td>
+      <td>Coral</td>
+      <td>{'name': 'HLF MNE'}</td>
+      <td>Kevin J. Anchukaitis;Cyril Giry;Michael N. Eva...</td>
+      <td>tierney2015tropicalseasurfacetempera</td>
+      <td>Unknown.68701046e0965</td>
+      <td>[doi.org]</td>
+      <td>Paleoceanography</td>
+      <td>2015</td>
+      <td>...</td>
+      <td>[-5.41, -5.47, -5.49, -5.43, -5.48, -5.53, -5....</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>MNE, NJA</td>
+      <td>NaN</td>
+      <td>CO11NUPM01B</td>
+      <td>[{'direction': 'negative', 'scope': 'climate',...</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 88 columns</p>
+</div></div></div>
+</div>
+<p>Let’s put the Sr/Ca data into a <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.geoseries.GeoSeries">GeoSeries object</a> so we can easily plot it in space and time:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Sr/Ca&#39;</span><span class="p">]</span>
+
+<span class="n">srca</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span>
+    <span class="n">time</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">value</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;geo_meanLon&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;geo_meanLat&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">archiveType</span> <span class="o">=</span> <span class="s1">&#39;coral&#39;</span><span class="p">,</span>
+    <span class="n">time_name</span> <span class="o">=</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
+    <span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;years CE&#39;</span><span class="p">,</span>
+    <span class="n">value_name</span> <span class="o">=</span> <span class="s1">&#39;Sr/Ca&#39;</span><span class="p">,</span>
+    <span class="n">value_unit</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Ocn-Palmyra.Nurhati.2011&#39;</span><span class="p">,</span>
+    <span class="n">auto_time_params</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="c1"># load only the Sr/Ca observations</span>
+<span class="n">srca</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time axis values sorted in ascending order
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;Sr/Ca [mmol/mol]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/0b0720d8968bcb0a7af7d10f21e8ad5a43d0ccc9926c0903709e10e94e54ca83.png" src="../_images/0b0720d8968bcb0a7af7d10f21e8ad5a43d0ccc9926c0903709e10e94e54ca83.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srca</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x700 with 1 Axes&gt;,
+ {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/6bb7a7690a4469d5b4edbc921433a005b9e0aa4acb1c1b45bb3b8440778da347.png" src="../_images/6bb7a7690a4469d5b4edbc921433a005b9e0aa4acb1c1b45bb3b8440778da347.png" />
+</div>
+</div>
+<p>Palmyra Island sits in the very central Pacific, and we expect to see large-scale correlations with SST data.</p>
+<p>Next we load the ERSSTv5 dataset. Note that the actual dat are not being transferred over the network yet; all we are getting is a pointer towards a netCDF file on a NOAA <a class="reference external" href="https://docs.unidata.ucar.edu/tds/4.6/adminguide/">THREDDS</a> server. The real crunching will come later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;https://psl.noaa.gov/thredds/dodsC/Datasets/noaa.ersst.v5/sst.mnmean.nc&#39;</span>
+<span class="n">ersstv5</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+<span class="n">ersstv5</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 132MB
+Dimensions:    (lat: 89, lon: 180, time: 2058, nbnds: 2)
+Coordinates:
+  * lat        (lat) float32 356B 88.0 86.0 84.0 82.0 ... -84.0 -86.0 -88.0
+  * lon        (lon) float32 720B 0.0 2.0 4.0 6.0 ... 352.0 354.0 356.0 358.0
+  * time       (time) datetime64[ns] 16kB 1854-01-01 1854-02-01 ... 2025-06-01
+Dimensions without coordinates: nbnds
+Data variables:
+    time_bnds  (time, nbnds) float64 33kB ...
+    sst        (time, lat, lon) float32 132MB ...
+Attributes: (12/39)
+    climatology:                     Climatology is based on 1971-2000 SST, X...
+    description:                     In situ data: ICOADS2.5 before 2007 and ...
+    keywords_vocabulary:             NASA Global Change Master Directory (GCM...
+    keywords:                        Earth Science &gt; Oceans &gt; Ocean Temperatu...
+    instrument:                      Conventional thermometers
+    source_comment:                  SSTs were observed by conventional therm...
+    ...                              ...
+    comment:                         SSTs were observed by conventional therm...
+    summary:                         ERSST.v5 is developed based on v4 after ...
+    dataset_title:                   NOAA Extended Reconstructed SST V5
+    _NCProperties:                   version=2,netcdf=4.6.3,hdf5=1.10.5
+    data_modified:                   2025-07-03
+    DODS_EXTRA.Unlimited_Dimension:  time</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-1702cc8f-d7cc-4e0d-9374-5a56292a51e0' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-1702cc8f-d7cc-4e0d-9374-5a56292a51e0' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>lat</span>: 89</li><li><span class='xr-has-index'>lon</span>: 180</li><li><span class='xr-has-index'>time</span>: 2058</li><li><span>nbnds</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-185e24af-ba7c-4e8e-bb7f-912fbddffa85' class='xr-section-summary-in' type='checkbox'  checked><label for='section-185e24af-ba7c-4e8e-bb7f-912fbddffa85' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>88.0 86.0 84.0 ... -86.0 -88.0</div><input id='attrs-24724a3b-b856-462d-b490-a823852ef536' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-24724a3b-b856-462d-b490-a823852ef536' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0479b905-0590-4e5f-ba4a-de63a60ae21d' class='xr-var-data-in' type='checkbox'><label for='data-0479b905-0590-4e5f-ba4a-de63a60ae21d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>actual_range :</span></dt><dd>[ 88. -88.]</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>coordinate_defines :</span></dt><dd>center</dd></dl></div><div class='xr-var-data'><pre>array([ 88.,  86.,  84.,  82.,  80.,  78.,  76.,  74.,  72.,  70.,  68.,  66.,
+        64.,  62.,  60.,  58.,  56.,  54.,  52.,  50.,  48.,  46.,  44.,  42.,
+        40.,  38.,  36.,  34.,  32.,  30.,  28.,  26.,  24.,  22.,  20.,  18.,
+        16.,  14.,  12.,  10.,   8.,   6.,   4.,   2.,   0.,  -2.,  -4.,  -6.,
+        -8., -10., -12., -14., -16., -18., -20., -22., -24., -26., -28., -30.,
+       -32., -34., -36., -38., -40., -42., -44., -46., -48., -50., -52., -54.,
+       -56., -58., -60., -62., -64., -66., -68., -70., -72., -74., -76., -78.,
+       -80., -82., -84., -86., -88.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 2.0 4.0 ... 354.0 356.0 358.0</div><input id='attrs-bf874281-139b-4b7c-825f-e9c3ea77383d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bf874281-139b-4b7c-825f-e9c3ea77383d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-384ba014-5d63-4471-9c1f-a9fbf5ee8377' class='xr-var-data-in' type='checkbox'><label for='data-384ba014-5d63-4471-9c1f-a9fbf5ee8377' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>actual_range :</span></dt><dd>[  0. 358.]</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>coordinate_defines :</span></dt><dd>center</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   2.,   4.,   6.,   8.,  10.,  12.,  14.,  16.,  18.,  20.,  22.,
+        24.,  26.,  28.,  30.,  32.,  34.,  36.,  38.,  40.,  42.,  44.,  46.,
+        48.,  50.,  52.,  54.,  56.,  58.,  60.,  62.,  64.,  66.,  68.,  70.,
+        72.,  74.,  76.,  78.,  80.,  82.,  84.,  86.,  88.,  90.,  92.,  94.,
+        96.,  98., 100., 102., 104., 106., 108., 110., 112., 114., 116., 118.,
+       120., 122., 124., 126., 128., 130., 132., 134., 136., 138., 140., 142.,
+       144., 146., 148., 150., 152., 154., 156., 158., 160., 162., 164., 166.,
+       168., 170., 172., 174., 176., 178., 180., 182., 184., 186., 188., 190.,
+       192., 194., 196., 198., 200., 202., 204., 206., 208., 210., 212., 214.,
+       216., 218., 220., 222., 224., 226., 228., 230., 232., 234., 236., 238.,
+       240., 242., 244., 246., 248., 250., 252., 254., 256., 258., 260., 262.,
+       264., 266., 268., 270., 272., 274., 276., 278., 280., 282., 284., 286.,
+       288., 290., 292., 294., 296., 298., 300., 302., 304., 306., 308., 310.,
+       312., 314., 316., 318., 320., 322., 324., 326., 328., 330., 332., 334.,
+       336., 338., 340., 342., 344., 346., 348., 350., 352., 354., 356., 358.],
+      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1854-01-01 ... 2025-06-01</div><input id='attrs-5904911f-a437-432c-9be3-84b83ca28e2d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5904911f-a437-432c-9be3-84b83ca28e2d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-977d4e18-c2ff-4312-91e0-bf6a500ae60c' class='xr-var-data-in' type='checkbox'><label for='data-977d4e18-c2ff-4312-91e0-bf6a500ae60c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>delta_t :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>avg_period :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>prev_avg_period :</span></dt><dd>0000-00-07 00:00:00</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>actual_range :</span></dt><dd>[19723. 82331.]</dd><dt><span>_ChunkSizes :</span></dt><dd>1</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1854-01-01T00:00:00.000000000&#x27;, &#x27;1854-02-01T00:00:00.000000000&#x27;,
+       &#x27;1854-03-01T00:00:00.000000000&#x27;, ..., &#x27;2025-04-01T00:00:00.000000000&#x27;,
+       &#x27;2025-05-01T00:00:00.000000000&#x27;, &#x27;2025-06-01T00:00:00.000000000&#x27;],
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-b9d573af-1a38-4564-9208-8110960541e5' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b9d573af-1a38-4564-9208-8110960541e5' class='xr-section-summary' >Data variables: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>time_bnds</span></div><div class='xr-var-dims'>(time, nbnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-6b5d429d-0473-40f0-b642-a5d315e0fd9f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6b5d429d-0473-40f0-b642-a5d315e0fd9f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-89c44087-ec4d-466c-a13b-c29696ce4c22' class='xr-var-data-in' type='checkbox'><label for='data-89c44087-ec4d-466c-a13b-c29696ce4c22' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time Boundaries</dd><dt><span>_ChunkSizes :</span></dt><dd>[1 2]</dd></dl></div><div class='xr-var-data'><pre>[4116 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sst</span></div><div class='xr-var-dims'>(time, lat, lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b5dccea8-ae89-4e21-8537-95b1668014d9' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b5dccea8-ae89-4e21-8537-95b1668014d9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-579a7bf4-6231-47c6-8409-7e7b0171eb38' class='xr-var-data-in' type='checkbox'><label for='data-579a7bf4-6231-47c6-8409-7e7b0171eb38' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Monthly Means of Sea Surface Temperature</dd><dt><span>units :</span></dt><dd>degC</dd><dt><span>var_desc :</span></dt><dd>Sea Surface Temperature</dd><dt><span>level_desc :</span></dt><dd>Surface</dd><dt><span>statistic :</span></dt><dd>Mean</dd><dt><span>dataset :</span></dt><dd>NOAA Extended Reconstructed SST V5</dd><dt><span>parent_stat :</span></dt><dd>Individual Values</dd><dt><span>actual_range :</span></dt><dd>[-1.8     42.32636]</dd><dt><span>valid_range :</span></dt><dd>[-1.8 45. ]</dd><dt><span>_ChunkSizes :</span></dt><dd>[  1  89 180]</dd></dl></div><div class='xr-var-data'><pre>[32969160 values with dtype=float32]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-c7e6e076-93c9-4a9d-826c-7ee09e2ea996' class='xr-section-summary-in' type='checkbox'  ><label for='section-c7e6e076-93c9-4a9d-826c-7ee09e2ea996' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-47466188-3034-4baf-8229-060816717329' class='xr-index-data-in' type='checkbox'/><label for='index-47466188-3034-4baf-8229-060816717329' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([ 88.0,  86.0,  84.0,  82.0,  80.0,  78.0,  76.0,  74.0,  72.0,  70.0,
+        68.0,  66.0,  64.0,  62.0,  60.0,  58.0,  56.0,  54.0,  52.0,  50.0,
+        48.0,  46.0,  44.0,  42.0,  40.0,  38.0,  36.0,  34.0,  32.0,  30.0,
+        28.0,  26.0,  24.0,  22.0,  20.0,  18.0,  16.0,  14.0,  12.0,  10.0,
+         8.0,   6.0,   4.0,   2.0,   0.0,  -2.0,  -4.0,  -6.0,  -8.0, -10.0,
+       -12.0, -14.0, -16.0, -18.0, -20.0, -22.0, -24.0, -26.0, -28.0, -30.0,
+       -32.0, -34.0, -36.0, -38.0, -40.0, -42.0, -44.0, -46.0, -48.0, -50.0,
+       -52.0, -54.0, -56.0, -58.0, -60.0, -62.0, -64.0, -66.0, -68.0, -70.0,
+       -72.0, -74.0, -76.0, -78.0, -80.0, -82.0, -84.0, -86.0, -88.0],
+      dtype=&#x27;float32&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-525e856b-9507-4ac0-bc36-e351d7cb1b29' class='xr-index-data-in' type='checkbox'/><label for='index-525e856b-9507-4ac0-bc36-e351d7cb1b29' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  0.0,   2.0,   4.0,   6.0,   8.0,  10.0,  12.0,  14.0,  16.0,  18.0,
+       ...
+       340.0, 342.0, 344.0, 346.0, 348.0, 350.0, 352.0, 354.0, 356.0, 358.0],
+      dtype=&#x27;float32&#x27;, name=&#x27;lon&#x27;, length=180))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-3128a783-d5a9-4fc1-91a2-76fb63125650' class='xr-index-data-in' type='checkbox'/><label for='index-3128a783-d5a9-4fc1-91a2-76fb63125650' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;1854-01-01&#x27;, &#x27;1854-02-01&#x27;, &#x27;1854-03-01&#x27;, &#x27;1854-04-01&#x27;,
+               &#x27;1854-05-01&#x27;, &#x27;1854-06-01&#x27;, &#x27;1854-07-01&#x27;, &#x27;1854-08-01&#x27;,
+               &#x27;1854-09-01&#x27;, &#x27;1854-10-01&#x27;,
+               ...
+               &#x27;2024-09-01&#x27;, &#x27;2024-10-01&#x27;, &#x27;2024-11-01&#x27;, &#x27;2024-12-01&#x27;,
+               &#x27;2025-01-01&#x27;, &#x27;2025-02-01&#x27;, &#x27;2025-03-01&#x27;, &#x27;2025-04-01&#x27;,
+               &#x27;2025-05-01&#x27;, &#x27;2025-06-01&#x27;],
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, length=2058, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-33819a0d-4b52-4002-a0ea-96a73039ef2b' class='xr-section-summary-in' type='checkbox'  ><label for='section-33819a0d-4b52-4002-a0ea-96a73039ef2b' class='xr-section-summary' >Attributes: <span>(39)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>climatology :</span></dt><dd>Climatology is based on 1971-2000 SST, Xue, Y., T. M. Smith, and R. W. Reynolds, 2003: Interdecadal changes of 30-yr SST normals during 1871.2000. Journal of Climate, 16, 1601-1612.</dd><dt><span>description :</span></dt><dd>In situ data: ICOADS2.5 before 2007 and NCEP in situ data from 2008 to present. Ice data: HadISST ice before 2010 and NCEP ice after 2010.</dd><dt><span>keywords_vocabulary :</span></dt><dd>NASA Global Change Master Directory (GCMD) Science Keywords</dd><dt><span>keywords :</span></dt><dd>Earth Science &gt; Oceans &gt; Ocean Temperature &gt; Sea Surface Temperature &gt;</dd><dt><span>instrument :</span></dt><dd>Conventional thermometers</dd><dt><span>source_comment :</span></dt><dd>SSTs were observed by conventional thermometers in Buckets (insulated or un-insulated canvas and wooded buckets) or Engine Room Intaker</dd><dt><span>geospatial_lon_min :</span></dt><dd>-1.0</dd><dt><span>geospatial_lon_max :</span></dt><dd>359.0</dd><dt><span>geospatial_laty_max :</span></dt><dd>89.0</dd><dt><span>geospatial_laty_min :</span></dt><dd>-89.0</dd><dt><span>geospatial_lat_max :</span></dt><dd>89.0</dd><dt><span>geospatial_lat_min :</span></dt><dd>-89.0</dd><dt><span>geospatial_lat_units :</span></dt><dd>degrees_north</dd><dt><span>geospatial_lon_units :</span></dt><dd>degrees_east</dd><dt><span>cdm_data_type :</span></dt><dd>Grid</dd><dt><span>project :</span></dt><dd>NOAA Extended Reconstructed Sea Surface Temperature (ERSST)</dd><dt><span>original_publisher_url :</span></dt><dd>http://www.ncdc.noaa.gov</dd><dt><span>References :</span></dt><dd>https://www.ncdc.noaa.gov/data-access/marineocean-data/extended-reconstructed-sea-surface-temperature-ersst-v5 at NCEI and http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.ersst.v5.html</dd><dt><span>source :</span></dt><dd>In situ data: ICOADS R3.0 before 2015, NCEP in situ GTS from 2016 to present, and Argo SST from 1999 to present. Ice data: HadISST2 ice before 2015, and NCEP ice after 2015</dd><dt><span>title :</span></dt><dd>NOAA ERSSTv5 (in situ only)</dd><dt><span>history :</span></dt><dd>created 07/2017 by PSD data using NCEI&#x27;s ERSST V5 NetCDF values</dd><dt><span>institution :</span></dt><dd>This version written at NOAA/ESRL PSD: obtained from NOAA/NESDIS/National Centers for Environmental Information and time aggregated. Original Full Source: NOAA/NESDIS/NCEI/CCOG</dd><dt><span>citation :</span></dt><dd>Huang et al, 2017: Extended Reconstructed Sea Surface Temperatures Version 5 (ERSSTv5): Upgrades, Validations, and Intercomparisons. Journal of Climate, https://doi.org/10.1175/JCLI-D-16-0836.1</dd><dt><span>platform :</span></dt><dd>Ship and Buoy SSTs from ICOADS R3.0 and NCEP GTS</dd><dt><span>standard_name_vocabulary :</span></dt><dd>CF Standard Name Table (v40, 25 January 2017)</dd><dt><span>processing_level :</span></dt><dd>NOAA Level 4</dd><dt><span>Conventions :</span></dt><dd>CF-1.6, ACDD-1.3</dd><dt><span>metadata_link :</span></dt><dd>:metadata_link = https://doi.org/10.7289/V5T72FNM (original format)</dd><dt><span>creator_name :</span></dt><dd>Boyin Huang (original)</dd><dt><span>date_created :</span></dt><dd>2017-06-30T12:18:00Z (original)</dd><dt><span>product_version :</span></dt><dd>Version 5</dd><dt><span>creator_url_original :</span></dt><dd>https://www.ncei.noaa.gov</dd><dt><span>license :</span></dt><dd>No constraints on data access or use</dd><dt><span>comment :</span></dt><dd>SSTs were observed by conventional thermometers in Buckets (insulated or un-insulated canvas and wooded buckets), Engine Room Intakers, or floats and drifters</dd><dt><span>summary :</span></dt><dd>ERSST.v5 is developed based on v4 after revisions of 8 parameters using updated data sets and advanced knowledge of ERSST analysis</dd><dt><span>dataset_title :</span></dt><dd>NOAA Extended Reconstructed SST V5</dd><dt><span>_NCProperties :</span></dt><dd>version=2,netcdf=4.6.3,hdf5=1.10.5</dd><dt><span>data_modified :</span></dt><dd>2025-07-03</dd><dt><span>DODS_EXTRA.Unlimited_Dimension :</span></dt><dd>time</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<p>The dataset has a <span class="math notranslate nohighlight">\(2^\circ \times 2^\circ\)</span> resolution, which means a lot of grid points. Let us select a relatively narrow part of the Tropical Pacific:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ersstv5_tp</span> <span class="o">=</span> <span class="n">ersstv5</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">),</span> <span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="mi">280</span><span class="p">))</span>
+<span class="n">ersstv5_tp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 9MB
+Dimensions:    (lat: 15, lon: 71, time: 2058, nbnds: 2)
+Coordinates:
+  * lat        (lat) float32 60B 14.0 12.0 10.0 8.0 ... -8.0 -10.0 -12.0 -14.0
+  * lon        (lon) float32 284B 140.0 142.0 144.0 146.0 ... 276.0 278.0 280.0
+  * time       (time) datetime64[ns] 16kB 1854-01-01 1854-02-01 ... 2025-06-01
+Dimensions without coordinates: nbnds
+Data variables:
+    time_bnds  (time, nbnds) float64 33kB ...
+    sst        (time, lat, lon) float32 9MB ...
+Attributes: (12/39)
+    climatology:                     Climatology is based on 1971-2000 SST, X...
+    description:                     In situ data: ICOADS2.5 before 2007 and ...
+    keywords_vocabulary:             NASA Global Change Master Directory (GCM...
+    keywords:                        Earth Science &gt; Oceans &gt; Ocean Temperatu...
+    instrument:                      Conventional thermometers
+    source_comment:                  SSTs were observed by conventional therm...
+    ...                              ...
+    comment:                         SSTs were observed by conventional therm...
+    summary:                         ERSST.v5 is developed based on v4 after ...
+    dataset_title:                   NOAA Extended Reconstructed SST V5
+    _NCProperties:                   version=2,netcdf=4.6.3,hdf5=1.10.5
+    data_modified:                   2025-07-03
+    DODS_EXTRA.Unlimited_Dimension:  time</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-e1e6dfa5-885d-4436-9a1b-3ff0be10d027' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-e1e6dfa5-885d-4436-9a1b-3ff0be10d027' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>lat</span>: 15</li><li><span class='xr-has-index'>lon</span>: 71</li><li><span class='xr-has-index'>time</span>: 2058</li><li><span>nbnds</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-54ecfd56-22ec-4287-8bdf-88b5cff26708' class='xr-section-summary-in' type='checkbox'  checked><label for='section-54ecfd56-22ec-4287-8bdf-88b5cff26708' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>14.0 12.0 10.0 ... -12.0 -14.0</div><input id='attrs-e3b88c67-975e-4a15-9dc2-3ec560681990' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e3b88c67-975e-4a15-9dc2-3ec560681990' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-99a83bdb-93b6-4e2c-88c4-d8cda8b82541' class='xr-var-data-in' type='checkbox'><label for='data-99a83bdb-93b6-4e2c-88c4-d8cda8b82541' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>actual_range :</span></dt><dd>[ 88. -88.]</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>coordinate_defines :</span></dt><dd>center</dd></dl></div><div class='xr-var-data'><pre>array([ 14.,  12.,  10.,   8.,   6.,   4.,   2.,   0.,  -2.,  -4.,  -6.,  -8.,
+       -10., -12., -14.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>140.0 142.0 144.0 ... 278.0 280.0</div><input id='attrs-8b5820ac-6012-4bcd-ac5f-1bf852891488' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8b5820ac-6012-4bcd-ac5f-1bf852891488' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e8749c46-72b9-4db0-94a7-a7c31892bc2d' class='xr-var-data-in' type='checkbox'><label for='data-e8749c46-72b9-4db0-94a7-a7c31892bc2d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>actual_range :</span></dt><dd>[  0. 358.]</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>coordinate_defines :</span></dt><dd>center</dd></dl></div><div class='xr-var-data'><pre>array([140., 142., 144., 146., 148., 150., 152., 154., 156., 158., 160., 162.,
+       164., 166., 168., 170., 172., 174., 176., 178., 180., 182., 184., 186.,
+       188., 190., 192., 194., 196., 198., 200., 202., 204., 206., 208., 210.,
+       212., 214., 216., 218., 220., 222., 224., 226., 228., 230., 232., 234.,
+       236., 238., 240., 242., 244., 246., 248., 250., 252., 254., 256., 258.,
+       260., 262., 264., 266., 268., 270., 272., 274., 276., 278., 280.],
+      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1854-01-01 ... 2025-06-01</div><input id='attrs-8d0b29e0-1579-4a1b-8597-c7110d102661' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8d0b29e0-1579-4a1b-8597-c7110d102661' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-782028f6-ec91-4bfd-8a67-4cc9a24d86c7' class='xr-var-data-in' type='checkbox'><label for='data-782028f6-ec91-4bfd-8a67-4cc9a24d86c7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>delta_t :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>avg_period :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>prev_avg_period :</span></dt><dd>0000-00-07 00:00:00</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>actual_range :</span></dt><dd>[19723. 82331.]</dd><dt><span>_ChunkSizes :</span></dt><dd>1</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1854-01-01T00:00:00.000000000&#x27;, &#x27;1854-02-01T00:00:00.000000000&#x27;,
+       &#x27;1854-03-01T00:00:00.000000000&#x27;, ..., &#x27;2025-04-01T00:00:00.000000000&#x27;,
+       &#x27;2025-05-01T00:00:00.000000000&#x27;, &#x27;2025-06-01T00:00:00.000000000&#x27;],
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-d41699b5-2d7a-4591-88e4-904e65588673' class='xr-section-summary-in' type='checkbox'  checked><label for='section-d41699b5-2d7a-4591-88e4-904e65588673' class='xr-section-summary' >Data variables: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>time_bnds</span></div><div class='xr-var-dims'>(time, nbnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-84020c29-da8c-4042-96f2-fa7bd297c9c5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-84020c29-da8c-4042-96f2-fa7bd297c9c5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-878bc116-15b6-4c58-bc74-c413e96703ba' class='xr-var-data-in' type='checkbox'><label for='data-878bc116-15b6-4c58-bc74-c413e96703ba' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time Boundaries</dd><dt><span>_ChunkSizes :</span></dt><dd>[1 2]</dd></dl></div><div class='xr-var-data'><pre>[4116 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sst</span></div><div class='xr-var-dims'>(time, lat, lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b492c7d6-ab41-488a-ba3a-6936cb30ae93' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b492c7d6-ab41-488a-ba3a-6936cb30ae93' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d4c7fb8c-8c45-4903-a127-1cab0e65d3fb' class='xr-var-data-in' type='checkbox'><label for='data-d4c7fb8c-8c45-4903-a127-1cab0e65d3fb' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Monthly Means of Sea Surface Temperature</dd><dt><span>units :</span></dt><dd>degC</dd><dt><span>var_desc :</span></dt><dd>Sea Surface Temperature</dd><dt><span>level_desc :</span></dt><dd>Surface</dd><dt><span>statistic :</span></dt><dd>Mean</dd><dt><span>dataset :</span></dt><dd>NOAA Extended Reconstructed SST V5</dd><dt><span>parent_stat :</span></dt><dd>Individual Values</dd><dt><span>actual_range :</span></dt><dd>[-1.8     42.32636]</dd><dt><span>valid_range :</span></dt><dd>[-1.8 45. ]</dd><dt><span>_ChunkSizes :</span></dt><dd>[  1  89 180]</dd></dl></div><div class='xr-var-data'><pre>[2191770 values with dtype=float32]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-a909c662-21f3-452d-92fa-da6d8b616b84' class='xr-section-summary-in' type='checkbox'  ><label for='section-a909c662-21f3-452d-92fa-da6d8b616b84' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-22f30b84-2840-467f-9601-56db86b9bd3c' class='xr-index-data-in' type='checkbox'/><label for='index-22f30b84-2840-467f-9601-56db86b9bd3c' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([ 14.0,  12.0,  10.0,   8.0,   6.0,   4.0,   2.0,   0.0,  -2.0,  -4.0,
+        -6.0,  -8.0, -10.0, -12.0, -14.0],
+      dtype=&#x27;float32&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-b04cf256-7999-452a-90dd-8b528a1f3de2' class='xr-index-data-in' type='checkbox'/><label for='index-b04cf256-7999-452a-90dd-8b528a1f3de2' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([140.0, 142.0, 144.0, 146.0, 148.0, 150.0, 152.0, 154.0, 156.0, 158.0,
+       160.0, 162.0, 164.0, 166.0, 168.0, 170.0, 172.0, 174.0, 176.0, 178.0,
+       180.0, 182.0, 184.0, 186.0, 188.0, 190.0, 192.0, 194.0, 196.0, 198.0,
+       200.0, 202.0, 204.0, 206.0, 208.0, 210.0, 212.0, 214.0, 216.0, 218.0,
+       220.0, 222.0, 224.0, 226.0, 228.0, 230.0, 232.0, 234.0, 236.0, 238.0,
+       240.0, 242.0, 244.0, 246.0, 248.0, 250.0, 252.0, 254.0, 256.0, 258.0,
+       260.0, 262.0, 264.0, 266.0, 268.0, 270.0, 272.0, 274.0, 276.0, 278.0,
+       280.0],
+      dtype=&#x27;float32&#x27;, name=&#x27;lon&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-34d6eb3a-9d30-48c8-822e-899ba55939d2' class='xr-index-data-in' type='checkbox'/><label for='index-34d6eb3a-9d30-48c8-822e-899ba55939d2' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;1854-01-01&#x27;, &#x27;1854-02-01&#x27;, &#x27;1854-03-01&#x27;, &#x27;1854-04-01&#x27;,
+               &#x27;1854-05-01&#x27;, &#x27;1854-06-01&#x27;, &#x27;1854-07-01&#x27;, &#x27;1854-08-01&#x27;,
+               &#x27;1854-09-01&#x27;, &#x27;1854-10-01&#x27;,
+               ...
+               &#x27;2024-09-01&#x27;, &#x27;2024-10-01&#x27;, &#x27;2024-11-01&#x27;, &#x27;2024-12-01&#x27;,
+               &#x27;2025-01-01&#x27;, &#x27;2025-02-01&#x27;, &#x27;2025-03-01&#x27;, &#x27;2025-04-01&#x27;,
+               &#x27;2025-05-01&#x27;, &#x27;2025-06-01&#x27;],
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, length=2058, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5468240e-e047-476d-9e0a-2f6721df08fb' class='xr-section-summary-in' type='checkbox'  ><label for='section-5468240e-e047-476d-9e0a-2f6721df08fb' class='xr-section-summary' >Attributes: <span>(39)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>climatology :</span></dt><dd>Climatology is based on 1971-2000 SST, Xue, Y., T. M. Smith, and R. W. Reynolds, 2003: Interdecadal changes of 30-yr SST normals during 1871.2000. Journal of Climate, 16, 1601-1612.</dd><dt><span>description :</span></dt><dd>In situ data: ICOADS2.5 before 2007 and NCEP in situ data from 2008 to present. Ice data: HadISST ice before 2010 and NCEP ice after 2010.</dd><dt><span>keywords_vocabulary :</span></dt><dd>NASA Global Change Master Directory (GCMD) Science Keywords</dd><dt><span>keywords :</span></dt><dd>Earth Science &gt; Oceans &gt; Ocean Temperature &gt; Sea Surface Temperature &gt;</dd><dt><span>instrument :</span></dt><dd>Conventional thermometers</dd><dt><span>source_comment :</span></dt><dd>SSTs were observed by conventional thermometers in Buckets (insulated or un-insulated canvas and wooded buckets) or Engine Room Intaker</dd><dt><span>geospatial_lon_min :</span></dt><dd>-1.0</dd><dt><span>geospatial_lon_max :</span></dt><dd>359.0</dd><dt><span>geospatial_laty_max :</span></dt><dd>89.0</dd><dt><span>geospatial_laty_min :</span></dt><dd>-89.0</dd><dt><span>geospatial_lat_max :</span></dt><dd>89.0</dd><dt><span>geospatial_lat_min :</span></dt><dd>-89.0</dd><dt><span>geospatial_lat_units :</span></dt><dd>degrees_north</dd><dt><span>geospatial_lon_units :</span></dt><dd>degrees_east</dd><dt><span>cdm_data_type :</span></dt><dd>Grid</dd><dt><span>project :</span></dt><dd>NOAA Extended Reconstructed Sea Surface Temperature (ERSST)</dd><dt><span>original_publisher_url :</span></dt><dd>http://www.ncdc.noaa.gov</dd><dt><span>References :</span></dt><dd>https://www.ncdc.noaa.gov/data-access/marineocean-data/extended-reconstructed-sea-surface-temperature-ersst-v5 at NCEI and http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.ersst.v5.html</dd><dt><span>source :</span></dt><dd>In situ data: ICOADS R3.0 before 2015, NCEP in situ GTS from 2016 to present, and Argo SST from 1999 to present. Ice data: HadISST2 ice before 2015, and NCEP ice after 2015</dd><dt><span>title :</span></dt><dd>NOAA ERSSTv5 (in situ only)</dd><dt><span>history :</span></dt><dd>created 07/2017 by PSD data using NCEI&#x27;s ERSST V5 NetCDF values</dd><dt><span>institution :</span></dt><dd>This version written at NOAA/ESRL PSD: obtained from NOAA/NESDIS/National Centers for Environmental Information and time aggregated. Original Full Source: NOAA/NESDIS/NCEI/CCOG</dd><dt><span>citation :</span></dt><dd>Huang et al, 2017: Extended Reconstructed Sea Surface Temperatures Version 5 (ERSSTv5): Upgrades, Validations, and Intercomparisons. Journal of Climate, https://doi.org/10.1175/JCLI-D-16-0836.1</dd><dt><span>platform :</span></dt><dd>Ship and Buoy SSTs from ICOADS R3.0 and NCEP GTS</dd><dt><span>standard_name_vocabulary :</span></dt><dd>CF Standard Name Table (v40, 25 January 2017)</dd><dt><span>processing_level :</span></dt><dd>NOAA Level 4</dd><dt><span>Conventions :</span></dt><dd>CF-1.6, ACDD-1.3</dd><dt><span>metadata_link :</span></dt><dd>:metadata_link = https://doi.org/10.7289/V5T72FNM (original format)</dd><dt><span>creator_name :</span></dt><dd>Boyin Huang (original)</dd><dt><span>date_created :</span></dt><dd>2017-06-30T12:18:00Z (original)</dd><dt><span>product_version :</span></dt><dd>Version 5</dd><dt><span>creator_url_original :</span></dt><dd>https://www.ncei.noaa.gov</dd><dt><span>license :</span></dt><dd>No constraints on data access or use</dd><dt><span>comment :</span></dt><dd>SSTs were observed by conventional thermometers in Buckets (insulated or un-insulated canvas and wooded buckets), Engine Room Intakers, or floats and drifters</dd><dt><span>summary :</span></dt><dd>ERSST.v5 is developed based on v4 after revisions of 8 parameters using updated data sets and advanced knowledge of ERSST analysis</dd><dt><span>dataset_title :</span></dt><dd>NOAA Extended Reconstructed SST V5</dd><dt><span>_NCProperties :</span></dt><dd>version=2,netcdf=4.6.3,hdf5=1.10.5</dd><dt><span>data_modified :</span></dt><dd>2025-07-03</dd><dt><span>DODS_EXTRA.Unlimited_Dimension :</span></dt><dd>time</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<p>Let’s plot the latest SST available in that domain:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Robinson</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="mi">180</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">()</span>
+<span class="n">ersstv5_tp</span><span class="o">.</span><span class="n">sst</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;cartopy.mpl.geocollection.GeoQuadMesh at 0x36ac193a0&gt;
+</pre></div>
+</div>
+<img alt="../_images/2ea3e84bafcd2fdc964dc86d8259255156adc6a7a28dd74c16b680217c78c356.png" src="../_images/2ea3e84bafcd2fdc964dc86d8259255156adc6a7a28dd74c16b680217c78c356.png" />
+</div>
+</div>
+<p>Let’s remove the monthly-mean seasonal cycle (aka the “climatology”) so that SST is expressed as anomalies around this cycle, as is the norm:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gb</span> <span class="o">=</span> <span class="n">ersstv5_tp</span><span class="o">.</span><span class="n">sst</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;time.month&#39;</span><span class="p">)</span>
+<span class="n">ersstv5_tpa</span> <span class="o">=</span> <span class="n">gb</span> <span class="o">-</span> <span class="n">gb</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now extract the NINO3.4 index (a weighted average is involved, though it matters little so close to the equator because the weights are very close to unity):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino34_anom</span> <span class="o">=</span> <span class="n">ersstv5_tpa</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">),</span> <span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">240</span><span class="p">))</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">nino34_anom</span><span class="o">.</span><span class="n">lat</span><span class="p">))</span>
+<span class="n">nino34</span> <span class="o">=</span> <span class="n">nino34_anom</span><span class="o">.</span><span class="n">weighted</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">])</span>
+<span class="n">nino34</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x3690a0e60&gt;]
+</pre></div>
+</div>
+<img alt="../_images/85aad4591177930e163e0217d0bcc5686e674955f2450c4b18a4cff17f7a11fc.png" src="../_images/85aad4591177930e163e0217d0bcc5686e674955f2450c4b18a4cff17f7a11fc.png" />
+</div>
+</div>
+<p>Now let’s leverage <a class="reference external" href="https://medium.com/cyberpaleo/pandas-and-the-geosciences-a-4-5-billion-year-story-66af9f565a4b">Pyleoclim’s integration with pandas</a> to turn this into a Pyleoclim <code class="docutils literal notranslate"><span class="pre">Series</span></code> object. For this, we also leverage the fact that <a class="reference external" href="https://docs.xarray.dev/en/stable/user-guide/pandas.html">Xarray is pandas-based</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;time_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;years CE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;time_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;value_name&#39;</span><span class="p">:</span> <span class="s1">&#39;NINO3.4&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;ERSST5 NINO3.4 index&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;archiveType&#39;</span><span class="p">:</span> <span class="s1">&#39;Instrumental&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;importedFrom&#39;</span><span class="p">:</span> <span class="s1">&#39;NOAA/NCEI&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<span class="n">NINO34</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">nino34</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span><span class="n">metadata</span><span class="p">)</span>
+<span class="n">NINO34</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Time [years CE]&#39;, ylabel=&#39;NINO3.4&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/f8ea0824933b0b7edc94b6965739f44d2a761420a5053c3719625242ec4860ab.png" src="../_images/f8ea0824933b0b7edc94b6965739f44d2a761420a5053c3719625242ec4860ab.png" />
+</div>
+</div>
+<p>Notice how easy that was! One line of code is all it took to export the <code class="docutils literal notranslate"><span class="pre">nino34</span></code> Xarray <code class="docutils literal notranslate"><span class="pre">DataArray</span></code> object as a pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code>, and import it as a Pyleoclim <code class="docutils literal notranslate"><span class="pre">Series</span></code> (which is nothing more than a pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code> with a little extra metadata to make life easier). Now we can deploy our correlation arsenal again, this time throwing in the T-test modified for the effects of serial correlation (<code class="docutils literal notranslate"><span class="pre">ttest</span></code>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;built-in&#39;</span><span class="p">,</span><span class="s1">&#39;ttest&#39;</span><span class="p">,</span><span class="s1">&#39;ar1sim&#39;</span><span class="p">,</span><span class="s1">&#39;phaseran&#39;</span><span class="p">]:</span>
+    <span class="n">corr_n</span> <span class="o">=</span> <span class="n">srca</span><span class="o">.</span><span class="n">correlation</span><span class="p">(</span><span class="n">NINO34</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">corr_n</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value  p-value    signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.452965               nan  &lt; 1e-68    True
+
+  statistic    critical value  p-value    signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.452965         -0.119758  &lt; 1e-3     True
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Evaluating association on surrogate pairs: 100%|██████████| 1000/1000 [00:00&lt;00:00, 6729.11it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value  p-value    signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.452965         -0.166243  &lt; 1e-6     True
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Evaluating association on surrogate pairs: 100%|██████████| 1000/1000 [00:00&lt;00:00, 5861.45it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  statistic    critical value  p-value    signif. (α: 0.05)
+-----------  ----------------  ---------  -------------------
+  -0.452965         -0.140815  &lt; 1e-6     True
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this case, we see a correlation similar to what was observed between the Hulu and GISP2 records, but it appears <strong>highly significant no matter what test is used</strong>.
+The difference between the first two tests is instructive: we see how without accounting for serial correlation the p-value is a preposterous “&lt;1e-68”, meaning basically impossible. Once serial correlation is accounted for (admittedly crudely), we get a p-value near <span class="math notranslate nohighlight">\(10^{-3}\)</span>, which is quite a bit more conservative than those estimated with the Monte Carlo simulations (<code class="docutils literal notranslate"><span class="pre">ar1sim</span></code>,<code class="docutils literal notranslate"><span class="pre">phaseran</span></code>) near <span class="math notranslate nohighlight">\(10^{-6}\)</span>. Notably, the critical value of the statistic is comparable for all methods that calculate it.</p>
+<p>We now wish to carry out a similar analysis over the SST grid, so we write a simple loop. For computational convenience, we restrict ourselves to the T-test, which requires no Monte Carlo simulations.  Notice how we use the same <code class="docutils literal notranslate"><span class="pre">pandas</span></code> trick as before as a cross-walk between <code class="docutils literal notranslate"><span class="pre">xarray</span></code> and <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nlon</span> <span class="o">=</span> <span class="n">ersstv5_tpa</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">size</span>
+<span class="n">nlat</span> <span class="o">=</span> <span class="n">ersstv5_tpa</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">size</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;time_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;years CE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;time_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;value_name&#39;</span><span class="p">:</span> <span class="s1">&#39;SST&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;ERSST5 local SST&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;archiveType&#39;</span><span class="p">:</span> <span class="s1">&#39;Instrumental&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;importedFrom&#39;</span><span class="p">:</span> <span class="s1">&#39;NOAA/NCEI&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="n">series_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">ji</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nlon</span><span class="p">):</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ersstv5_tpa</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ji</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nlat</span><span class="p">):</span>
+        <span class="n">local_sst</span> <span class="o">=</span> <span class="n">ersstv5_tpa</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="n">ji</span><span class="p">,</span><span class="n">lat</span><span class="o">=</span><span class="n">jj</span><span class="p">)</span>
+        <span class="c1"># check for land points</span>
+        <span class="k">if</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">local_sst</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">mean</span><span class="p">()):</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ersstv5_tpa</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">GeoSeries</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">local_sst</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="n">series_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
+            
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">series_list</span><span class="p">))</span>        
+<span class="n">sst_ms</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">MultipleGeoSeries</span><span class="p">(</span><span class="n">series_list</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1051
+</pre></div>
+</div>
+</div>
+</div>
+<p>There over 1000 series in this collection, but the syntax is the same: we simply apply the <code class="docutils literal notranslate"><span class="pre">correlation()</span></code> method, and plot the result as we did for the Hulu and GISP2 ensemble correlation above:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corr_f</span> <span class="o">=</span> <span class="n">sst_ms</span><span class="o">.</span><span class="n">correlation</span><span class="p">(</span><span class="n">srca</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ttest&#39;</span><span class="p">)</span>
+<span class="n">corr_f</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Looping over 1051 Series in collection
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1051/1051 [04:29&lt;00:00,  3.90it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 400x400 with 1 Axes&gt;, &lt;Axes: xlabel=&#39;$r$&#39;, ylabel=&#39;Count&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/5b3db16c57feebbef9cbf941c77a4bd2d0fe2b8e0db45c7e30e141b6aa748b37.png" src="../_images/5b3db16c57feebbef9cbf941c77a4bd2d0fe2b8e0db45c7e30e141b6aa748b37.png" />
+</div>
+</div>
+<p>We see a bimodal distribution, with correlations close to 0 rejected as insignificant. In this case, the False Discovery Rate correction is very small, only changing the number of gridpoints significantly correlated to the Palmyra Sr/Ca record from 84.9% to 85.9%.</p>
+<section id="takeaways">
+<h3>Takeaways<a class="headerlink" href="#takeaways" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyleoclim</span></code> allows to easily compute correlations between series with different time axes (including different resolutions).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyleoclim</span></code> assesses significance with 3 different methods that are meant to guard against the deleterious effects of persistence, thereby lowering the risk of spurious correlations and <a class="reference external" href="https://youtu.be/42QuXLucH3Q">p-hacking</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyleoclim</span></code> allows to compute correlations between a series and a collection of series, e.g. coming from a gridded field, addressing the Multiple Hypothesis Problem with the False Discovery Rate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyleoclim</span></code> allows to compute correlations between, and within, <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code> object, using those same tools.</p></li>
+</ul>
+</section>
+<section id="acknowledgments">
+<h3>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Link to this heading">#</a></h3>
+<p>Project Pythia for <a class="reference external" href="https://foundations.projectpythia.org/core/xarray/enso-xarray.html">this notebook</a> on xarray manipulations</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Jul 10 2025
+
+Python implementation: CPython
+Python version       : 3.12.0
+IPython version      : 9.3.0
+
+pyleoclim : 1.2.1
+pylipd    : 1.4.1
+numpy     : 1.26.4
+matplotlib: 3.10.3
+cartopy   : 0.24.0
+xarray    : 2025.6.1
+
+Watermark: 2.5.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "linkedearth"
+        },
+        kernelOptions: {
+            name: "linkedearth",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'linkedearth'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L1_working_with_age_ensembles.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Working with Age Ensembles</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L2_outlier_detection.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Outlier Detection with Pyleoclim</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#age-uncertain-correlations">Age-uncertain Correlations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-age-ensemble">Create age ensemble</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correlating-the-medians">Correlating the medians</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-persistence">Effect of persistence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-nonlinearity">Effect of nonlinearity</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-comparison">Multiple Comparison</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#field-correlations">Field Correlations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#takeaways">Takeaways</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1417 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Principal Component Analysis with Pyleoclim &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L2_principal_component_analysis';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Singular Spectrum Analysis with Pyleoclim" href="L2_singular_spectrum_analysis.html" />
+    <link rel="prev" title="Outlier Detection with Pyleoclim" href="L2_outlier_detection.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_ts_manipulation.html">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L2_principal_component_analysis.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L2_principal_component_analysis.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L2_principal_component_analysis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Principal Component Analysis with Pyleoclim</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-wrangling-and-processing">Data Wrangling and Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-analysis">Principal Component Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-pca">Monte Carlo PCA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800">
+<section class="tex2jax_ignore mathjax_ignore" id="principal-component-analysis-with-pyleoclim">
+<h1>Principal Component Analysis with Pyleoclim<a class="headerlink" href="#principal-component-analysis-with-pyleoclim" title="Link to this heading">#</a></h1>
+<p>by <a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a>, <a class="reference external" href="https://orcid.org/0000-0001-7501-8430">Deborah Khider</a>, <a class="reference external" href="https://orcid.org/0000-0001-8561-3188">Alexander James</a></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p>A chief goal of multivariate data analysis is data reduction, which attempts to condense the information contained in a potentially high-dimensional dataset into a few interpretable patterns. Chief among data reduction techniques is Principal Component Analysis (PCA), which organizes the data into orthogonal patterns that account for a decreasing share of variance: the first pattern accounts for the lion’s share, followed by the second, third, and so on. In geophysical timeseries, it is often the case that the first pattern (“mode”) tends to be associated with the longest time scale (e.g. a secular trend). PCA is therefore very useful for exploratory data analysis, and sometimes helps testing theories of climate change (e.g. comparing simulated to observed patterns of change).</p>
+<section id="goals">
+<h3>Goals<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<p>In this notebook you’ll see how to apply PCA within Pyleoclim.  For more details, see <a class="reference external" href="http://dx.doi.org/10.6084/m9.figshare.1014336">Emile-Geay (2017), chap 12</a>.
+In addition, it will walk you through Monte-Carlo PCA, which is the version of the PCA relevant to the analysis of records that present themselves as age ensembles.</p>
+<p><strong>Reading Time: 15 min</strong></p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>Principal Component Analysis, Singular Value Decomposition, Data Reduction</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>None</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>statsmodels, matplotlib, pylipd</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>for PCA we use the Euro2k database, as the European working group of the <a class="reference external" href="http://dx.doi.org/10.1038/sdata.2017.88">PAGES 2k paleotemperature compilation</a>, which gathers proxies from multiple archives, mainly wood, coral, lake sediment and documentary archives.</p></li>
+<li><p>for MC-PCA we use the <a class="reference external" href="http://dx.doi.org/10.1038/sdata.2017.88">SISAL v2 database</a> of speleothem records.</p></li>
+</ul>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<p>Let’s load packages first:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="data-wrangling-and-processing">
+<h3>Data Wrangling and Processing<a class="headerlink" href="#data-wrangling-and-processing" title="Link to this heading">#</a></h3>
+<p>To load this dataset, we make use of <a class="reference external" href="https://pylipd.readthedocs.io">pylipd</a>. We first import everything into a pandas dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pylipd.utils.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dir</span>
+<span class="n">lipd</span> <span class="o">=</span> <span class="n">load_dir</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Pages2k&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">lipd</span><span class="o">.</span><span class="n">get_timeseries_essentials</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading 16 LiPD files
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████| 16/16 [00:00&lt;00:00, 79.75it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded..
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dataSetName</th>
+      <th>archiveType</th>
+      <th>geo_meanLat</th>
+      <th>geo_meanLon</th>
+      <th>geo_meanElev</th>
+      <th>paleoData_variableName</th>
+      <th>paleoData_values</th>
+      <th>paleoData_units</th>
+      <th>paleoData_proxy</th>
+      <th>paleoData_proxyGeneral</th>
+      <th>time_variableName</th>
+      <th>time_values</th>
+      <th>time_units</th>
+      <th>depth_variableName</th>
+      <th>depth_values</th>
+      <th>depth_units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Ocn-RedSea.Felis.2000</td>
+      <td>Coral</td>
+      <td>27.8500</td>
+      <td>34.3200</td>
+      <td>-6.0</td>
+      <td>d18O</td>
+      <td>[-4.12, -3.82, -3.05, -3.02, -3.62, -3.96, -3....</td>
+      <td>permil</td>
+      <td>d18O</td>
+      <td>None</td>
+      <td>year</td>
+      <td>[1995.583, 1995.417, 1995.25, 1995.083, 1994.9...</td>
+      <td>yr AD</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Ant-WAIS-Divide.Severinghaus.2012</td>
+      <td>Borehole</td>
+      <td>-79.4630</td>
+      <td>-112.1250</td>
+      <td>1766.0</td>
+      <td>temperature</td>
+      <td>[-29.607, -29.607, -29.606, -29.606, -29.605, ...</td>
+      <td>degC</td>
+      <td>borehole</td>
+      <td>None</td>
+      <td>year</td>
+      <td>[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,...</td>
+      <td>yr AD</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Ant-WAIS-Divide.Severinghaus.2012</td>
+      <td>Borehole</td>
+      <td>-79.4630</td>
+      <td>-112.1250</td>
+      <td>1766.0</td>
+      <td>uncertainty_temperature</td>
+      <td>[1.327, 1.328, 1.328, 1.329, 1.33, 1.33, 1.331...</td>
+      <td>degC</td>
+      <td>None</td>
+      <td>None</td>
+      <td>year</td>
+      <td>[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,...</td>
+      <td>yr AD</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Asi-SourthAndMiddleUrals.Demezhko.2007</td>
+      <td>Borehole</td>
+      <td>55.0000</td>
+      <td>59.5000</td>
+      <td>1900.0</td>
+      <td>temperature</td>
+      <td>[0.166, 0.264, 0.354, 0.447, 0.538, 0.62, 0.68...</td>
+      <td>degC</td>
+      <td>borehole</td>
+      <td>None</td>
+      <td>year</td>
+      <td>[800, 850, 900, 950, 1000, 1050, 1100, 1150, 1...</td>
+      <td>yr AD</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Ocn-AlboranSea436B.Nieto-Moreno.2013</td>
+      <td>Marine sediment</td>
+      <td>36.2053</td>
+      <td>-4.3133</td>
+      <td>-1108.0</td>
+      <td>temperature</td>
+      <td>[18.79, 19.38, 19.61, 18.88, 18.74, 19.25, 18....</td>
+      <td>degC</td>
+      <td>alkenone</td>
+      <td>None</td>
+      <td>year</td>
+      <td>[1999.07, 1993.12, 1987.17, 1975.26, 1963.36, ...</td>
+      <td>yr AD</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Let’s see what variable names are present in those series. In the LiPD terminology, one has to look at <code class="docutils literal notranslate"><span class="pre">paleoData_variableName</span></code>, and pandas makes it easy to find unique entries for each.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;d18O&#39;, &#39;temperature&#39;, &#39;uncertainty_temperature&#39;, &#39;notes&#39;, &#39;Mg_Ca&#39;,
+       &#39;Uk37&#39;, &#39;trsgi&#39;, &#39;MXD&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, let’s select all the Northern Hemisphere data that can be interpreted as temperature:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;paleoData_variableName in (&#39;temperature&#39;,&#39;d18O&#39;, &#39;MXD&#39;, &#39;trsgi&#39;) &amp; geo_meanLat &gt; 0&quot;</span><span class="p">)</span> 
+<span class="nb">len</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>17
+</pre></div>
+</div>
+</div>
+</div>
+<p>We should have 17 series. Now, to run PCA we need the various series to overlap in a signicant way. The easiest way to do so is to look for the minimum values of the time variable, which is in years CE:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmin</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;time_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">tmin</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     1751.083
+3      800.000
+4      564.360
+5      -90.000
+11    -368.000
+12    -368.000
+13    -368.000
+14    1175.000
+15    1928.960
+16    1897.120
+17   -1949.000
+18     232.000
+20     971.190
+21    1260.000
+22     760.000
+23    -138.000
+24    1502.000
+Name: time_values, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that indices 0, 15 and 16 of the original dataframe have series that start after the 1600s, which wouldn’t be enough time to capture some centennial-scale patterns. Let’s filter them out:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">tmin</span><span class="p">[</span><span class="n">tmin</span> <span class="o">&lt;=</span> <span class="mi">1600</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>  <span class="c1"># crude. there has to be a better way to pass the results of that query to dfs directly.</span>
+<span class="n">dfs_pre1600</span> <span class="o">=</span> <span class="n">dfs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="n">dfs_pre1600</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 14 entries, 3 to 24
+Data columns (total 16 columns):
+ #   Column                  Non-Null Count  Dtype  
+---  ------                  --------------  -----  
+ 0   dataSetName             14 non-null     object 
+ 1   archiveType             14 non-null     object 
+ 2   geo_meanLat             14 non-null     float64
+ 3   geo_meanLon             14 non-null     float64
+ 4   geo_meanElev            14 non-null     float64
+ 5   paleoData_variableName  14 non-null     object 
+ 6   paleoData_values        14 non-null     object 
+ 7   paleoData_units         12 non-null     object 
+ 8   paleoData_proxy         12 non-null     object 
+ 9   paleoData_proxyGeneral  0 non-null      object 
+ 10  time_variableName       14 non-null     object 
+ 11  time_values             14 non-null     object 
+ 12  time_units              14 non-null     object 
+ 13  depth_variableName      2 non-null      object 
+ 14  depth_values            2 non-null      object 
+ 15  depth_units             2 non-null      object 
+dtypes: float64(3), object(13)
+memory usage: 1.9+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>This narrows it down to 14 records.
+Next, let’s look at resolution:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_med</span> <span class="o">=</span> <span class="n">dfs_pre1600</span><span class="p">[</span><span class="s1">&#39;time_values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span> <span class="c1"># looking at median spacing between time points for each record</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">res_med</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;time_values&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/7a92fd67ec3f2e17914b7cc662732eaa4a84957c3b76e68f80df0c82874e019d.png" src="../_images/7a92fd67ec3f2e17914b7cc662732eaa4a84957c3b76e68f80df0c82874e019d.png" />
+</div>
+</div>
+<p>Because PCA requires a common time grid, we have to be a little careful about the resolution of the records. Let’s select those with a resolution finer than 20 years:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">res_med</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">dfs_res</span> <span class="o">=</span> <span class="n">dfs_pre1600</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dfs_pre1600</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
+<span class="n">dfs_res</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 9 entries, 5 to 24
+Data columns (total 16 columns):
+ #   Column                  Non-Null Count  Dtype  
+---  ------                  --------------  -----  
+ 0   dataSetName             9 non-null      object 
+ 1   archiveType             9 non-null      object 
+ 2   geo_meanLat             9 non-null      float64
+ 3   geo_meanLon             9 non-null      float64
+ 4   geo_meanElev            9 non-null      float64
+ 5   paleoData_variableName  9 non-null      object 
+ 6   paleoData_values        9 non-null      object 
+ 7   paleoData_units         7 non-null      object 
+ 8   paleoData_proxy         9 non-null      object 
+ 9   paleoData_proxyGeneral  0 non-null      object 
+ 10  time_variableName       9 non-null      object 
+ 11  time_values             9 non-null      object 
+ 12  time_units              9 non-null      object 
+ 13  depth_variableName      0 non-null      object 
+ 14  depth_values            0 non-null      object 
+ 15  depth_units             0 non-null      object 
+dtypes: float64(3), object(13)
+memory usage: 1.2+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now were are down to 9 proxy records. Next, we iterate over the rows of this dataframe, create GeoSeries objects for each proxy record, and bundle them all into a MultipleGeoSeries object (it will become obvious why in a second):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dfs_res</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">ts_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyleo</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;time_values&#39;</span><span class="p">],</span><span class="n">value</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_values&#39;</span><span class="p">],</span>
+                                   <span class="n">time_name</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;time_variableName&#39;</span><span class="p">],</span><span class="n">value_name</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">],</span>
+                                   <span class="n">time_unit</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;time_units&#39;</span><span class="p">],</span> <span class="n">value_unit</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_units&#39;</span><span class="p">],</span>
+                                   <span class="n">lat</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;geo_meanLat&#39;</span><span class="p">],</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;geo_meanLon&#39;</span><span class="p">],</span>
+                                   <span class="n">elevation</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;geo_meanElev&#39;</span><span class="p">],</span> <span class="n">observationType</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_proxy&#39;</span><span class="p">],</span>
+                                   <span class="n">archiveType</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;archiveType&#39;</span><span class="p">],</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+                                   <span class="n">label</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;dataSetName&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;paleoData_variableName&#39;</span><span class="p">]))</span> 
+
+<span class="n">Euro2k</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">MultipleGeoSeries</span><span class="p">(</span><span class="n">ts_list</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Euro2k&#39;</span><span class="p">,</span> <span class="n">time_unit</span><span class="o">=</span><span class="s1">&#39;year AD&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once in this form, it’s trivial to map these records all at once:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">Euro2k</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/91fc57ed393e86ca943eed187531f3c4e98e8cb8c3f7e7325b554413acfd748e.png" src="../_images/91fc57ed393e86ca943eed187531f3c4e98e8cb8c3f7e7325b554413acfd748e.png" />
+</div>
+</div>
+<p>For a relatively localized dataset like this, the default projection is “Orthographic” because it minimally distorts the represented surface, and reminds us that the Earth is (nearly) round (unlike some other, unnamed projections). For a full list of allowable projections, see the <a class="reference external" href="https://scitools.org.uk/cartopy/docs/latest/reference/projections.html">cartopy documentation</a>. For more on this, see the <a class="reference internal" href="#"><span class="xref myst">mapping notebook</span></a>.</p>
+<p>Because it may be relevant to interpreting the results, let’s map elevation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">Euro2k</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;elevation&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2a7621470df40219d18f2744d2789263d63e89f8624ffd8d154c6849120989d1.png" src="../_images/2a7621470df40219d18f2744d2789263d63e89f8624ffd8d154c6849120989d1.png" />
+</div>
+</div>
+<p>Most records are near sea level, though a few in the Pyrenees and Alps are at altitudes ov several thousand meters. It critical to look at the records themselves prior to feeding them to PCA:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">Euro2k</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">v_shift_factor</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/fc3074ad08565c98e7c0e75f09dac5b735c7e41716f9568a51c3b3798d7451ce.png" src="../_images/fc3074ad08565c98e7c0e75f09dac5b735c7e41716f9568a51c3b3798d7451ce.png" />
+</div>
+</div>
+<p>No red flags ; we are ready to proceed with PCA. Notice here that <code class="docutils literal notranslate"><span class="pre">Euro2k</span></code>, being an instance of <code class="docutils literal notranslate"><span class="pre">MultipleGeoSeries</span></code>, has access to all the methods of its parent class <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code>, including <code class="docutils literal notranslate"><span class="pre">stackplot()</span></code></p>
+</section>
+<section id="principal-component-analysis">
+<h3>Principal Component Analysis<a class="headerlink" href="#principal-component-analysis" title="Link to this heading">#</a></h3>
+<p>Now let’s perform PCA. To do this, all the Series objects within the collection must be on a common time axis, and it’s also prudent to standardize them so differences in units don’t mess up the scaling of the data matrix on which PCA operates. We can perform both operations at once using method-chaining:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Euro2kc</span> <span class="o">=</span> <span class="n">Euro2k</span><span class="o">.</span><span class="n">common_time</span><span class="p">()</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">Euro2kc</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">v_shift_factor</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d91dd0d870bbe897a316411f57eaa30371ece9ad00cb0aa537843a76299de5ec.png" src="../_images/d91dd0d870bbe897a316411f57eaa30371ece9ad00cb0aa537843a76299de5ec.png" />
+</div>
+</div>
+<p>The PCA part is extremely anticlimatic:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">Euro2kc</span><span class="o">.</span><span class="n">pca</span><span class="p">()</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">pca</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pyleoclim.core.multivardecomp.MultivariateDecomp
+</pre></div>
+</div>
+</div>
+</div>
+<p>We placed the result of the operation into an object called “pca” (we felt very inspired when we wrote this), which is of type <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#multivardecomp-pyleoclim-multivariatedecomp">MultivariateDecomp</a>, which contains the following information:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;name&#39;, &#39;eigvals&#39;, &#39;eigvecs&#39;, &#39;pctvar&#39;, &#39;pcs&#39;, &#39;neff&#39;, &#39;orig&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><em>name</em> is a string used to label plots</p></li>
+<li><p><em>eigvals</em> is an array containing the eigenvalues of the covariance matrix</p></li>
+<li><p><em>pctvar</em> is the % of the total variance accounted for by each mode (derived from the eigenvalues)</p></li>
+<li><p><em>eigvecs</em> is an array containing the eigenvectors of the covariance matrix ()</p></li>
+<li><p><em>pcs</em> is an array containing the temporal  loadings corresponding to these eigenvectors.</p></li>
+<li><p><em>neff</em> is an estimate of the effective sample size (“degrees of freedom”) associated with the principal component. Because of autocorrelation, this number is usually much smaller than the length of the timeseries itself.</p></li>
+<li><p><em>orig</em> is the original MultipleGeoSeries (or MultipleSeries) object on which the multivariate decomposition was applied.</p></li>
+<li><p><em>locs</em> is an array containing the geographic coordinates as (lat, lon).</p></li>
+</ul>
+<p>The first thing one should look at in such an object is the eigenvalue spectrum, often called a <a class="reference external" href="https://en.wikipedia.org/wiki/Scree_plot">scree plot</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span><span class="o">.</span><span class="n">screeplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The provided eigenvalue array has only one dimension. UQ defaults to NB82
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 600x400 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Euro2k PCA eigenvalues&#39;}, xlabel=&#39;Mode index $i$&#39;, ylabel=&#39;$\\lambda_i$&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/70e31398e167790879f809b7d1da427e33eeb4ac30f6ff31e7b2846a6c07bd2e.png" src="../_images/70e31398e167790879f809b7d1da427e33eeb4ac30f6ff31e7b2846a6c07bd2e.png" />
+</div>
+</div>
+<p>As is nearly always the case with geophysical timeseries, the first handful of eigenvalues truly overwhelm the rest. Eigenvalues are, by themselves, not all that informative; their meaning comes from the fact that their normalized value quantifies the fraction of variance accounted for by each mode. That is readily accessed via:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span><span class="o">.</span><span class="n">pctvar</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># display only the first 5 values, for brevity</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([20.49343085, 14.00994016, 13.22588398, 11.98053572, 10.41256573])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first mode accounts for about 20% of the total variance; let’s look at it via <code class="docutils literal notranslate"><span class="pre">modeplot()</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span><span class="o">.</span><span class="n">modeplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 800x800 with 4 Axes&gt;,
+ {&#39;pc&#39;: &lt;Axes: xlabel=&#39;Time [year AD]&#39;, ylabel=&#39;$PC_1$&#39;&gt;,
+  &#39;psd&#39;: &lt;Axes: xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;,
+  &#39;map&#39;: {&#39;cb&#39;: &lt;Axes: ylabel=&#39;EOF&#39;&gt;,
+   &#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;}})
+</pre></div>
+</div>
+<img alt="../_images/5c8d4095bdeaeb354969bcc668d0765602094dd4a6d431abd54a6799c7c8957b.png" src="../_images/5c8d4095bdeaeb354969bcc668d0765602094dd4a6d431abd54a6799c7c8957b.png" />
+</div>
+</div>
+<p>Three features jump at us:</p>
+<ul class="simple">
+<li><p>firstly, the first principal component displays a sharp transition around the year 1675.</p></li>
+<li><p>the figure includes the PC’s spectrum (here, using the MTM method), which is dominated by variation around 200 yr periods, corresponding to the shift in the middle of the series.</p></li>
+<li><p>the default map projection is again orthographic, but can be adjusted. For instance, let’s set a stereographic projection with bounds appropriate for Europe. Let’s also adjust the size of the markers:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">europe</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">80</span><span class="p">]</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">map_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span><span class="s1">&#39;Stereographic&#39;</span><span class="p">,</span><span class="s1">&#39;extent&#39;</span><span class="p">:</span><span class="n">europe</span><span class="p">},</span> <span class="n">scatter_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;s&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 800x800 with 4 Axes&gt;,
+ {&#39;pc&#39;: &lt;Axes: xlabel=&#39;Time [year AD]&#39;, ylabel=&#39;$PC_1$&#39;&gt;,
+  &#39;psd&#39;: &lt;Axes: xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;,
+  &#39;map&#39;: {&#39;cb&#39;: &lt;Axes: ylabel=&#39;EOF&#39;&gt;,
+   &#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;}})
+</pre></div>
+</div>
+<img alt="../_images/ea7c89138fc931de4937ca021b80f8f7bf98ddf3a5c766c61efcd4782d5a3cec.png" src="../_images/ea7c89138fc931de4937ca021b80f8f7bf98ddf3a5c766c61efcd4782d5a3cec.png" />
+</div>
+</div>
+<p>Now let’s look at the second mode:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">map_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span><span class="s1">&#39;Stereographic&#39;</span><span class="p">,</span><span class="s1">&#39;extent&#39;</span><span class="p">:</span><span class="n">europe</span><span class="p">},</span> <span class="n">scatter_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;s&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 800x800 with 4 Axes&gt;,
+ {&#39;pc&#39;: &lt;Axes: xlabel=&#39;Time [year AD]&#39;, ylabel=&#39;$PC_2$&#39;&gt;,
+  &#39;psd&#39;: &lt;Axes: xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;,
+  &#39;map&#39;: {&#39;cb&#39;: &lt;Axes: ylabel=&#39;EOF&#39;&gt;,
+   &#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;}})
+</pre></div>
+</div>
+<img alt="../_images/779854b3555d11001f194f56936f0bdc88ee43cf1cc16637e1a87a02a0db8f31.png" src="../_images/779854b3555d11001f194f56936f0bdc88ee43cf1cc16637e1a87a02a0db8f31.png" />
+</div>
+</div>
+<p>This one has a more uniforml spatial structure (loadings of one sign, withe one exception). This PC’s spectrum shows energetic variability at multidecadal timescales. On to the third mode:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">map_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span><span class="s1">&#39;Stereographic&#39;</span><span class="p">,</span><span class="s1">&#39;extent&#39;</span><span class="p">:</span><span class="n">europe</span><span class="p">},</span> <span class="n">scatter_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;s&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 800x800 with 4 Axes&gt;,
+ {&#39;pc&#39;: &lt;Axes: xlabel=&#39;Time [year AD]&#39;, ylabel=&#39;$PC_3$&#39;&gt;,
+  &#39;psd&#39;: &lt;Axes: xlabel=&#39;Period [year]&#39;, ylabel=&#39;PSD&#39;&gt;,
+  &#39;map&#39;: {&#39;cb&#39;: &lt;Axes: ylabel=&#39;EOF&#39;&gt;,
+   &#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;}})
+</pre></div>
+</div>
+<img alt="../_images/e615ffea49ffa20f33ec66a4bb9718eeb0ef12bc4ac1f3b2e36387c3932b1698.png" src="../_images/e615ffea49ffa20f33ec66a4bb9718eeb0ef12bc4ac1f3b2e36387c3932b1698.png" />
+</div>
+</div>
+<p>This PC shows evidence of scaling behavior, as well as decadal variability. To look at this in more detail, you could place the principal component into a <code class="docutils literal notranslate"><span class="pre">Series</span></code> object and apply the tools of <a class="reference internal" href="#L2_spectral_analysis.md"><span class="xref myst">spectral analysis</span></a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pc2</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">pca</span><span class="o">.</span><span class="n">pcs</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Euro2k PC3&#39;</span><span class="p">,</span>
+                   <span class="n">time</span> <span class="o">=</span> <span class="n">Euro2kc</span><span class="o">.</span><span class="n">series_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">)</span> <span class="c1"># remember Python&#39;s zero-based indexing</span>
+<span class="n">pc2spec</span> <span class="o">=</span> <span class="n">pc2</span><span class="o">.</span><span class="n">spectral</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mtm&#39;</span><span class="p">)</span>                
+<span class="n">pc2spec</span><span class="o">.</span><span class="n">beta_est</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Period [years]&#39;, ylabel=&#39;PSD&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/ad2d8dcbbf229bbd6561793046a17763da6bd6eca847af6c98383e84ef2df3fa.png" src="../_images/ad2d8dcbbf229bbd6561793046a17763da6bd6eca847af6c98383e84ef2df3fa.png" />
+</div>
+</div>
+<p>Indeed, the spectrum seems compatible with a shape <span class="math notranslate nohighlight">\(S(f) \propto f^{-\beta}\)</span>, where <span class="math notranslate nohighlight">\(\beta \approx 0.68\)</span>.</p>
+<p>As usual with PCA, we could go down the list, but the interpretability becomes increasingly difficult. You have enough information to proceed with your own analysis now.</p>
+</section>
+<section id="monte-carlo-pca">
+<h3>Monte Carlo PCA<a class="headerlink" href="#monte-carlo-pca" title="Link to this heading">#</a></h3>
+<p>When age ensembles are available, we can use Monte Carlo PCA (MC-PCA) to robustly account for age uncertainty in such analyses.</p>
+<p>PAGES 2k does not come with age ensembles, so for this example generate our own using the <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> method <a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.tsmodel.random_time_axis">random_time_axis()</a>. To emulate real proxies, we assign no age uncertainty to documentary records, minimal age uncertainties to tree-ring records, and larger age uncertainties to sedimentary records. Note that this is a very crude approximation of real processes, used here merely for illustration purposes. A research-grade assessment of age uncertainties should proceed much more carefully. All we need here is to generate reasonable ensembles so we can show how to analyze and visualize them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mul_ens_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="k">for</span> <span class="n">series</span> <span class="ow">in</span> <span class="n">Euro2k</span><span class="o">.</span><span class="n">series_list</span><span class="p">:</span>
+    <span class="n">ens_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1">#Speleothems and wood are typically pretty well dated, though they should have some age errors</span>
+    <span class="k">if</span> <span class="n">series</span><span class="o">.</span><span class="n">archiveType</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Speleothem&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+            <span class="n">series_copy</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">pert</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">tsmodel</span><span class="o">.</span><span class="n">random_time_axis</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">series_copy</span><span class="o">.</span><span class="n">time</span><span class="p">),</span>
+                                         <span class="n">delta_t_dist</span><span class="o">=</span><span class="s1">&#39;random_choice&#39;</span><span class="p">,</span>
+                                         <span class="n">param</span> <span class="o">=</span><span class="p">[[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.02</span><span class="p">]])</span>
+            <span class="n">series_copy</span><span class="o">.</span><span class="n">time</span> <span class="o">+=</span> <span class="n">pert</span>
+            <span class="n">ens_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">series_copy</span><span class="p">)</span>
+        <span class="n">ens</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleGeoSeries</span><span class="p">(</span><span class="n">ens_list</span><span class="p">,</span><span class="n">lat</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span><span class="n">lon</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span><span class="n">elevation</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span><span class="n">archiveType</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">archiveType</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">series</span><span class="o">.</span><span class="n">archiveType</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Wood&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+            <span class="n">series_copy</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">pert</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">tsmodel</span><span class="o">.</span><span class="n">random_time_axis</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">series_copy</span><span class="o">.</span><span class="n">time</span><span class="p">),</span>
+                                         <span class="n">delta_t_dist</span><span class="o">=</span><span class="s1">&#39;random_choice&#39;</span><span class="p">,</span>
+                                         <span class="n">param</span> <span class="o">=</span><span class="p">[[</span><span class="o">-</span><span class="mf">.5</span><span class="p">,</span><span class="o">-</span><span class="mf">.2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">.2</span><span class="p">,</span><span class="mf">.5</span><span class="p">],[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.02</span><span class="p">]])</span>
+            <span class="n">series_copy</span><span class="o">.</span><span class="n">time</span> <span class="o">+=</span> <span class="n">pert</span>
+            <span class="n">ens_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">series_copy</span><span class="p">)</span>
+        <span class="n">ens</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleGeoSeries</span><span class="p">(</span><span class="n">ens_list</span><span class="p">,</span><span class="n">lat</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span><span class="n">lon</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span><span class="n">elevation</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span><span class="n">archiveType</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">archiveType</span><span class="p">)</span>
+    <span class="c1">#Sediments should be a bit more smoothed when it comes to age errors</span>
+    <span class="k">elif</span> <span class="n">series</span><span class="o">.</span><span class="n">archiveType</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Lake sediment&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+            <span class="n">series_copy</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">pert</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">tsmodel</span><span class="o">.</span><span class="n">random_time_axis</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">series_copy</span><span class="o">.</span><span class="n">time</span><span class="p">),</span>
+                                         <span class="n">delta_t_dist</span><span class="o">=</span><span class="s1">&#39;random_choice&#39;</span><span class="p">,</span>
+                                         <span class="n">param</span> <span class="o">=</span><span class="p">[[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mf">.5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">.5</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.02</span><span class="p">]])</span>
+            <span class="n">series_copy</span><span class="o">.</span><span class="n">time</span> <span class="o">+=</span> <span class="n">pert</span>
+            <span class="n">ens_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">series_copy</span><span class="p">)</span>
+        <span class="n">ens</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleGeoSeries</span><span class="p">(</span><span class="n">ens_list</span><span class="p">,</span><span class="n">lat</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span><span class="n">lon</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span><span class="n">elevation</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span><span class="n">archiveType</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">archiveType</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">series</span><span class="o">.</span><span class="n">archiveType</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Marine sediment&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+            <span class="n">series_copy</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">pert</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">tsmodel</span><span class="o">.</span><span class="n">random_time_axis</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">series_copy</span><span class="o">.</span><span class="n">time</span><span class="p">),</span>
+                                         <span class="n">delta_t_dist</span><span class="o">=</span><span class="s1">&#39;random_choice&#39;</span><span class="p">,</span>
+                                         <span class="n">param</span> <span class="o">=</span><span class="p">[[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.02</span><span class="p">]])</span>
+            <span class="n">series_copy</span><span class="o">.</span><span class="n">time</span> <span class="o">+=</span> <span class="n">pert</span>
+            <span class="n">ens_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">series_copy</span><span class="p">)</span>
+        <span class="n">ens</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleGeoSeries</span><span class="p">(</span><span class="n">ens_list</span><span class="p">,</span><span class="n">lat</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span><span class="n">lon</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span><span class="n">elevation</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span><span class="n">archiveType</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">archiveType</span><span class="p">)</span>
+    <span class="c1">#Documents should have zero age errors</span>
+    <span class="k">elif</span> <span class="n">series</span><span class="o">.</span><span class="n">archiveType</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Documents&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+            <span class="n">ens_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
+        <span class="n">ens</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">EnsembleGeoSeries</span><span class="p">(</span><span class="n">ens_list</span><span class="p">,</span><span class="n">lat</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span><span class="n">lon</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span><span class="n">elevation</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span><span class="n">archiveType</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">archiveType</span><span class="p">)</span>
+
+    <span class="n">mul_ens_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ens</span><span class="p">)</span>
+
+<span class="n">megs</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">MulEnsGeoSeries</span><span class="p">(</span><span class="n">mul_ens_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can take a look at our creation using the <code class="docutils literal notranslate"><span class="pre">stackplot()</span></code> method</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">megs</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span><span class="n">plot_style</span><span class="o">=</span><span class="s1">&#39;envelope&#39;</span><span class="p">,</span><span class="n">ylims</span><span class="o">=</span><span class="s1">&#39;spacious&#39;</span><span class="p">,</span>
+               <span class="n">v_shift_factor</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">yticks_minor</span> <span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x1000 with 10 Axes&gt;,
+ {0: &lt;Axes: ylabel=&#39;d18O [permil]&#39;&gt;,
+  1: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  2: &lt;Axes: ylabel=&#39;d18O [permil]&#39;&gt;,
+  3: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  4: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  5: &lt;Axes: ylabel=&#39;trsgi&#39;&gt;,
+  6: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  7: &lt;Axes: ylabel=&#39;MXD&#39;&gt;,
+  8: &lt;Axes: ylabel=&#39;temperature [degC]&#39;&gt;,
+  &#39;x_axis&#39;: &lt;Axes: xlabel=&#39;Time [year AD]&#39;&gt;})
+</pre></div>
+</div>
+<img alt="../_images/8369d5fd04445ffd5c007c23283c4bf51438b224cae53ee5644178df18c89781.png" src="../_images/8369d5fd04445ffd5c007c23283c4bf51438b224cae53ee5644178df18c89781.png" />
+</div>
+</div>
+<p>Once we’ve created these ensembles, appying MC-PCA is a breeze (and again is fairly anticlimatic)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcpca</span> <span class="o">=</span> <span class="n">megs</span><span class="o">.</span><span class="n">mcpca</span><span class="p">()</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">mcpca</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iterating over simulations: 100%|██████████| 1000/1000 [00:34&lt;00:00, 29.12it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pyleoclim.core.ensmultivardecomp.EnsMultivarDecomp
+</pre></div>
+</div>
+</div>
+</div>
+<p>The contents of the <code class="docutils literal notranslate"><span class="pre">EnsMultivarDecomp</span></code> object are just a list of many PCA objects, with an optional label tag:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcpca</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;pca_list&#39;, &#39;label&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can again produce a screeplot, which takes the form of a <a class="reference external" href="https://en.wikipedia.org/wiki/Violin_plot">violin plot</a> since each eigenvalue <span class="math notranslate nohighlight">\(\lambda_i\)</span> contains 1,000 entries from the Monte Carlo simulations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcpca</span><span class="o">.</span><span class="n">screeplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 800x800 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Screeplot&#39;}, xlabel=&#39;Mode index $i$&#39;, ylabel=&#39;$\\lambda_i$&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/534c12ac6308213d295d784b5f994606e21fa1e3e0533ca9a036474474e03174.png" src="../_images/534c12ac6308213d295d784b5f994606e21fa1e3e0533ca9a036474474e03174.png" />
+</div>
+</div>
+<p><a class="reference external" href="https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.ensmultivardecomp.EnsMultivarDecomp.modeplot"><code class="docutils literal notranslate"><span class="pre">modeplot()</span></code></a> works similarly as in the non-ensemble case, but now the trace and spectra both showcase various essential quantiles:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modeplot with some extra quality of life kwargs</span>
+
+<span class="n">mcpca</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">scatter_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sizes&#39;</span><span class="p">:(</span><span class="mi">20</span><span class="p">,</span><span class="mi">400</span><span class="p">),</span><span class="s1">&#39;linewidth&#39;</span><span class="p">:</span><span class="mf">.1</span><span class="p">},</span>
+    <span class="n">map_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span><span class="s1">&#39;Mollweide&#39;</span><span class="p">,</span><span class="s1">&#39;extent&#39;</span><span class="p">:[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">90</span><span class="p">]}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 1000/1000 [00:01&lt;00:00, 563.19it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 800x800 with 4 Axes&gt;,
+ {&#39;pc&#39;: &lt;Axes: xlabel=&#39;Time [year AD]&#39;, ylabel=&#39;$PC_1$&#39;&gt;,
+  &#39;psd&#39;: &lt;Axes: xlabel=&#39;Period [year AD]&#39;, ylabel=&#39;PSD&#39;&gt;,
+  &#39;map&#39;: {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;}})
+</pre></div>
+</div>
+<img alt="../_images/d5ace29e3750e8b3e1ac9a481ce05db182538397c558697746771a0e3547016f.png" src="../_images/d5ace29e3750e8b3e1ac9a481ce05db182538397c558697746771a0e3547016f.png" />
+</div>
+</div>
+<p>Modeplot produces a three-panel figure visualizing Monte Carlo Principal Component Analysis (MC-PCA) results for the selected PC (indicated via the index argument):</p>
+<ol class="arabic simple">
+<li><p>Top left: Selected PC time series with uncertainty shading.</p></li>
+<li><p>Top right: Power spectral density of the selected PC.</p></li>
+<li><p>Bottom: Global map of EOF loadings for the selected PC.</p></li>
+</ol>
+<p>The map represents sites as colored dots, where colors indicate quantiles of EOF loading distributions across Monte Carlo iterations. For example, the 25th quantile represents the EOF value below which 25% of possible EOF values fall. Lighter shades denote lower quantiles, darker shades higher quantiles. The sign of the quantile indicates loading direction, and is associated with color. Blue signifies negative loadings, red positive. Dot size corresponds to loading magnitude. The representation of the spatial loadings is based on the convention of <a class="reference external" href="https://www.doi.org/10.1038/nature11785">Tierney et al (2013)</a>.  Concentric circles with different diameters are characteristic of large uncertainties; conversely, cases with circles of similar diameter indicate consistent loadings across the age ensemble.</p>
+<p>Qualitatively the result is quite similar to the non-ensemble PCA case, although the transition around 1700 C.E. is smoother. This is perhaps in line with expectations, as the inclusion of age uncertainty will spread the timing of abrupt transitions slightly.</p>
+<p>Most records show uniformly strong loadings associated with this first mode, as indicated by the large, solid circles. The Easternmost record shows an opposite loading to the rest, indicating a potential spatial anticorrelation. Two records, namely the wood archives from Southern France and Finland, show heterogeneity in their loading directions (indicated by the superposition of warm and cool toned circles), suggesting a result that is not robust across their respective age models.</p>
+<p>However, we note that the age ensembles we created for this example are entirely artificial, so this result won’t bear a great deal of scrutiny.</p>
+<p>To look at higher modes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcpca</span><span class="o">.</span><span class="n">modeplot</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">scatter_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sizes&#39;</span><span class="p">:(</span><span class="mi">20</span><span class="p">,</span><span class="mi">400</span><span class="p">),</span><span class="s1">&#39;linewidth&#39;</span><span class="p">:</span><span class="mf">.1</span><span class="p">},</span>
+    <span class="n">map_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span><span class="s1">&#39;Mollweide&#39;</span><span class="p">,</span><span class="s1">&#39;extent&#39;</span><span class="p">:[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">90</span><span class="p">]}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing spectral analysis on individual series: 100%|██████████| 1000/1000 [00:01&lt;00:00, 558.66it/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 800x800 with 4 Axes&gt;,
+ {&#39;pc&#39;: &lt;Axes: xlabel=&#39;Time [year AD]&#39;, ylabel=&#39;$PC_2$&#39;&gt;,
+  &#39;psd&#39;: &lt;Axes: xlabel=&#39;Period [year AD]&#39;, ylabel=&#39;PSD&#39;&gt;,
+  &#39;map&#39;: {&#39;map&#39;: &lt;GeoAxes: xlabel=&#39;lon&#39;, ylabel=&#39;lat&#39;&gt;, &#39;leg&#39;: &lt;Axes: &gt;}})
+</pre></div>
+</div>
+<img alt="../_images/3e928d2946777691678e21d47e339dda684a65233b02d2cc6c3ca98e2108e48f.png" src="../_images/3e928d2946777691678e21d47e339dda684a65233b02d2cc6c3ca98e2108e48f.png" />
+</div>
+</div>
+<p>This looks a lot like noise, as almost all of the records show heterogeneous loadings, and probably shouldn’t be interpreted too deeply.</p>
+<p>One issue that you may run into using MC-PCA is a misalignment of PCs. Because the sign of PCs is arbitrary, there is no guarantee that different Monte Carlo simulations will have properly aligned PCs (the sign can flip on a dime). Some work is done behind the scenes to minimize this issue (note the <code class="docutils literal notranslate"><span class="pre">alignment_method</span></code> argument available when applying <code class="docutils literal notranslate"><span class="pre">mcpca()</span></code>), however for the lower variance modes, such techniques can only go so far in properly aligning the PCs. That is to say, great caution should be exercised when interpreting MC-PCA modes that account for lower percentages of the total variance.</p>
+</section>
+<section id="conclusion">
+<h3>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>PCA can be applied to both <code class="docutils literal notranslate"><span class="pre">MultipleGeoSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">MulEnsembleGeoSeries</span></code> objects</p></li>
+<li><p>The latter are appropriate when age ensembles are available (“MC-PCA”).</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code>, both methods have customizable plotting functions, allowing to visualize results in an intuitive way.</p></li>
+</ul>
+<p>If you have suggestions for additional features or domains of application, feel free to discuss them on our <a class="reference external" href="https://discourse.linked.earth">discourse forum</a> or to open an <a class="reference external" href="https://github.com/LinkedEarth/Pyleoclim_util/issues">issue on GitHub</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Jul 16 2024
+
+Python implementation: CPython
+Python version       : 3.11.9
+IPython version      : 8.25.0
+
+seaborn  : 0.13.2
+pyleoclim: 1.0.0b0
+numpy    : 1.26.4
+
+Watermark: 2.4.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L2_outlier_detection.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Outlier Detection with Pyleoclim</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L2_singular_spectrum_analysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Singular Spectrum Analysis with Pyleoclim</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-wrangling-and-processing">Data Wrangling and Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-analysis">Principal Component Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-pca">Monte Carlo PCA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

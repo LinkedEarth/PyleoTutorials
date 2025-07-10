@@ -1,0 +1,994 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Basic timeseries manipulation &#8212; Pyleoclim Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/L0_basic_ts_manipulation';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Loading data into Pyleoclim" href="L0_loading_to_series.html" />
+    <link rel="prev" title="Working with multiple records: MultipleSeries and EnsembleSeries" href="L0_basic_MSES_manipulation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-light" alt="Pyleoclim Tutorials - Home"/>
+    <script>document.write(`<img src="../_static/pyleoclim_insigna_full_white.png" class="logo__image only-dark" alt="Pyleoclim Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyleoTutorials: A Gentle Introduction to the Pyleoclim Package.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L0_a_quickstart.html">Overview of Pyleoclim: Efficient &amp; Flexible Timeseries Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_basic_MSES_manipulation.html">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Basic timeseries manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_loading_to_series.html">Loading data into Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_paleopandas.html">Working with <code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_working_with_geoseries.html">Working with GeoSeries</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manipulating Data and Graphics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L1_figures_with_multiple_panels.html">Pyleoclim figures with multiple panels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_filtering_and_detrending.html">Filtering and Detrending with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_surrogates.html">Using Surrogate Series with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_time_semanics.html">Time Semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_uniform_time_sampling.html">Uniform time sampling with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_working_with_age_ensembles.html">Working with Age Ensembles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Analysis with Pyleoclim</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="L2_correlations.html">Correlation Analysis in Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_outlier_detection.html">Outlier Detection with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_principal_component_analysis.html">Principal Component Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_singular_spectrum_analysis.html">Singular Spectrum Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_spectral_analysis.html">Spectral Analysis with Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_tracing_transformations.html">Tracing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_wavelet_analysis.html">Wavelet Analysis with Pyleoclim</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/LinkedEarth/PyleoTutorials/jupyterbook?urlpath=tree/docs/notebooks/L0_basic_ts_manipulation.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/LinkedEarth/PyleoTutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/L0_basic_ts_manipulation.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/L0_basic_ts_manipulation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Basic timeseries manipulation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-a-sample-dataset">Load a sample dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stats">Stats</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standardizing">Standardizing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussianize">Gaussianize</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img 
+src='https://github.com/LinkedEarth/Logos/blob/master/Pyleoclim/PYLEOCLIM_logo_HORZ-01.png?raw=true' width="800"></p>
+<section class="tex2jax_ignore mathjax_ignore" id="basic-timeseries-manipulation">
+<h1>Basic timeseries manipulation<a class="headerlink" href="#basic-timeseries-manipulation" title="Link to this heading">#</a></h1>
+<p>by <a class="reference internal" href="#0000-0001-9772-7617"><span class="xref myst">Jordan Landers</span></a>, <a class="reference external" href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a></p>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading">#</a></h2>
+<p>Pyleoclim has multiple functionalities to pre-process a timeseries including standardizing, detrending, and interpolation. You can learn about the various pre-processing steps in Notebooks <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> and <code class="docutils literal notranslate"><span class="pre">ipynb</span></code>. Here, we simply standardize the data and plot it against the original data:</p>
+<section id="goals">
+<h3>Goals:<a class="headerlink" href="#goals" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Learn to specify a slice of a <code class="docutils literal notranslate"><span class="pre">Series</span></code></p></li>
+<li><p>Learn to quickly view summary statistics of a <code class="docutils literal notranslate"><span class="pre">Series</span></code></p></li>
+<li><p>Learn to standardize a <code class="docutils literal notranslate"><span class="pre">Series</span></code></p></li>
+<li><p>Learn to gaussianize a <code class="docutils literal notranslate"><span class="pre">Series</span></code></p></li>
+</ul>
+<p><strong>Reading Time:</strong></p>
+<p>5 minutes</p>
+</section>
+<section id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h3>
+<p>Summary Statistics; Standardize; Gaussianize;</p>
+</section>
+<section id="pre-requisites">
+<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">#</a></h3>
+<p>None. This tutorial assumes basic knowledge of Python. If you are not familiar with this coding language, check out <a class="reference external" href="http://linked.earth/LeapFROGS/">this tutorial</a>.</p>
+</section>
+<section id="relevant-packages">
+<h3>Relevant Packages<a class="headerlink" href="#relevant-packages" title="Link to this heading">#</a></h3>
+<p>Pandas, Seaborn</p>
+</section>
+</section>
+<section id="data-description">
+<h2>Data Description<a class="headerlink" href="#data-description" title="Link to this heading">#</a></h2>
+<p>Sea-surface temperature from <a class="reference external" href="https://psl.noaa.gov/data/gridded/data.kaplan_sst.html">Kaplan (1998)</a> averaged over the NINO3 (5N-5S, 150W-190E)) region.</p>
+</section>
+<section id="demonstration">
+<h2>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<section id="load-a-sample-dataset">
+<h3>Load a sample dataset<a class="headerlink" href="#load-a-sample-dataset" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyleoclim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyleo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The watermark extension is already loaded. To reload it, use:
+  %reload_ext watermark
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pyleoclim ships with a few pre-defined datasets:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">available_dataset_names</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;SOI&#39;, &#39;NINO3&#39;, &#39;HadCRUT5&#39;, &#39;AIR&#39;, &#39;LR04&#39;, &#39;AACO2&#39;, &#39;EDC-dD&#39;, &#39;GISP2&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s load the NINO3 timeseries and plot it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino3</span> <span class="o">=</span> <span class="n">pyleo</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;NINO3&#39;</span><span class="p">)</span>
+<span class="n">nino3</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1000x400 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;time [year C.E.]&#39;, ylabel=&#39;NINO3 [$^{\\circ}$C]&#39;&gt;)
+</pre></div>
+</div>
+<img alt="../_images/ddcbf7308fb2dbcdc58ebab1b5a77d7bc60aa8ecb2063fc7d5e7efcc4dfddb49.png" src="../_images/ddcbf7308fb2dbcdc58ebab1b5a77d7bc60aa8ecb2063fc7d5e7efcc4dfddb49.png" />
+</div>
+</div>
+</section>
+<section id="slicing">
+<h3>Slicing<a class="headerlink" href="#slicing" title="Link to this heading">#</a></h3>
+<p>Passing a list containing a pair of dates to <code class="docutils literal notranslate"><span class="pre">.sel()</span></code> will return the time slice of interest. Notice that the syntax involves “slice”:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_slice</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">1972</span><span class="p">,</span> <span class="mi">1998</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">nino_slice</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Slice&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ncol&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;time [year C.E.]&#39;, ylabel=&#39;NINO3 [$^{\\circ}$C]&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/40216b0a2bb133b8feda3f1dff7317287a47660778c9a2d2b56e5ddc876c6736.png" src="../_images/40216b0a2bb133b8feda3f1dff7317287a47660778c9a2d2b56e5ddc876c6736.png" />
+</div>
+</div>
+</section>
+<section id="stats">
+<h3>Stats<a class="headerlink" href="#stats" title="Link to this heading">#</a></h3>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">.stats()</span></code> will return a handy dictionary of summary statistics (mean, median, min, max, standard deviation, and the interquartile range (<a class="reference external" href="https://en.wikipedia.org/wiki/Interquartile_range">IQR</a>))</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino3</span><span class="o">.</span><span class="n">stats</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean&#39;: 0.07816584993045111,
+ &#39;median&#39;: -0.022333334,
+ &#39;min&#39;: -1.739667,
+ &#39;max&#39;: 3.724903,
+ &#39;std&#39;: 0.8216852391762094,
+ &#39;IQR&#39;: 1.015916675}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or you could do it the pandas way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino3</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    1596.000000
+mean        0.078166
+std         0.821943
+min        -1.739667
+25%        -0.487979
+50%        -0.022333
+75%         0.527937
+max         3.724903
+Name: NINO3, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="standardizing">
+<h3>Standardizing<a class="headerlink" href="#standardizing" title="Link to this heading">#</a></h3>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">.standardize()</span></code> subtracts the mean of the series and divides by the standard deviation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino3_std</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">standardize</span><span class="p">()</span>
+<span class="n">nino3_std</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">label</span> <span class="o">+</span> <span class="s1">&#39;, standardized&#39;</span> 
+<span class="n">nino3_std</span><span class="o">.</span><span class="n">stats</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean&#39;: 1.3356066461656018e-17,
+ &#39;median&#39;: -0.12230861543917694,
+ &#39;min&#39;: -2.212322630686346,
+ &#39;max&#39;: 4.438119338404606,
+ &#39;std&#39;: 0.9999999999999998,
+ &#39;IQR&#39;: 1.2363817999438809}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">zorder</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span> <span class="c1"># this high zorder ensures that it plots on top</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">nino3_std</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ncol&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/cb3e9965d6856d004f63cf4ece464bfb2cc4e2825e6e01a01643c7ff011fa297.png" src="../_images/cb3e9965d6856d004f63cf4ece464bfb2cc4e2825e6e01a01643c7ff011fa297.png" />
+</div>
+</div>
+</section>
+<section id="gaussianize">
+<h3>Gaussianize<a class="headerlink" href="#gaussianize" title="Link to this heading">#</a></h3>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">.gaussianize()</span></code> maps the series to a standard Gaussian distribution. Not only will it have  unit standard deviation (<span class="math notranslate nohighlight">\(\sigma=1\)</span>), a mean (and median) of 0, but its distribution is now the famed Bell Curve. This may be useful for methods that require data to be normally distributed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino3_gaus</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">gaussianize</span><span class="p">()</span>
+<span class="n">nino3_gaus</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">label</span> <span class="o">+</span> <span class="s1">&#39;, Gaussianized&#39;</span> 
+<span class="n">nino3_gaus</span><span class="o">.</span><span class="n">stats</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean&#39;: 1.3356066461656018e-17,
+ &#39;median&#39;: 0.0,
+ &#39;min&#39;: -3.419845799144218,
+ &#39;max&#39;: 3.419845799144218,
+ &#39;std&#39;: 0.9995910124024003,
+ &#39;IQR&#39;: 1.347994295650057}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">zorder</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">nino3_gaus</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ncol&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="o">**</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/082c68423849ae507f1a4fa1277ab69f24d6b7caf62f99ec0e27caaedd24d8b1.png" src="../_images/082c68423849ae507f1a4fa1277ab69f24d6b7caf62f99ec0e27caaedd24d8b1.png" />
+</div>
+</div>
+<p>Plotting all of them together:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">nino3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">zorder</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">nino3_gaus</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ncol&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="o">**</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">})</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">nino3_std</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">lgd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ncol&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f29fe6dadca1882da4fc1a879ef4a7459c1598f532e0c46895e023a64febe57a.png" src="../_images/f29fe6dadca1882da4fc1a879ef4a7459c1598f532e0c46895e023a64febe57a.png" />
+</div>
+</div>
+</section>
+<section id="comparison">
+<h3>Comparison<a class="headerlink" href="#comparison" title="Link to this heading">#</a></h3>
+<p>For context, it is interesting to compare the different treatments. <a class="reference external" href="https://seaborn.pydata.org/index.html">Seaborn</a> is a very useful plotting library that works very nicely with <a class="reference external" href="https://pandas.pydata.org">Pandas</a>. To produce this quick comparison, we will gather those 3 Series into a <a class="reference internal" href="#L0_basic_MSES_manipulation.md"><span class="xref myst">MultipleSeries object</span></a> and export it to a <a class="reference external" href="https://pandas.pydata.org/docs/reference/frame.html">Pandas DataFrame</a>. Seaborn will happily ingest this dataframe and return a <a class="reference external" href="https://seaborn.pydata.org/generated/seaborn.kdeplot.html">kernel density plot</a> summarizing the probability density of the data values in each treatment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nino_ms</span> <span class="o">=</span>  <span class="n">nino3</span> <span class="o">&amp;</span> <span class="n">nino3_gaus</span> <span class="o">&amp;</span> <span class="n">nino3_std</span>
+<span class="n">nino_df</span> <span class="o">=</span> <span class="n">nino_ms</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="n">nino_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The two series have values differing by more than 1e-05 $^{\circ}$C
+Metadata are different:
+label property -- left: NINO3 SST, right: NINO3 SST, standardized
+The two series have values differing by more than 1e-05 $^{\circ}$C
+Metadata are different:
+label property -- left: NINO3 SST, Gaussianized, right: NINO3 SST, standardized
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NINO3 SST</th>
+      <th>NINO3 SST, Gaussianized</th>
+      <th>NINO3 SST, standardized</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1870-12-31 03:41:38</th>
+      <td>-0.358250</td>
+      <td>-0.468084</td>
+      <td>-0.531123</td>
+    </tr>
+    <tr>
+      <th>1871-01-30 14:10:31</th>
+      <td>-0.292458</td>
+      <td>-0.377045</td>
+      <td>-0.451054</td>
+    </tr>
+    <tr>
+      <th>1871-03-02 00:39:56</th>
+      <td>-0.143583</td>
+      <td>-0.166461</td>
+      <td>-0.269871</td>
+    </tr>
+    <tr>
+      <th>1871-04-01 11:08:49</th>
+      <td>-0.149625</td>
+      <td>-0.185602</td>
+      <td>-0.277224</td>
+    </tr>
+    <tr>
+      <th>1871-05-01 21:37:43</th>
+      <td>-0.274250</td>
+      <td>-0.348528</td>
+      <td>-0.428894</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2003-08-01 04:22:03</th>
+      <td>0.238497</td>
+      <td>0.361911</td>
+      <td>0.195125</td>
+    </tr>
+    <tr>
+      <th>2003-08-31 14:51:28</th>
+      <td>0.411449</td>
+      <td>0.543054</td>
+      <td>0.405609</td>
+    </tr>
+    <tr>
+      <th>2003-10-01 01:20:21</th>
+      <td>0.592756</td>
+      <td>0.752493</td>
+      <td>0.626262</td>
+    </tr>
+    <tr>
+      <th>2003-10-31 11:49:14</th>
+      <td>0.664131</td>
+      <td>0.825394</td>
+      <td>0.713126</td>
+    </tr>
+    <tr>
+      <th>2003-11-30 22:18:39</th>
+      <td>0.604324</td>
+      <td>0.771389</td>
+      <td>0.640341</td>
+    </tr>
+  </tbody>
+</table>
+<p>1596 rows × 3 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">nino_df</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NINO3 SST&#39;</span><span class="p">:</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="s1">&#39;NINO3 SST, Gaussianized&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;NINO3 SST, standardized&#39;</span><span class="p">:</span><span class="s1">&#39;orange&#39;</span><span class="p">})</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend_</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1e1e17f07a62df728cceb59793d04948751fcccbca345647039ae6e814aa1e13.png" src="../_images/1e1e17f07a62df728cceb59793d04948751fcccbca345647039ae6e814aa1e13.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -w
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Mar 04 2024
+
+Python implementation: CPython
+Python version       : 3.11.7
+IPython version      : 8.20.0
+
+pyleoclim: 0.13.1b0
+seaborn  : 0.12.2
+pandas   : 2.1.4
+
+Watermark: 2.4.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="L0_basic_MSES_manipulation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Working with multiple records: <code class="docutils literal notranslate"><span class="pre">MultipleSeries</span></code> and <code class="docutils literal notranslate"><span class="pre">EnsembleSeries</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="L0_loading_to_series.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Loading data into Pyleoclim</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preamble">Preamble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-packages">Relevant Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Demonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-a-sample-dataset">Load a sample dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stats">Stats</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standardizing">Standardizing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussianize">Gaussianize</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
