@@ -1,13 +1,13 @@
-name: pyleo
+name: linkedearth
 channels:
   - conda-forge
   - defaults
 dependencies:
-  - python==3.11.9
+  - python==3.12
   - cartopy
-  - xarray=2023.6
+  - xarray
   - Bottleneck
-  - dask=2023.4.0
+  - dask
   - climlab
   - pip
   - jupyter
