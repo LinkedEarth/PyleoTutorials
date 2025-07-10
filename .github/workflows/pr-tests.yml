@@ -20,9 +20,9 @@ jobs:
     - name: Install test dependencies
       run: |
         conda activate pyleo
-        pip install pytest-xdist nbmake
+        pip install pytest-xdist pytest-forked nbmake
         conda list
     - name: Test notebooks
       run: |
         conda activate pyleo
-        pytest --nbmake -n=auto --nbmake-timeout=3600 notebooks/*ipynb
+        pytest --nbmake --forked -n=2 -v --nbmake-timeout=3600 notebooks/*ipynb
