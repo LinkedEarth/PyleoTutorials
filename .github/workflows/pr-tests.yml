@@ -3,13 +3,14 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     defaults:
       run:
         shell: bash -l {0}
+
     steps:
     - uses: actions/checkout@v4
     - uses: conda-incubator/setup-miniconda@v3
@@ -17,25 +18,31 @@ jobs:
         activate-environment: pyleo
         environment-file: environment.yml
         auto-activate-base: false
+
     - name: Install test dependencies
       run: |
         conda activate pyleo
-        pip install pytest-xdist nbmake
+        pip install nbmake
         conda list
-        
+
     - name: Test notebooks
       run: |
         conda activate pyleo
-        pytest --nbmake -v --tb=long --overwrite --nbmake-timeout=3600 notebooks/*ipynb || true
+        mkdir -p executed
+        for nb in notebooks/*.ipynb; do
+          echo "=== Running $nb ==="
+          timeout 300 pytest --nbmake -v --tb=long --overwrite --nbmake-timeout=120 "$nb" || true
+          cp "$nb" executed/
+        done
 
     - name: Upload executed notebooks
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: executed-notebooks
-        path: notebooks/*.ipynb
+        path: executed/*.ipynb
 
     - name: Check for failures
       run: |
         conda activate pyleo
-        pytest --nbmake -v --tb=long --nbmake-timeout=3600 notebooks/*ipynb
+        pytest --nbmake -v --tb=long --nbmake-timeout=120 notebooks/*ipynb
