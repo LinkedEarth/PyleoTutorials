@@ -5,15 +5,16 @@ channels:
 dependencies:
   - python==3.12
   - cartopy
-  - xarray
-  - Bottleneck
-  - dask
-  - climlab
   - pip
   - jupyter
   - jupyterlab
   - pip:
     - pangaeapy
+    - xarray
+    - climlab
+    - pooch
+    - bottleneck
+    - dask
     - git+https://github.com/LinkedEarth/Pyleoclim_util.git@master
     - git+https://github.com/LinkedEarth/pylipd.git@main
     - watermark
