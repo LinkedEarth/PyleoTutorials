@@ -25,10 +25,10 @@ jobs:
     - name: Test notebooks
       run: |
         conda activate pyleo
-        pytest --nbmake -v --tb=long -n=auto --nbmake-timeout=3600 --overwrite notebooks/*ipynb
+        pytest --nbmake -v --tb=long --nbmake-timeout=3600 --overwrite notebooks/*ipynb
 
     - name: Upload failed notebooks
-      if: failure()
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: failed-notebooks
