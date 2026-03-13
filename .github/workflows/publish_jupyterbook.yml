@@ -12,22 +12,23 @@ jobs:
 
     steps:
       # 1) Check out the jupyterbook branch to build from
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: jupyterbook
 
       # 2) Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.12
 
       # 3) Install Python dependencies
       - name: Install Python dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-pip
-          pip install jupyter-book ghp-import pyleoclim
+          pip install "jupyter-book<2"
+          pip install ghp-import pyleoclim
           # This ensures ~/.local/bin is on PATH:
           PATH="${PATH}:${HOME}/.local/bin"
 
