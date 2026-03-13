@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Pyleoclim Tutorials
-author: Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu
+author: Deborah Khider, Julien Emile-Geay, Jordan Landers, Alexander James, Feng Zhu, Tanaya Gondhalekar, Maryam Niati, Dhiren Oswal
 logo: pyleoclim_insigna_full_white.png
 # Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
 exclude_patterns            : [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
