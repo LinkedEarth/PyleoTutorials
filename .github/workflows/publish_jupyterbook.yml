@@ -35,7 +35,7 @@ jobs:
       # 4) (Optional) Build the TOC (only needed if you rely on jupyter-book toc .)
       - name: Build book TOC file 
         run: |
-          jupyter-book toc .
+          jupyter-book toc from-project .
 
       # 5) Build book HTML
       - name: Build book HTML 
