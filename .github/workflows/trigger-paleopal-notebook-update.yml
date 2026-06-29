@@ -1,0 +1,23 @@
+name: Trigger PaleoPAL notebook update
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "notebooks/*.ipynb"
+      - "notebooks/**/*.ipynb"
+
+  workflow_dispatch:
+
+jobs:
+  trigger-ai-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger AI repo notebook update
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PALEOPAL_DISPATCH_TOKEN }}
+          repository: LinkedEarth/paleopal
+          event-type: update-notebooks
