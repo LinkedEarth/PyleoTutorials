@@ -132,6 +132,8 @@ dmypy.json
 
 # Large data file types
 *.nc
+# ...except this small subset: L2_correlations falls back on it when NOAA THREDDS is down
+!data/ersstv6_tropical_pacific.nc
 .DS_Store
 notebooks/.jupyter/desktop-workspaces/default-37a8.jupyterlab-workspace
 notebooks/.jupyter/desktop-workspaces/auto-3-a57e.jupyterlab-workspace
