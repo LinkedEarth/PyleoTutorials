@@ -1,0 +1,28 @@
+name: Check notebook kernels
+
+# Every notebook must run on the standard "python3" kernel (or declare none),
+# so it starts in CI and on readers' machines. See .github/scripts/check_kernelspec.py
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**.ipynb'
+      - '.github/scripts/check_kernelspec.py'
+      - '.github/workflows/check-kernelspec.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - '**.ipynb'
+  workflow_dispatch:
+
+jobs:
+  kernelspec:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Check kernelspec of every notebook
+      run: python .github/scripts/check_kernelspec.py
