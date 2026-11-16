@@ -28,7 +28,9 @@ LON = slice(140, 280)
 ds = xr.open_dataset(URL)
 sub = ds[['sst']].sel(lat=LAT, lon=LON).load()
 
-sub.attrs.update(ds.attrs)
+# Attributes starting with '_' (e.g. '_NCProperties') are internal to netCDF or the
+# server, and netCDF refuses to write them by hand, so leave them out.
+sub.attrs = {k: v for k, v in ds.attrs.items() if not k.startswith('_')}
 sub.attrs['subset_source'] = URL
 sub.attrs['subset_region'] = 'lat 15N to 15S, lon 140E to 280E (80W)'
 sub.attrs['subset_date'] = date.today().isoformat()
